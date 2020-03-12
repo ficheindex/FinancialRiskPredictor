@@ -3,4 +3,7 @@ from torch.nn import L1Loss, MSELoss, CrossEntropyLoss, CTCLoss, NLLLoss, Poisso
     HuberLoss, SmoothL1Loss, SoftMarginLoss, MultiLabelSoftMarginLoss, CosineEmbeddingLoss, MultiMarginLoss, \
     TripletMarginLoss, TripletMarginWithDistanceLoss
 
-CRITERION_DICT = 
+CRITERION_DICT = {
+    "L1Loss": L1Loss, "MSELoss": MSELoss,  "CrossEntropyLoss": CrossEntropyLoss, "CTCLoss": CTCLoss,
+    "NLLLoss": NLLLoss, "PoissonNLLLoss": PoissonNLLLoss, "GaussianNLLLoss": GaussianNLLLoss,
+    "KLDivLoss"
