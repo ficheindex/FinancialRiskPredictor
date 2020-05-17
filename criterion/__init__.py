@@ -6,4 +6,6 @@ from torch.nn import L1Loss, MSELoss, CrossEntropyLoss, CTCLoss, NLLLoss, Poisso
 CRITERION_DICT = {
     "L1Loss": L1Loss, "MSELoss": MSELoss,  "CrossEntropyLoss": CrossEntropyLoss, "CTCLoss": CTCLoss,
     "NLLLoss": NLLLoss, "PoissonNLLLoss": PoissonNLLLoss, "GaussianNLLLoss": GaussianNLLLoss,
-    "KLDivLoss"
+    "KLDivLoss": KLDivLoss, "BCELoss": BCELoss, "BCEWithLogitsLoss": BCEWithLogitsLoss,
+    "MarginRankingLoss": MarginRankingLoss, "HingeEmbeddingLoss": HingeEmbeddingLoss,
+    "MultiLabelMarginLoss": MultiLabelMarginLoss, "HuberLoss":
