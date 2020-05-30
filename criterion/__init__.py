@@ -10,4 +10,10 @@ CRITERION_DICT = {
     "MarginRankingLoss": MarginRankingLoss, "HingeEmbeddingLoss": HingeEmbeddingLoss,
     "MultiLabelMarginLoss": MultiLabelMarginLoss, "HuberLoss": HuberLoss, "SmoothL1Loss": SmoothL1Loss,
     "SoftMarginLoss": SoftMarginLoss, "MultiLabelSoftMarginLoss": MultiLabelSoftMarginLoss,
-    "CosineEmbeddingLoss": CosineEmbeddingLoss, "MultiMarginLo
+    "CosineEmbeddingLoss": CosineEmbeddingLoss, "MultiMarginLoss": MultiMarginLoss,
+    "TripletMarginLoss": TripletMarginLoss, "TripletMarginWithDistanceLoss": TripletMarginWithDistanceLoss
+}
+
+__all__ = [
+    "CRITERION_DICT",
+    "L1Loss", "MSELoss",  "CrossEntropyLoss", "CTCLoss", "NLLLos
