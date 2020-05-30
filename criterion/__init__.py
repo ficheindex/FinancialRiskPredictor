@@ -16,4 +16,6 @@ CRITERION_DICT = {
 
 __all__ = [
     "CRITERION_DICT",
-    "L1Loss", "MSELoss",  "CrossEntropyLoss", "CTCLoss", "NLLLos
+    "L1Loss", "MSELoss",  "CrossEntropyLoss", "CTCLoss", "NLLLoss", "PoissonNLLLoss", "GaussianNLLLoss",
+    "KLDivLoss", "BCELoss", "BCEWithLogitsLoss", "MarginRankingLoss", "HingeEmbeddingLoss", "MultiLabelMarginLoss",
+    "HuberLoss", "SmoothL1Loss", "SoftMarginLoss", "MultiLabelSoftMarginLo
