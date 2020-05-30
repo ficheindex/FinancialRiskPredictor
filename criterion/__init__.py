@@ -8,4 +8,6 @@ CRITERION_DICT = {
     "NLLLoss": NLLLoss, "PoissonNLLLoss": PoissonNLLLoss, "GaussianNLLLoss": GaussianNLLLoss,
     "KLDivLoss": KLDivLoss, "BCELoss": BCELoss, "BCEWithLogitsLoss": BCEWithLogitsLoss,
     "MarginRankingLoss": MarginRankingLoss, "HingeEmbeddingLoss": HingeEmbeddingLoss,
-    "MultiLabelMarginLoss": MultiLabelMarginLoss, "HuberLoss":
+    "MultiLabelMarginLoss": MultiLabelMarginLoss, "HuberLoss": HuberLoss, "SmoothL1Loss": SmoothL1Loss,
+    "SoftMarginLoss": SoftMarginLoss, "MultiLabelSoftMarginLoss": MultiLabelSoftMarginLoss,
+    "CosineEmbeddingLoss": CosineEmbeddingLoss, "MultiMarginLo
