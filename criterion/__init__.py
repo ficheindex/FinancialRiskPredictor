@@ -18,4 +18,8 @@ __all__ = [
     "CRITERION_DICT",
     "L1Loss", "MSELoss",  "CrossEntropyLoss", "CTCLoss", "NLLLoss", "PoissonNLLLoss", "GaussianNLLLoss",
     "KLDivLoss", "BCELoss", "BCEWithLogitsLoss", "MarginRankingLoss", "HingeEmbeddingLoss", "MultiLabelMarginLoss",
-    "HuberLoss", "SmoothL1Loss", "SoftMarginLoss", "MultiLabelSoftMarginLo
+    "HuberLoss", "SmoothL1Loss", "SoftMarginLoss", "MultiLabelSoftMarginLoss", "CosineEmbeddingLoss",
+    "MultiMarginLoss", "TripletMarginLoss", "TripletMarginWithDistanceLoss"
+]
+
+classes = __all__
