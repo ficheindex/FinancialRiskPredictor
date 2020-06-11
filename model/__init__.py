@@ -10,4 +10,8 @@ from .tabnet import TabNet
 
 
 MODEL_DICT = {
-    "ModelSML": ModelSML, "SML": M
+    "ModelSML": ModelSML, "SML": ModelSML,
+    "ModelNN": ModelNN, "NN": ModelNN,
+    "ModelGNN": ModelGNN, "GNN": ModelGNN,
+    "ModelLogisticRegression": ModelLogisticRegression, "LogisticRegression": ModelLogisticRegression,
+    "ModelPerceptron": ModelPe
