@@ -14,4 +14,7 @@ MODEL_DICT = {
     "ModelNN": ModelNN, "NN": ModelNN,
     "ModelGNN": ModelGNN, "GNN": ModelGNN,
     "ModelLogisticRegression": ModelLogisticRegression, "LogisticRegression": ModelLogisticRegression,
-    "ModelPerceptron": ModelPe
+    "ModelPerceptron": ModelPerceptron, "Perceptron": ModelPerceptron,
+    "ModelRidgeClassifier": ModelRidgeClassifier, "RidgeClassifier": ModelRidgeClassifier,
+    "ModelLasso": ModelLasso, "Lasso": ModelLasso,
+    "ModelSGDClassifier": ModelSGDClassifier, "SGDClass
