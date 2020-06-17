@@ -17,4 +17,7 @@ MODEL_DICT = {
     "ModelPerceptron": ModelPerceptron, "Perceptron": ModelPerceptron,
     "ModelRidgeClassifier": ModelRidgeClassifier, "RidgeClassifier": ModelRidgeClassifier,
     "ModelLasso": ModelLasso, "Lasso": ModelLasso,
-    "ModelSGDClassifier": ModelSGDClassifier, "SGDClass
+    "ModelSGDClassifier": ModelSGDClassifier, "SGDClassifier": ModelSGDClassifier,
+    "ModelBernoulliNB": ModelBernoulliNB, "BernoulliNB": ModelBernoulliNB,
+    "ModelMultinomialNB": ModelMultinomialNB, "MultinomialNB": ModelMultinomialNB,
+    "ModelGaussianNB": ModelGaussianN
