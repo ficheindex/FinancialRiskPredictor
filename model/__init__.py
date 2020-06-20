@@ -20,4 +20,7 @@ MODEL_DICT = {
     "ModelSGDClassifier": ModelSGDClassifier, "SGDClassifier": ModelSGDClassifier,
     "ModelBernoulliNB": ModelBernoulliNB, "BernoulliNB": ModelBernoulliNB,
     "ModelMultinomialNB": ModelMultinomialNB, "MultinomialNB": ModelMultinomialNB,
-    "ModelGaussianNB": ModelGaussianN
+    "ModelGaussianNB": ModelGaussianNB, "GaussianNB": ModelGaussianNB,
+    "ModelDecisionTreeClassifier": ModelDecisionTreeClassifier, "DecisionTreeClassifier": ModelDecisionTreeClassifier,
+    "ModelGradientBoostingClassifier": ModelGradientBoostingClassifier,
+    "GradientBoo
