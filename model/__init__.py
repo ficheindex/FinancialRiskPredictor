@@ -25,4 +25,6 @@ MODEL_DICT = {
     "ModelGradientBoostingClassifier": ModelGradientBoostingClassifier,
     "GradientBoostingClassifier": ModelGradientBoostingClassifier,
     "ModelRandomForestClassifier": ModelRandomForestClassifier, "RandomForestClassifier": ModelRandomForestClassifier,
-    "ModelXGBClassifier": ModelXGBClass
+    "ModelXGBClassifier": ModelXGBClassifier, "XGBClassifier": ModelXGBClassifier,
+    "ModelCatBoostClassifier": ModelCatBoostClassifier, "CatBoostClassifier": ModelCatBoostClassifier,
+    "ModelLGBMClassifier": ModelLGBMClassifier, "L
