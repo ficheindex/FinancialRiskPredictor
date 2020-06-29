@@ -23,4 +23,6 @@ MODEL_DICT = {
     "ModelGaussianNB": ModelGaussianNB, "GaussianNB": ModelGaussianNB,
     "ModelDecisionTreeClassifier": ModelDecisionTreeClassifier, "DecisionTreeClassifier": ModelDecisionTreeClassifier,
     "ModelGradientBoostingClassifier": ModelGradientBoostingClassifier,
-    "GradientBoo
+    "GradientBoostingClassifier": ModelGradientBoostingClassifier,
+    "ModelRandomForestClassifier": ModelRandomForestClassifier, "RandomForestClassifier": ModelRandomForestClassifier,
+    "ModelXGBClassifier": ModelXGBClass
