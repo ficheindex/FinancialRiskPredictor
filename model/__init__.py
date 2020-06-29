@@ -27,4 +27,11 @@ MODEL_DICT = {
     "ModelRandomForestClassifier": ModelRandomForestClassifier, "RandomForestClassifier": ModelRandomForestClassifier,
     "ModelXGBClassifier": ModelXGBClassifier, "XGBClassifier": ModelXGBClassifier,
     "ModelCatBoostClassifier": ModelCatBoostClassifier, "CatBoostClassifier": ModelCatBoostClassifier,
-    "ModelLGBMClassifier": ModelLGBMClassifier, "L
+    "ModelLGBMClassifier": ModelLGBMClassifier, "LGBMClassifier": ModelLGBMClassifier,
+    "DeepFM": DeepFM, "STG": STG, "VIME": VIME, "TabNet": TabNet,
+}
+
+__all__ = [
+    "MODEL_DICT",
+    "ModelSML", "ModelNN", "ModelGNN",
+    "ModelLogisticRegress
