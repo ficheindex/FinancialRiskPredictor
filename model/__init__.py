@@ -34,4 +34,7 @@ MODEL_DICT = {
 __all__ = [
     "MODEL_DICT",
     "ModelSML", "ModelNN", "ModelGNN",
-    "ModelLogisticRegress
+    "ModelLogisticRegression", "ModelPerceptron", "ModelRidgeClassifier", "ModelLasso", "ModelSGDClassifier",
+    "ModelBernoulliNB", "ModelMultinomialNB", "ModelGaussianNB",
+    "ModelDecisionTreeClassifier", "ModelGradientBoostingClassifier",
+    "ModelRandomFores
