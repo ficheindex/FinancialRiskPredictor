@@ -37,4 +37,8 @@ __all__ = [
     "ModelLogisticRegression", "ModelPerceptron", "ModelRidgeClassifier", "ModelLasso", "ModelSGDClassifier",
     "ModelBernoulliNB", "ModelMultinomialNB", "ModelGaussianNB",
     "ModelDecisionTreeClassifier", "ModelGradientBoostingClassifier",
-    "ModelRandomFores
+    "ModelRandomForestClassifier", "ModelXGBClassifier", "ModelCatBoostClassifier", "ModelLGBMClassifier",
+    "DeepFM", "STG", "VIME", "TabNet",
+]
+
+classes = __all__
