@@ -23,4 +23,14 @@ class ModelSML(BaseEstimator):
         return self.model.predict(X)
 
     def __str__(self):
-        r
+        return self.__class__.__name__
+
+    # def __repr__(self):
+    #     return self.__class__.__name__
+
+
+class ModelNN(nn.Module):
+
+    def __init__(self, args):
+        # super().__init__()
+        super(ModelNN, self).__init__
