@@ -45,4 +45,16 @@ class ModelNN(nn.Module):
         return self.__class__.__name__
 
     def __repr__(self):
-        re
+        return self.__class__.__name__
+
+
+class ModelGNN(nn.Module):
+
+    def __init__(self, args):
+        # super().__init__()
+        super(ModelGNN, self).__init__()
+
+        self.args = args
+        self.model = None
+
+    def fit(sel
