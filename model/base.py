@@ -33,4 +33,16 @@ class ModelNN(nn.Module):
 
     def __init__(self, args):
         # super().__init__()
-        super(ModelNN, self).__init__
+        super(ModelNN, self).__init__()
+
+        self.args = args
+        self.model = None
+
+    def fit(self, X, y, X_val=None, y_val=None):
+        return self.model.fit(X, y)
+
+    def __str__(self):
+        return self.__class__.__name__
+
+    def __repr__(self):
+        re
