@@ -9,4 +9,13 @@ from model.deepfm_lib.models.deepfm import DeepFM as DeepFMModel
 from model.deepfm_lib.inputs import SparseFeat, DenseFeat
 
 """
-DeepFM: A Factorization-Machine based Neu
+DeepFM: A Factorization-Machine based Neural Network for CTR Prediction
+
+Paper: https://www.ijcai.org/proceedings/2017/0239.pdf
+Code: https://github.com/shenweichen/DeepCTR-Torch
+"""
+
+
+class DeepFM(BaseModelTorch, ABC):
+
+    def __init__(self, para
