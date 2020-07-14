@@ -18,4 +18,12 @@ Code: https://github.com/shenweichen/DeepCTR-Torch
 
 class DeepFM(BaseModelTorch, ABC):
 
-    def __init__(self, para
+    def __init__(self, params=None, args=None):
+        super().__init__(params, args)
+
+        self.params = dict({
+            "dnn_dropout": 0.4
+        })
+
+        # if args.objective == "classification":
+        #     pri
