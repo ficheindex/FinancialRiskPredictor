@@ -26,4 +26,10 @@ class DeepFM(BaseModelTorch, ABC):
         })
 
         # if args.objective == "classification":
-        #     pri
+        #     print("DeepFM not yet implemented for classification")
+        #     import sys
+        #     sys.exit()
+
+        if args.cat_idx:
+            dense_features = list(set(range(args.num_features)) - set(args.cat_idx))
+            fixlen_f
