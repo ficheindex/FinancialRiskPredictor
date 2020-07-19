@@ -32,4 +32,6 @@ class DeepFM(BaseModelTorch, ABC):
 
         if args.cat_idx:
             dense_features = list(set(range(args.num_features)) - set(args.cat_idx))
-            fixlen_f
+            fixlen_feature_columns = [SparseFeat(str(feat), args.cat_dim[idx])
+                                      for idx, feat in enumerate(args.cat_idx)] + \
+                                     [DenseFeat(str(feat
