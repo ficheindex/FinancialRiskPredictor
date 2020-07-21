@@ -39,4 +39,8 @@ class DeepFM(BaseModelTorch, ABC):
         else:
             # Add dummy sparse feature, otherwise it will crash...
             fixlen_feature_columns = [SparseFeat("dummy", 1)] + \
-                                     [De
+                                     [DenseFeat(str(feat), 1, ) for feat in range(args.num_features)]
+
+        self.device = args.device
+        self.dnn_dropout = self.params["dnn_dropout"]
+        # self.dnn_dropout = float(0.1)
