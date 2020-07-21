@@ -34,4 +34,9 @@ class DeepFM(BaseModelTorch, ABC):
             dense_features = list(set(range(args.num_features)) - set(args.cat_idx))
             fixlen_feature_columns = [SparseFeat(str(feat), args.cat_dim[idx])
                                       for idx, feat in enumerate(args.cat_idx)] + \
-                                     [DenseFeat(str(feat
+                                     [DenseFeat(str(feat), 1, ) for feat in dense_features]
+
+        else:
+            # Add dummy sparse feature, otherwise it will crash...
+            fixlen_feature_columns = [SparseFeat("dummy", 1)] + \
+                                     [De
