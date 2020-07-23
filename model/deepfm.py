@@ -46,4 +46,7 @@ class DeepFM(BaseModelTorch, ABC):
         # self.dnn_dropout = float(0.1)
         self.model = DeepFMModel(linear_feature_columns=fixlen_feature_columns,
                                  dnn_feature_columns=fixlen_feature_columns,
-                                 task=args
+                                 task=args.objective, device=self.device, dnn_dropout=self.dnn_dropout,
+                                 gpus=self.gpus).to(self.device)
+
+    def fit(self, X, y, X_val=None, y_val=None, optimizer=None, criterion
