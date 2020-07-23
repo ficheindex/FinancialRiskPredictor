@@ -44,3 +44,6 @@ class DeepFM(BaseModelTorch, ABC):
         self.device = args.device
         self.dnn_dropout = self.params["dnn_dropout"]
         # self.dnn_dropout = float(0.1)
+        self.model = DeepFMModel(linear_feature_columns=fixlen_feature_columns,
+                                 dnn_feature_columns=fixlen_feature_columns,
+                                 task=args
