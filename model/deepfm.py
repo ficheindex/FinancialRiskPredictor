@@ -49,4 +49,9 @@ class DeepFM(BaseModelTorch, ABC):
                                  task=args.objective, device=self.device, dnn_dropout=self.dnn_dropout,
                                  gpus=self.gpus).to(self.device)
 
-    def fit(self, X, y, X_val=None, y_val=None, optimizer=None, criterion
+    def fit(self, X, y, X_val=None, y_val=None, optimizer=None, criterion=None):
+        X = np.array(X, dtype=np.float)
+        X_dict = {str(name): X[:, name] for name in range(self.args.num_features)}
+
+        X_val = np.array(X_val, dtype=np.float)
+        X_val_dict = {str(name)
