@@ -54,4 +54,8 @@ class DeepFM(BaseModelTorch, ABC):
         X_dict = {str(name): X[:, name] for name in range(self.args.num_features)}
 
         X_val = np.array(X_val, dtype=np.float)
-        X_val_dict = {str(name)
+        X_val_dict = {str(name): X_val[:, name] for name in range(self.args.num_features)}
+
+        if self.args.objective == "binary" or self.args.objective == "classification":
+            loss = "binary_crossentropy"
+            metric = "binar
