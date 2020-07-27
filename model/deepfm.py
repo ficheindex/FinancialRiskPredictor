@@ -65,4 +65,9 @@ class DeepFM(BaseModelTorch, ABC):
             metric = "mse"
             labels = None
 
-        self.model.compile(optimizer=torch.optim.AdamW(self
+        self.model.compile(optimizer=torch.optim.AdamW(self.model.parameters()), loss=loss, metrics=[metric])
+
+        # Adding dummy spare feature
+        if not self.args.cat_idx:
+            X_dict["dummy"] = np.zeros(X.shape[0])
+            X_val_dict["dummy"] = np.zeros(X_val.sh
