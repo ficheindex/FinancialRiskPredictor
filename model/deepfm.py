@@ -58,4 +58,11 @@ class DeepFM(BaseModelTorch, ABC):
 
         if self.args.objective == "binary" or self.args.objective == "classification":
             loss = "binary_crossentropy"
-            metric = "binar
+            metric = "binary_crossentropy"
+            labels = [0, 1]
+        else:  # "regression"
+            loss = "mse"
+            metric = "mse"
+            labels = None
+
+        self.model.compile(optimizer=torch.optim.AdamW(self
