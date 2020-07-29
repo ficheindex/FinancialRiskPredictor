@@ -70,4 +70,8 @@ class DeepFM(BaseModelTorch, ABC):
         # Adding dummy spare feature
         if not self.args.cat_idx:
             X_dict["dummy"] = np.zeros(X.shape[0])
-            X_val_dict["dummy"] = np.zeros(X_val.sh
+            X_val_dict["dummy"] = np.zeros(X_val.shape[0])
+
+        loss_history, val_loss_history = self.model.fit(X_dict, y, batch_size=self.args.bsz,
+                                                        epochs=self.args.epoch,
+                                                    
