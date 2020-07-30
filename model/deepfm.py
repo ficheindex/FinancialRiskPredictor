@@ -74,4 +74,7 @@ class DeepFM(BaseModelTorch, ABC):
 
         loss_history, val_loss_history = self.model.fit(X_dict, y, batch_size=self.args.bsz,
                                                         epochs=self.args.epoch,
-                                                    
+                                                        validation_data=(X_val_dict, y_val), labels=labels,
+                                                        early_stopping=True,
+                                                        patience=self.args.early_stopping_rounds)
+      
