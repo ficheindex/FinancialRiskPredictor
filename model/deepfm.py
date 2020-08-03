@@ -77,4 +77,10 @@ class DeepFM(BaseModelTorch, ABC):
                                                         validation_data=(X_val_dict, y_val), labels=labels,
                                                         early_stopping=True,
                                                         patience=self.args.early_stopping_rounds)
-      
+        return loss_history, val_loss_history
+
+    def predict_helper(self, X):
+        X = np.array(X, dtype=np.float)
+        X_dict = {str(name): X[:, name] for name in range(self.args.num_features)}
+
+     
