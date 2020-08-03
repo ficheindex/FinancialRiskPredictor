@@ -83,4 +83,10 @@ class DeepFM(BaseModelTorch, ABC):
         X = np.array(X, dtype=np.float)
         X_dict = {str(name): X[:, name] for name in range(self.args.num_features)}
 
-     
+        # Adding dummy spare feature
+        if not self.args.cat_idx:
+            X_dict["dummy"] = np.zeros(X.shape[0])
+        return self.model.predict(X_dict, batch_size=self.args.bsz)
+
+    @classmethod
+    d
