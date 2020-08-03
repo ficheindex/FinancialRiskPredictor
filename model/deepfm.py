@@ -89,4 +89,10 @@ class DeepFM(BaseModelTorch, ABC):
         return self.model.predict(X_dict, batch_size=self.args.bsz)
 
     @classmethod
-    d
+    def define_trial_parameters(cls, trial, args):
+        params = {
+            "dnn_dropout": trial.suggest_float("dnn_dropout", 0, 0.9),
+        }
+        return params
+
+        # dnn_dropout, l2_reg_linear, l2_reg_embedding, l2_r
