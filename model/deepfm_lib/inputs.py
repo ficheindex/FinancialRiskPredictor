@@ -189,3 +189,54 @@ def embedding_lookup(X, sparse_embedding_dict, sparse_input_dict, sparse_feature
             mask_feat_list, list, names of feature to be masked in hash transform
         Return:
             group_embedding_dict: defaultdict(list)
+    """
+    group_embedding_dict = defaultdict(list)
+    for fc in sparse_feature_columns:
+        feature_name = fc.name
+        embedding_name = fc.embedding_name
+        if (len(return_feat_list) == 0 or feature_name in return_feat_list):
+            # TODO: add hash function
+            # if fc.use_hash:
+            #     raise NotImplementedError("hash function is not implemented in this version!")
+            lookup_idx = np.array(sparse_input_dict[feature_name])
+            input_tensor = X[:, lookup_idx[0]:lookup_idx[1]].long()
+            emb = sparse_embedding_dict[embedding_name](input_tensor)
+            group_embedding_dict[fc.group_name].append(emb)
+    if to_list:
+        return list(chain.from_iterable(group_embedding_dict.values()))
+    return group_embedding_dict
+
+
+def varlen_embedding_lookup(X, embedding_dict, sequence_input_dict, varlen_sparse_feature_columns):
+    varlen_embedding_vec_dict = {}
+    for fc in varlen_sparse_feature_columns:
+        feature_name = fc.name
+        embedding_name = fc.embedding_name
+        if fc.use_hash:
+            # lookup_idx = Hash(fc.vocabulary_size, mask_zero=True)(sequence_input_dict[feature_name])
+            # TODO: add hash function
+            lookup_idx = sequence_input_dict[feature_name]
+        else:
+            lookup_idx = sequence_input_dict[feature_name]
+        varlen_embedding_vec_dict[feature_name] = embedding_dict[embedding_name](
+            X[:, lookup_idx[0]:lookup_idx[1]].long())  # (lookup_idx)
+
+    return varlen_embedding_vec_dict
+
+
+def get_dense_input(X, features, feature_columns):
+    dense_feature_columns = list(filter(lambda x: isinstance(
+        x, DenseFeat), feature_columns)) if feature_columns else []
+    dense_input_list = []
+    for fc in dense_feature_columns:
+        lookup_idx = np.array(features[fc.name])
+        input_tensor = X[:, lookup_idx[0]:lookup_idx[1]].float()
+        dense_input_list.append(input_tensor)
+    return dense_input_list
+
+
+def maxlen_lookup(X, sparse_input_dict, maxlen_column):
+    if maxlen_column is None or len(maxlen_column) == 0:
+        raise ValueError('please add max length column for VarLenSparseFeat of DIN/DIEN input')
+    lookup_idx = np.array(sparse_input_dict[maxlen_column[0]])
+    return X[:, lookup_idx[0]:lookup_idx[1]].long()
