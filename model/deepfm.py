@@ -95,4 +95,4 @@ class DeepFM(BaseModelTorch, ABC):
         }
         return params
 
-        # dnn_dropout, l2_reg_linear, l2_reg_embedding, l2_r
+        # dnn_dropout, l2_reg_linear, l2_reg_embedding, l2_reg_dnn, dnn_hidden_units?
