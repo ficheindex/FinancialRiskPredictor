@@ -21,4 +21,12 @@ class Dice(nn.Module):
 
     def __init__(self, emb_size, dim=2, epsilon=1e-8, device='cpu'):
         super(Dice, self).__init__()
-        assert 
+        assert dim == 2 or dim == 3
+
+        self.bn = nn.BatchNorm1d(emb_size, eps=epsilon)
+        self.sigmoid = nn.Sigmoid()
+        self.dim = dim
+
+        # wrap alpha in nn.Parameter to make it trainable
+        if self.dim == 2:
+            self.alpha = 
