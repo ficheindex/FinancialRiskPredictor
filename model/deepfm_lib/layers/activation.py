@@ -35,4 +35,10 @@ class Dice(nn.Module):
 
     def forward(self, x):
         assert x.dim() == self.dim
-        if self.d
+        if self.dim == 2:
+            x_p = self.sigmoid(self.bn(x))
+            out = self.alpha * (1 - x_p) * x + x_p * x
+        else:
+            x = torch.transpose(x, 1, 2)
+            x_p = self.sigmoid(self.bn(x))
+       
