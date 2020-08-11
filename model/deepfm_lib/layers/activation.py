@@ -41,4 +41,12 @@ class Dice(nn.Module):
         else:
             x = torch.transpose(x, 1, 2)
             x_p = self.sigmoid(self.bn(x))
-       
+            out = self.alpha * (1 - x_p) * x + x_p * x
+            out = torch.transpose(out, 1, 2)
+        return out
+
+
+class Identity(nn.Module):
+
+    def __init__(self, **kwargs):
+        super(Identity, s
