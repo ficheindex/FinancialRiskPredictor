@@ -59,4 +59,11 @@ def activation_layer(act_name, hidden_size=None, dice_dim=2):
     """Construct activation layers
 
     Args:
-        act_name: str or nn.Module, name of activ
+        act_name: str or nn.Module, name of activation function
+        hidden_size: int, used for Dice activation
+        dice_dim: int, used for Dice activation
+    Return:
+        act_layer: activation layer
+    """
+    if isinstance(act_name, str):
+        if act_name.lower() == 'sig
