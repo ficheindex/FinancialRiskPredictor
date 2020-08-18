@@ -49,4 +49,14 @@ class Dice(nn.Module):
 class Identity(nn.Module):
 
     def __init__(self, **kwargs):
-        super(Identity, s
+        super(Identity, self).__init__()
+
+    def forward(self, inputs):
+        return inputs
+
+
+def activation_layer(act_name, hidden_size=None, dice_dim=2):
+    """Construct activation layers
+
+    Args:
+        act_name: str or nn.Module, name of activ
