@@ -72,4 +72,9 @@ def activation_layer(act_name, hidden_size=None, dice_dim=2):
             act_layer = Identity()
         elif act_name.lower() == 'relu':
             act_layer = nn.ReLU(inplace=True)
-    
+        elif act_name.lower() == 'dice':
+            assert dice_dim
+            act_layer = Dice(hidden_size, dice_dim)
+        elif act_name.lower() == 'prelu':
+            act_layer = nn.PReLU()
+    elif issubclass(act_name, nn.M
