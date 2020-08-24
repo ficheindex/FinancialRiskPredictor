@@ -77,4 +77,9 @@ def activation_layer(act_name, hidden_size=None, dice_dim=2):
             act_layer = Dice(hidden_size, dice_dim)
         elif act_name.lower() == 'prelu':
             act_layer = nn.PReLU()
-    elif issubclass(act_name, nn.M
+    elif issubclass(act_name, nn.Module):
+        act_layer = act_name()
+    else:
+        raise NotImplementedError
+
+    return act_layer
