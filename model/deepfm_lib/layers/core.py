@@ -17,4 +17,9 @@ class LocalActivationUnit(nn.Module):
         - A list of two 3D tensor with shape:  ``(batch_size, 1, embedding_size)`` and ``(batch_size, T, embedding_size)``
 
     Output shape
-        - 3D te
+        - 3D tensor with shape: ``(batch_size, T, 1)``.
+
+    Arguments
+        - **hidden_units**:list of positive integer, the attention net layer number and units in each layer.
+
+        - **activation**: Act
