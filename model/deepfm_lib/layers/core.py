@@ -22,4 +22,8 @@ class LocalActivationUnit(nn.Module):
     Arguments
         - **hidden_units**:list of positive integer, the attention net layer number and units in each layer.
 
-        - **activation**: Act
+        - **activation**: Activation function to use in attention net.
+
+        - **l2_reg**: float between 0 and 1. L2 regularizer strength applied to the kernel weights matrix of attention net.
+
+        - **dropout_rate**: float in [0,1). Fract
