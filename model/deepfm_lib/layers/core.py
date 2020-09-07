@@ -26,4 +26,8 @@ class LocalActivationUnit(nn.Module):
 
         - **l2_reg**: float between 0 and 1. L2 regularizer strength applied to the kernel weights matrix of attention net.
 
-        - **dropout_rate**: float in [0,1). Fract
+        - **dropout_rate**: float in [0,1). Fraction of the units to dropout in attention net.
+
+        - **use_bn**: bool. Whether use BatchNormalization before activation or not in attention net.
+
+        - **seed**: A Python integer to use as rand
