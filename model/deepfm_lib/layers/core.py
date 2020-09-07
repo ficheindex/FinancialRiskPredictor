@@ -37,4 +37,10 @@ class LocalActivationUnit(nn.Module):
     """
 
     def __init__(self, hidden_units=(64, 32), embedding_dim=4, activation='sigmoid', dropout_rate=0, dice_dim=3,
-                 l2_reg=0, use_bn=F
+                 l2_reg=0, use_bn=False):
+        super(LocalActivationUnit, self).__init__()
+
+        self.dnn = DNN(inputs_dim=4 * embedding_dim,
+                       hidden_units=hidden_units,
+                       activation=activation,
+   
