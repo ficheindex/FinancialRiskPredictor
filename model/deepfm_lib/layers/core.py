@@ -30,4 +30,7 @@ class LocalActivationUnit(nn.Module):
 
         - **use_bn**: bool. Whether use BatchNormalization before activation or not in attention net.
 
-        - **seed**: A Python integer to use as rand
+        - **seed**: A Python integer to use as random seed.
+
+    References
+        - [Zhou G, Zhu X, Song C, et al. Deep interest network for click-through rate prediction[C]//Proceedings of the 24th ACM SIGKDD International Conference on Knowledge Discovery &
