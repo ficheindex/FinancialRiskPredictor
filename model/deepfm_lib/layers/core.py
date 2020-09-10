@@ -53,4 +53,9 @@ class LocalActivationUnit(nn.Module):
     def forward(self, query, user_behavior):
         # query ad            : size -> batch_size * 1 * embedding_size
         # user behavior       : size -> batch_size * time_seq_len * embedding_size
-        user_behavior_len 
+        user_behavior_len = user_behavior.size(1)
+
+        queries = query.expand(-1, user_behavior_len, -1)
+
+        attention_input = torch.cat([queries, user_behavior, queries - user_behavior, queries * user_behavior],
+       
