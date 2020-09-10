@@ -43,4 +43,11 @@ class LocalActivationUnit(nn.Module):
         self.dnn = DNN(inputs_dim=4 * embedding_dim,
                        hidden_units=hidden_units,
                        activation=activation,
-   
+                       l2_reg=l2_reg,
+                       dropout_rate=dropout_rate,
+                       dice_dim=dice_dim,
+                       use_bn=use_bn)
+
+        self.dense = nn.Linear(hidden_units[-1], 1)
+
+    def
