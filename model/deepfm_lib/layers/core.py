@@ -50,4 +50,7 @@ class LocalActivationUnit(nn.Module):
 
         self.dense = nn.Linear(hidden_units[-1], 1)
 
-    def
+    def forward(self, query, user_behavior):
+        # query ad            : size -> batch_size * 1 * embedding_size
+        # user behavior       : size -> batch_size * time_seq_len * embedding_size
+        user_behavior_len 
