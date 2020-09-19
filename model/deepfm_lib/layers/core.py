@@ -80,4 +80,10 @@ class DNN(nn.Module):
 
         - **hidden_units**:list of positive integer, the layer number and units in each layer.
 
-        - **activation**: Activatio
+        - **activation**: Activation function to use.
+
+        - **l2_reg**: float between 0 and 1. L2 regularizer strength applied to the kernel weights matrix.
+
+        - **dropout_rate**: float in [0,1). Fraction of the units to dropout.
+
+        - **use_bn**: bo
