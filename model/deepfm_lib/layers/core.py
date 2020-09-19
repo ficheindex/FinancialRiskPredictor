@@ -86,4 +86,9 @@ class DNN(nn.Module):
 
         - **dropout_rate**: float in [0,1). Fraction of the units to dropout.
 
-        - **use_bn**: bo
+        - **use_bn**: bool. Whether use BatchNormalization before activation or not.
+
+        - **seed**: A Python integer to use as random seed.
+    """
+
+    def __init__(self, inputs_dim, hidden_units, activation='relu', l2_reg=0, dropout
