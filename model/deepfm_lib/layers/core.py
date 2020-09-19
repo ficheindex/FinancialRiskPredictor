@@ -73,4 +73,11 @@ class DNN(nn.Module):
         - nD tensor with shape: ``(batch_size, ..., input_dim)``. The most common situation would be a 2D input with shape ``(batch_size, input_dim)``.
 
       Output shape
-        - nD tensor with shape: ``(batch_size, ..., hidden_size[-1])``. For instance, for a 2D input with shape ``(batch_size, input_dim)``, the output would have shape
+        - nD tensor with shape: ``(batch_size, ..., hidden_size[-1])``. For instance, for a 2D input with shape ``(batch_size, input_dim)``, the output would have shape ``(batch_size, hidden_size[-1])``.
+
+      Arguments
+        - **inputs_dim**: input feature dimension.
+
+        - **hidden_units**:list of positive integer, the layer number and units in each layer.
+
+        - **activation**: Activatio
