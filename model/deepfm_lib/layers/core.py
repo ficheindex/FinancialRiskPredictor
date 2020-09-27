@@ -103,4 +103,9 @@ class DNN(nn.Module):
             raise ValueError("hidden_units is empty!!")
         hidden_units = [inputs_dim] + list(hidden_units)
 
-        se
+        self.linears = nn.ModuleList(
+            [nn.Linear(hidden_units[i], hidden_units[i + 1]) for i in range(len(hidden_units) - 1)])
+
+        if self.use_bn:
+            self.bn = nn.ModuleList(
+                [nn.BatchNorm1d(h
