@@ -111,4 +111,12 @@ class DNN(nn.Module):
                 [nn.BatchNorm1d(hidden_units[i + 1]) for i in range(len(hidden_units) - 1)])
 
         self.activation_layers = nn.ModuleList(
-            [activation_layer(activation, hidden_units[i + 1], dice_dim) for i in range(len(hidden_units) - 1)]
+            [activation_layer(activation, hidden_units[i + 1], dice_dim) for i in range(len(hidden_units) - 1)])
+
+        for name, tensor in self.linears.named_parameters():
+            if 'weight' in name:
+                nn.init.normal_(tensor, mean=0, std=init_std)
+
+        self.to(device)
+
+    def forward(s
