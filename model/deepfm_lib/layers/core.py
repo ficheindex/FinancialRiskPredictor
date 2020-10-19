@@ -119,4 +119,14 @@ class DNN(nn.Module):
 
         self.to(device)
 
-    def forward(s
+    def forward(self, inputs):
+        deep_input = inputs
+
+        for i in range(len(self.linears)):
+
+            fc = self.linears[i](deep_input)
+
+            if self.use_bn:
+                fc = self.bn[i](fc)
+
+            fc = self.activ
