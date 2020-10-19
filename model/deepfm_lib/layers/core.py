@@ -129,4 +129,14 @@ class DNN(nn.Module):
             if self.use_bn:
                 fc = self.bn[i](fc)
 
-            fc = self.activ
+            fc = self.activation_layers[i](fc)
+
+            fc = self.dropout(fc)
+            deep_input = fc
+        return deep_input
+
+
+class PredictionLayer(nn.Module):
+    """
+      Arguments
+         - **task**: str, ``"
