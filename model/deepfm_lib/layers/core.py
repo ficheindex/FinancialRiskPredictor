@@ -139,4 +139,9 @@ class DNN(nn.Module):
 class PredictionLayer(nn.Module):
     """
       Arguments
-         - **task**: str, ``"
+         - **task**: str, ``"binary"`` for  binary logloss or  ``"regression"`` for regression loss
+         - **use_bias**: bool.Whether add bias term or not.
+    """
+
+    def __init__(self, task="binary", use_bias=True, **kwargs):
+        if task == "clas
