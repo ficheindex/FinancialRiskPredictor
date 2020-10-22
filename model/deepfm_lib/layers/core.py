@@ -149,4 +149,10 @@ class PredictionLayer(nn.Module):
         if task not in ["binary", "multiclass", "regression"]:
             raise ValueError("task must be binary,multiclass or regression")
 
-  
+        super(PredictionLayer, self).__init__()
+        self.use_bias = use_bias
+        self.task = task
+        if self.use_bias:
+            self.bias = nn.Parameter(torch.zeros((1,)))
+
+    def forward(self, X)
