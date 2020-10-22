@@ -155,4 +155,14 @@ class PredictionLayer(nn.Module):
         if self.use_bias:
             self.bias = nn.Parameter(torch.zeros((1,)))
 
-    def forward(self, X)
+    def forward(self, X):
+        output = X
+        if self.use_bias:
+            output += self.bias
+        if self.task == "binary":
+            output = torch.sigmoid(output)
+        return output
+
+
+class Conv2dSame(nn.Conv2d):
+    """ Tensorfl
