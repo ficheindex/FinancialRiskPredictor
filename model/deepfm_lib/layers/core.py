@@ -177,4 +177,8 @@ class Conv2dSame(nn.Conv2d):
 
     def forward(self, x):
         ih, iw = x.size()[-2:]
-    
+        kh, kw = self.weight.size()[-2:]
+        oh = math.ceil(ih / self.stride[0])
+        ow = math.ceil(iw / self.stride[1])
+        pad_h = max((oh - 1) * self.stride[0] + (kh - 1) * self.dilation[0] + 1 - ih, 0)
+       
