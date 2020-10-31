@@ -259,3 +259,235 @@ class AFMLayer(nn.Module):
       Output shape
         - 2D tensor with shape: ``(batch_size, 1)``.
       Arguments
+        - **in_features** : Positive integer, dimensionality of input features.
+        - **attention_factor** : Positive integer, dimensionality of the
+         attention network output space.
+        - **l2_reg_w** : float between 0 and 1. L2 regularizer strength
+         applied to attention network.
+        - **dropout_rate** : float between in [0,1). Fraction of the attention net output units to dropout.
+        - **seed** : A Python integer to use as random seed.
+      References
+        - [Attentional Factorization Machines : Learning the Weight of Feature
+        Interactions via Attention Networks](https://arxiv.org/pdf/1708.04617.pdf)
+    """
+
+    def __init__(self, in_features, attention_factor=4, l2_reg_w=0, dropout_rate=0, seed=1024, device='cpu'):
+        super(AFMLayer, self).__init__()
+        self.attention_factor = attention_factor
+        self.l2_reg_w = l2_reg_w
+        self.dropout_rate = dropout_rate
+        self.seed = seed
+        embedding_size = in_features
+
+        self.attention_W = nn.Parameter(torch.Tensor(
+            embedding_size, self.attention_factor))
+
+        self.attention_b = nn.Parameter(torch.Tensor(self.attention_factor))
+
+        self.projection_h = nn.Parameter(
+            torch.Tensor(self.attention_factor, 1))
+
+        self.projection_p = nn.Parameter(torch.Tensor(embedding_size, 1))
+
+        for tensor in [self.attention_W, self.projection_h, self.projection_p]:
+            nn.init.xavier_normal_(tensor, )
+
+        for tensor in [self.attention_b]:
+            nn.init.zeros_(tensor, )
+
+        self.dropout = nn.Dropout(dropout_rate)
+
+        self.to(device)
+
+    def forward(self, inputs):
+        embeds_vec_list = inputs
+        row = []
+        col = []
+
+        for r, c in itertools.combinations(embeds_vec_list, 2):
+            row.append(r)
+            col.append(c)
+
+        p = torch.cat(row, dim=1)
+        q = torch.cat(col, dim=1)
+        inner_product = p * q
+
+        bi_interaction = inner_product
+        attention_temp = F.relu(torch.tensordot(
+            bi_interaction, self.attention_W, dims=([-1], [0])) + self.attention_b)
+
+        self.normalized_att_score = F.softmax(torch.tensordot(
+            attention_temp, self.projection_h, dims=([-1], [0])), dim=1)
+        attention_output = torch.sum(
+            self.normalized_att_score * bi_interaction, dim=1)
+
+        attention_output = self.dropout(attention_output)  # training
+
+        afm_out = torch.tensordot(
+            attention_output, self.projection_p, dims=([-1], [0]))
+        return afm_out
+
+
+class InteractingLayer(nn.Module):
+    """A Layer used in AutoInt that model the correlations between different feature fields by multi-head self-attention mechanism.
+      Input shape
+            - A 3D tensor with shape: ``(batch_size,field_size,embedding_size)``.
+      Output shape
+            - 3D tensor with shape:``(batch_size,field_size,embedding_size)``.
+      Arguments
+            - **in_features** : Positive integer, dimensionality of input features.
+            - **head_num**: int.The head number in multi-head self-attention network.
+            - **use_res**: bool.Whether or not use standard residual connections before output.
+            - **seed**: A Python integer to use as random seed.
+      References
+            - [Song W, Shi C, Xiao Z, et al. AutoInt: Automatic Feature Interaction Learning via Self-Attentive Neural Networks[J]. arXiv preprint arXiv:1810.11921, 2018.](https://arxiv.org/abs/1810.11921)
+    """
+
+    def __init__(self, embedding_size, head_num=2, use_res=True, scaling=False, seed=1024, device='cpu'):
+        super(InteractingLayer, self).__init__()
+        if head_num <= 0:
+            raise ValueError('head_num must be a int > 0')
+        if embedding_size % head_num != 0:
+            raise ValueError('embedding_size is not an integer multiple of head_num!')
+        self.att_embedding_size = embedding_size // head_num
+        self.head_num = head_num
+        self.use_res = use_res
+        self.scaling = scaling
+        self.seed = seed
+
+        self.W_Query = nn.Parameter(torch.Tensor(embedding_size, embedding_size))
+        self.W_key = nn.Parameter(torch.Tensor(embedding_size, embedding_size))
+        self.W_Value = nn.Parameter(torch.Tensor(embedding_size, embedding_size))
+
+        if self.use_res:
+            self.W_Res = nn.Parameter(torch.Tensor(embedding_size, embedding_size))
+        for tensor in self.parameters():
+            nn.init.normal_(tensor, mean=0.0, std=0.05)
+
+        self.to(device)
+
+    def forward(self, inputs):
+
+        if len(inputs.shape) != 3:
+            raise ValueError(
+                "Unexpected inputs dimensions %d, expect to be 3 dimensions" % (len(inputs.shape)))
+
+        # None F D
+        querys = torch.tensordot(inputs, self.W_Query, dims=([-1], [0]))
+        keys = torch.tensordot(inputs, self.W_key, dims=([-1], [0]))
+        values = torch.tensordot(inputs, self.W_Value, dims=([-1], [0]))
+
+        # head_num None F D/head_num
+        querys = torch.stack(torch.split(querys, self.att_embedding_size, dim=2))
+        keys = torch.stack(torch.split(keys, self.att_embedding_size, dim=2))
+        values = torch.stack(torch.split(values, self.att_embedding_size, dim=2))
+
+        inner_product = torch.einsum('bnik,bnjk->bnij', querys, keys)  # head_num None F F
+        if self.scaling:
+            inner_product /= self.att_embedding_size ** 0.5
+        self.normalized_att_scores = F.softmax(inner_product, dim=-1)  # head_num None F F
+        result = torch.matmul(self.normalized_att_scores, values)  # head_num None F D/head_num
+
+        result = torch.cat(torch.split(result, 1, ), dim=-1)
+        result = torch.squeeze(result, dim=0)  # None F D
+        if self.use_res:
+            result += torch.tensordot(inputs, self.W_Res, dims=([-1], [0]))
+        result = F.relu(result)
+
+        return result
+
+
+class CrossNet(nn.Module):
+    """The Cross Network part of Deep&Cross Network model,
+    which leans both low and high degree cross feature.
+      Input shape
+        - 2D tensor with shape: ``(batch_size, units)``.
+      Output shape
+        - 2D tensor with shape: ``(batch_size, units)``.
+      Arguments
+        - **in_features** : Positive integer, dimensionality of input features.
+        - **input_feature_num**: Positive integer, shape(Input tensor)[-1]
+        - **layer_num**: Positive integer, the cross layer number
+        - **parameterization**: string, ``"vector"``  or ``"matrix"`` ,  way to parameterize the cross network.
+        - **l2_reg**: float between 0 and 1. L2 regularizer strength applied to the kernel weights matrix
+        - **seed**: A Python integer to use as random seed.
+      References
+        - [Wang R, Fu B, Fu G, et al. Deep & cross network for ad click predictions[C]//Proceedings of the ADKDD'17. ACM, 2017: 12.](https://arxiv.org/abs/1708.05123)
+        - [Wang R, Shivanna R, Cheng D Z, et al. DCN-M: Improved Deep & Cross Network for Feature Cross Learning in Web-scale Learning to Rank Systems[J]. 2020.](https://arxiv.org/abs/2008.13535)
+    """
+
+    def __init__(self, in_features, layer_num=2, parameterization='vector', seed=1024, device='cpu'):
+        super(CrossNet, self).__init__()
+        self.layer_num = layer_num
+        self.parameterization = parameterization
+        if self.parameterization == 'vector':
+            # weight in DCN.  (in_features, 1)
+            self.kernels = nn.Parameter(torch.Tensor(self.layer_num, in_features, 1))
+        elif self.parameterization == 'matrix':
+            # weight matrix in DCN-M.  (in_features, in_features)
+            self.kernels = nn.Parameter(torch.Tensor(self.layer_num, in_features, in_features))
+        else:  # error
+            raise ValueError("parameterization should be 'vector' or 'matrix'")
+
+        self.bias = nn.Parameter(torch.Tensor(self.layer_num, in_features, 1))
+
+        for i in range(self.kernels.shape[0]):
+            nn.init.xavier_normal_(self.kernels[i])
+        for i in range(self.bias.shape[0]):
+            nn.init.zeros_(self.bias[i])
+
+        self.to(device)
+
+    def forward(self, inputs):
+        x_0 = inputs.unsqueeze(2)
+        x_l = x_0
+        for i in range(self.layer_num):
+            if self.parameterization == 'vector':
+                xl_w = torch.tensordot(x_l, self.kernels[i], dims=([1], [0]))
+                dot_ = torch.matmul(x_0, xl_w)
+                x_l = dot_ + self.bias[i] + x_l
+            elif self.parameterization == 'matrix':
+                xl_w = torch.matmul(self.kernels[i], x_l)  # W * xi  (bs, in_features, 1)
+                dot_ = xl_w + self.bias[i]  # W * xi + b
+                x_l = x_0 * dot_ + x_l  # x0 · (W * xi + b) +xl  Hadamard-product
+            else:  # error
+                raise ValueError("parameterization should be 'vector' or 'matrix'")
+        x_l = torch.squeeze(x_l, dim=2)
+        return x_l
+
+
+class CrossNetMix(nn.Module):
+    """The Cross Network part of DCN-Mix model, which improves DCN-M by:
+      1 add MOE to learn feature interactions in different subspaces
+      2 add nonlinear transformations in low-dimensional space
+      Input shape
+        - 2D tensor with shape: ``(batch_size, units)``.
+      Output shape
+        - 2D tensor with shape: ``(batch_size, units)``.
+      Arguments
+        - **in_features** : Positive integer, dimensionality of input features.
+        - **low_rank** : Positive integer, dimensionality of low-rank sapce.
+        - **num_experts** : Positive integer, number of experts.
+        - **layer_num**: Positive integer, the cross layer number
+        - **device**: str, e.g. ``"cpu"`` or ``"cuda:0"``
+      References
+        - [Wang R, Shivanna R, Cheng D Z, et al. DCN-M: Improved Deep & Cross Network for Feature Cross Learning in Web-scale Learning to Rank Systems[J]. 2020.](https://arxiv.org/abs/2008.13535)
+    """
+
+    def __init__(self, in_features, low_rank=32, num_experts=4, layer_num=2, device='cpu'):
+        super(CrossNetMix, self).__init__()
+        self.layer_num = layer_num
+        self.num_experts = num_experts
+
+        # U: (in_features, low_rank)
+        self.U_list = nn.Parameter(torch.Tensor(self.layer_num, num_experts, in_features, low_rank))
+        # V: (in_features, low_rank)
+        self.V_list = nn.Parameter(torch.Tensor(self.layer_num, num_experts, in_features, low_rank))
+        # C: (low_rank, low_rank)
+        self.C_list = nn.Parameter(torch.Tensor(self.layer_num, num_experts, low_rank, low_rank))
+        self.gating = nn.ModuleList([nn.Linear(in_features, 1, bias=False) for i in range(self.num_experts)])
+
+        self.bias = nn.Parameter(torch.Tensor(self.layer_num, in_features, 1))
+
+        init_para_list = [self.U_list, self.V_list, self.C_list]
+        for para in init_para_list:
