@@ -491,3 +491,210 @@ class CrossNetMix(nn.Module):
 
         init_para_list = [self.U_list, self.V_list, self.C_list]
         for para in init_para_list:
+            for i in range(self.layer_num):
+                nn.init.xavier_normal_(para[i])
+
+        for i in range(len(self.bias)):
+            nn.init.zeros_(self.bias[i])
+
+        self.to(device)
+
+    def forward(self, inputs):
+        x_0 = inputs.unsqueeze(2)  # (bs, in_features, 1)
+        x_l = x_0
+        for i in range(self.layer_num):
+            output_of_experts = []
+            gating_score_of_experts = []
+            for expert_id in range(self.num_experts):
+                # (1) G(x_l)
+                # compute the gating score by x_l
+                gating_score_of_experts.append(self.gating[expert_id](x_l.squeeze(2)))
+
+                # (2) E(x_l)
+                # project the input x_l to $\mathbb{R}^{r}$
+                v_x = torch.matmul(self.V_list[i][expert_id].t(), x_l)  # (bs, low_rank, 1)
+
+                # nonlinear activation in low rank space
+                v_x = torch.tanh(v_x)
+                v_x = torch.matmul(self.C_list[i][expert_id], v_x)
+                v_x = torch.tanh(v_x)
+
+                # project back to $\mathbb{R}^{d}$
+                uv_x = torch.matmul(self.U_list[i][expert_id], v_x)  # (bs, in_features, 1)
+
+                dot_ = uv_x + self.bias[i]
+                dot_ = x_0 * dot_  # Hadamard-product
+
+                output_of_experts.append(dot_.squeeze(2))
+
+            # (3) mixture of low-rank experts
+            output_of_experts = torch.stack(output_of_experts, 2)  # (bs, in_features, num_experts)
+            gating_score_of_experts = torch.stack(gating_score_of_experts, 1)  # (bs, num_experts, 1)
+            moe_out = torch.matmul(output_of_experts, gating_score_of_experts.softmax(1))
+            x_l = moe_out + x_l  # (bs, in_features, 1)
+
+        x_l = x_l.squeeze()  # (bs, in_features)
+        return x_l
+
+
+class InnerProductLayer(nn.Module):
+    """InnerProduct Layer used in PNN that compute the element-wise
+    product or inner product between feature vectors.
+      Input shape
+        - a list of 3D tensor with shape: ``(batch_size,1,embedding_size)``.
+      Output shape
+        - 3D tensor with shape: ``(batch_size, N*(N-1)/2 ,1)`` if use reduce_sum. or 3D tensor with shape:
+        ``(batch_size, N*(N-1)/2, embedding_size )`` if not use reduce_sum.
+      Arguments
+        - **reduce_sum**: bool. Whether return inner product or element-wise product
+      References
+            - [Qu Y, Cai H, Ren K, et al. Product-based neural networks for user response prediction[C]//
+            Data Mining (ICDM), 2016 IEEE 16th International Conference on. IEEE, 2016: 1149-1154.]
+            (https://arxiv.org/pdf/1611.00144.pdf)"""
+
+    def __init__(self, reduce_sum=True, device='cpu'):
+        super(InnerProductLayer, self).__init__()
+        self.reduce_sum = reduce_sum
+        self.to(device)
+
+    def forward(self, inputs):
+
+        embed_list = inputs
+        row = []
+        col = []
+        num_inputs = len(embed_list)
+
+        for i in range(num_inputs - 1):
+            for j in range(i + 1, num_inputs):
+                row.append(i)
+                col.append(j)
+        p = torch.cat([embed_list[idx]
+                       for idx in row], dim=1)  # batch num_pairs k
+        q = torch.cat([embed_list[idx]
+                       for idx in col], dim=1)
+
+        inner_product = p * q
+        if self.reduce_sum:
+            inner_product = torch.sum(
+                inner_product, dim=2, keepdim=True)
+        return inner_product
+
+
+class OutterProductLayer(nn.Module):
+    """OutterProduct Layer used in PNN.This implemention is
+    adapted from code that the author of the paper published on https://github.com/Atomu2014/product-nets.
+      Input shape
+            - A list of N 3D tensor with shape: ``(batch_size,1,embedding_size)``.
+      Output shape
+            - 2D tensor with shape:``(batch_size,N*(N-1)/2 )``.
+      Arguments
+            - **filed_size** : Positive integer, number of feature groups.
+            - **kernel_type**: str. The kernel weight matrix type to use,can be mat,vec or num
+            - **seed**: A Python integer to use as random seed.
+      References
+            - [Qu Y, Cai H, Ren K, et al. Product-based neural networks for user response prediction[C]//Data Mining (ICDM), 2016 IEEE 16th International Conference on. IEEE, 2016: 1149-1154.](https://arxiv.org/pdf/1611.00144.pdf)
+    """
+
+    def __init__(self, field_size, embedding_size, kernel_type='mat', seed=1024, device='cpu'):
+        super(OutterProductLayer, self).__init__()
+        self.kernel_type = kernel_type
+
+        num_inputs = field_size
+        num_pairs = int(num_inputs * (num_inputs - 1) / 2)
+        embed_size = embedding_size
+        if self.kernel_type == 'mat':
+
+            self.kernel = nn.Parameter(torch.Tensor(
+                embed_size, num_pairs, embed_size))
+
+        elif self.kernel_type == 'vec':
+            self.kernel = nn.Parameter(torch.Tensor(num_pairs, embed_size))
+
+        elif self.kernel_type == 'num':
+            self.kernel = nn.Parameter(torch.Tensor(num_pairs, 1))
+        nn.init.xavier_uniform_(self.kernel)
+
+        self.to(device)
+
+    def forward(self, inputs):
+        embed_list = inputs
+        row = []
+        col = []
+        num_inputs = len(embed_list)
+        for i in range(num_inputs - 1):
+            for j in range(i + 1, num_inputs):
+                row.append(i)
+                col.append(j)
+        p = torch.cat([embed_list[idx]
+                       for idx in row], dim=1)  # batch num_pairs k
+        q = torch.cat([embed_list[idx] for idx in col], dim=1)
+
+        # -------------------------
+        if self.kernel_type == 'mat':
+            p.unsqueeze_(dim=1)
+            # k     k* pair* k
+            # batch * pair
+            kp = torch.sum(
+
+                # batch * pair * k
+
+                torch.mul(
+
+                    # batch * pair * k
+
+                    torch.transpose(
+
+                        # batch * k * pair
+
+                        torch.sum(
+
+                            # batch * k * pair * k
+
+                            torch.mul(
+
+                                p, self.kernel),
+
+                            dim=-1),
+
+                        2, 1),
+
+                    q),
+
+                dim=-1)
+        else:
+            # 1 * pair * (k or 1)
+
+            k = torch.unsqueeze(self.kernel, 0)
+
+            # batch * pair
+
+            kp = torch.sum(p * q * k, dim=-1)
+
+            # p q # b * p * k
+
+        return kp
+
+
+class ConvLayer(nn.Module):
+    """Conv Layer used in CCPM.
+
+      Input shape
+            - A list of N 3D tensor with shape: ``(batch_size,1,filed_size,embedding_size)``.
+      Output shape
+            - A list of N 3D tensor with shape: ``(batch_size,last_filters,pooling_size,embedding_size)``.
+      Arguments
+            - **filed_size** : Positive integer, number of feature groups.
+            - **conv_kernel_width**: list. list of positive integer or empty list,the width of filter in each conv layer.
+            - **conv_filters**: list. list of positive integer or empty list,the number of filters in each conv layer.
+      Reference:
+            - Liu Q, Yu F, Wu S, et al. A convolutional click prediction model[C]//Proceedings of the 24th ACM International on Conference on Information and Knowledge Management. ACM, 2015: 1743-1746.(http://ir.ia.ac.cn/bitstream/173211/12337/1/A%20Convolutional%20Click%20Prediction%20Model.pdf)
+    """
+
+    def __init__(self, field_size, conv_kernel_width, conv_filters, device='cpu'):
+        super(ConvLayer, self).__init__()
+        self.device = device
+        module_list = []
+        n = int(field_size)
+        l = len(conv_filters)
+        filed_shape = n
+        for i in range(1, l + 1):
