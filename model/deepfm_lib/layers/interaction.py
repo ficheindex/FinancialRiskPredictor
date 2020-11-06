@@ -698,3 +698,63 @@ class ConvLayer(nn.Module):
         l = len(conv_filters)
         filed_shape = n
         for i in range(1, l + 1):
+            if i == 1:
+                in_channels = 1
+            else:
+                in_channels = conv_filters[i - 2]
+            out_channels = conv_filters[i - 1]
+            width = conv_kernel_width[i - 1]
+            k = max(1, int((1 - pow(i / l, l - i)) * n)) if i < l else 3
+            module_list.append(Conv2dSame(in_channels=in_channels, out_channels=out_channels, kernel_size=(width, 1),
+                                          stride=1).to(self.device))
+            module_list.append(torch.nn.Tanh().to(self.device))
+
+            # KMaxPooling, extract top_k, returns tensors values
+            module_list.append(KMaxPooling(k=min(k, filed_shape), axis=2, device=self.device).to(self.device))
+            filed_shape = min(k, filed_shape)
+        self.conv_layer = nn.Sequential(*module_list)
+        self.to(device)
+        self.filed_shape = filed_shape
+
+    def forward(self, inputs):
+        return self.conv_layer(inputs)
+
+
+class LogTransformLayer(nn.Module):
+    """Logarithmic Transformation Layer in Adaptive factorization network, which models arbitrary-order cross features.
+
+      Input shape
+        - 3D tensor with shape: ``(batch_size, field_size, embedding_size)``.
+      Output shape
+        - 2D tensor with shape: ``(batch_size, ltl_hidden_size*embedding_size)``.
+      Arguments
+        - **field_size** : positive integer, number of feature groups
+        - **embedding_size** : positive integer, embedding size of sparse features
+        - **ltl_hidden_size** : integer, the number of logarithmic neurons in AFN
+      References
+        - Cheng, W., Shen, Y. and Huang, L. 2020. Adaptive Factorization Network: Learning Adaptive-Order Feature
+         Interactions. Proceedings of the AAAI Conference on Artificial Intelligence. 34, 04 (Apr. 2020), 3609-3616.
+    """
+
+    def __init__(self, field_size, embedding_size, ltl_hidden_size):
+        super(LogTransformLayer, self).__init__()
+
+        self.ltl_weights = nn.Parameter(torch.Tensor(field_size, ltl_hidden_size))
+        self.ltl_biases = nn.Parameter(torch.Tensor(1, 1, ltl_hidden_size))
+        self.bn = nn.ModuleList([nn.BatchNorm1d(embedding_size) for i in range(2)])
+        nn.init.normal_(self.ltl_weights, mean=0.0, std=0.1)
+        nn.init.zeros_(self.ltl_biases, )
+
+    def forward(self, inputs):
+        # Avoid numeric overflow
+        afn_input = torch.clamp(torch.abs(inputs), min=1e-7, max=float("Inf"))
+        # Transpose to shape: ``(batch_size,embedding_size,field_size)``
+        afn_input_trans = torch.transpose(afn_input, 1, 2)
+        # Logarithmic transformation layer
+        ltl_result = torch.log(afn_input_trans)
+        ltl_result = self.bn[0](ltl_result)
+        ltl_result = torch.matmul(ltl_result, self.ltl_weights) + self.ltl_biases
+        ltl_result = torch.exp(ltl_result)
+        ltl_result = self.bn[1](ltl_result)
+        ltl_result = torch.flatten(ltl_result, start_dim=1)
+        return ltl_result
