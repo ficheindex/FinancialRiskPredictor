@@ -151,3 +151,173 @@ class AttentionSequencePoolingLayer(nn.Module):
             outputs = F.softmax(outputs, dim=-1)  # [B, 1, T]
 
         if not self.return_score:
+            # Weighted sum
+            outputs = torch.matmul(outputs, keys)  # [B, 1, E]
+
+        return outputs
+
+
+class KMaxPooling(nn.Module):
+    """K Max pooling that selects the k biggest value along the specific axis.
+
+      Input shape
+        -  nD tensor with shape: ``(batch_size, ..., input_dim)``.
+
+      Output shape
+        - nD tensor with shape: ``(batch_size, ..., output_dim)``.
+
+      Arguments
+        - **k**: positive integer, number of top elements to look for along the ``axis`` dimension.
+
+        - **axis**: positive integer, the dimension to look for elements.
+
+     """
+
+    def __init__(self, k, axis, device='cpu'):
+        super(KMaxPooling, self).__init__()
+        self.k = k
+        self.axis = axis
+        self.to(device)
+
+    def forward(self, inputs):
+        if self.axis < 0 or self.axis >= len(inputs.shape):
+            raise ValueError("axis must be 0~%d,now is %d" %
+                             (len(inputs.shape) - 1, self.axis))
+
+        if self.k < 1 or self.k > inputs.shape[self.axis]:
+            raise ValueError("k must be in 1 ~ %d,now k is %d" %
+                             (inputs.shape[self.axis], self.k))
+
+        out = torch.topk(inputs, k=self.k, dim=self.axis, sorted=True)[0]
+        return out
+
+
+class AGRUCell(nn.Module):
+    """ Attention based GRU (AGRU)
+
+        Reference:
+        -  Deep Interest Evolution Network for Click-Through Rate Prediction[J]. arXiv preprint arXiv:1809.03672, 2018.
+    """
+
+    def __init__(self, input_size, hidden_size, bias=True):
+        super(AGRUCell, self).__init__()
+        self.input_size = input_size
+        self.hidden_size = hidden_size
+        self.bias = bias
+        # (W_ir|W_iz|W_ih)
+        self.weight_ih = nn.Parameter(torch.Tensor(3 * hidden_size, input_size))
+        self.register_parameter('weight_ih', self.weight_ih)
+        # (W_hr|W_hz|W_hh)
+        self.weight_hh = nn.Parameter(torch.Tensor(3 * hidden_size, hidden_size))
+        self.register_parameter('weight_hh', self.weight_hh)
+        if bias:
+            # (b_ir|b_iz|b_ih)
+            self.bias_ih = nn.Parameter(torch.Tensor(3 * hidden_size))
+            self.register_parameter('bias_ih', self.bias_ih)
+            # (b_hr|b_hz|b_hh)
+            self.bias_hh = nn.Parameter(torch.Tensor(3 * hidden_size))
+            self.register_parameter('bias_hh', self.bias_hh)
+            for tensor in [self.bias_ih, self.bias_hh]:
+                nn.init.zeros_(tensor, )
+        else:
+            self.register_parameter('bias_ih', None)
+            self.register_parameter('bias_hh', None)
+
+    def forward(self, inputs, hx, att_score):
+        gi = F.linear(inputs, self.weight_ih, self.bias_ih)
+        gh = F.linear(hx, self.weight_hh, self.bias_hh)
+        i_r, _, i_n = gi.chunk(3, 1)
+        h_r, _, h_n = gh.chunk(3, 1)
+
+        reset_gate = torch.sigmoid(i_r + h_r)
+        # update_gate = torch.sigmoid(i_z + h_z)
+        new_state = torch.tanh(i_n + reset_gate * h_n)
+
+        att_score = att_score.view(-1, 1)
+        hy = (1. - att_score) * hx + att_score * new_state
+        return hy
+
+
+class AUGRUCell(nn.Module):
+    """ Effect of GRU with attentional update gate (AUGRU)
+
+        Reference:
+        -  Deep Interest Evolution Network for Click-Through Rate Prediction[J]. arXiv preprint arXiv:1809.03672, 2018.
+    """
+
+    def __init__(self, input_size, hidden_size, bias=True):
+        super(AUGRUCell, self).__init__()
+        self.input_size = input_size
+        self.hidden_size = hidden_size
+        self.bias = bias
+        # (W_ir|W_iz|W_ih)
+        self.weight_ih = nn.Parameter(torch.Tensor(3 * hidden_size, input_size))
+        self.register_parameter('weight_ih', self.weight_ih)
+        # (W_hr|W_hz|W_hh)
+        self.weight_hh = nn.Parameter(torch.Tensor(3 * hidden_size, hidden_size))
+        self.register_parameter('weight_hh', self.weight_hh)
+        if bias:
+            # (b_ir|b_iz|b_ih)
+            self.bias_ih = nn.Parameter(torch.Tensor(3 * hidden_size))
+            self.register_parameter('bias_ih', self.bias_ih)
+            # (b_hr|b_hz|b_hh)
+            self.bias_hh = nn.Parameter(torch.Tensor(3 * hidden_size))
+            self.register_parameter('bias_ih', self.bias_hh)
+            for tensor in [self.bias_ih, self.bias_hh]:
+                nn.init.zeros_(tensor, )
+        else:
+            self.register_parameter('bias_ih', None)
+            self.register_parameter('bias_hh', None)
+
+    def forward(self, inputs, hx, att_score):
+        gi = F.linear(inputs, self.weight_ih, self.bias_ih)
+        gh = F.linear(hx, self.weight_hh, self.bias_hh)
+        i_r, i_z, i_n = gi.chunk(3, 1)
+        h_r, h_z, h_n = gh.chunk(3, 1)
+
+        reset_gate = torch.sigmoid(i_r + h_r)
+        update_gate = torch.sigmoid(i_z + h_z)
+        new_state = torch.tanh(i_n + reset_gate * h_n)
+
+        att_score = att_score.view(-1, 1)
+        update_gate = att_score * update_gate
+        hy = (1. - update_gate) * hx + update_gate * new_state
+        return hy
+
+
+class DynamicGRU(nn.Module):
+    def __init__(self, input_size, hidden_size, bias=True, gru_type='AGRU'):
+        super(DynamicGRU, self).__init__()
+        self.input_size = input_size
+        self.hidden_size = hidden_size
+
+        if gru_type == 'AGRU':
+            self.rnn = AGRUCell(input_size, hidden_size, bias)
+        elif gru_type == 'AUGRU':
+            self.rnn = AUGRUCell(input_size, hidden_size, bias)
+
+    def forward(self, inputs, att_scores=None, hx=None):
+        if not isinstance(inputs, PackedSequence) or not isinstance(att_scores, PackedSequence):
+            raise NotImplementedError("DynamicGRU only supports packed input and att_scores")
+
+        inputs, batch_sizes, sorted_indices, unsorted_indices = inputs
+        att_scores, _, _, _ = att_scores
+
+        max_batch_size = int(batch_sizes[0])
+        if hx is None:
+            hx = torch.zeros(max_batch_size, self.hidden_size,
+                             dtype=inputs.dtype, device=inputs.device)
+
+        outputs = torch.zeros(inputs.size(0), self.hidden_size,
+                              dtype=inputs.dtype, device=inputs.device)
+
+        begin = 0
+        for batch in batch_sizes:
+            new_hx = self.rnn(
+                inputs[begin:begin + batch],
+                hx[0:batch],
+                att_scores[begin:begin + batch])
+            outputs[begin:begin + batch] = new_hx
+            hx = new_hx
+            begin += batch
+        return PackedSequence(outputs, batch_sizes, sorted_indices, unsorted_indices)
