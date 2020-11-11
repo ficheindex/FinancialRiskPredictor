@@ -19,4 +19,9 @@ def slice_arrays(arrays, start=None, stop=None):
         - arrays[start:stop] if `arrays` is an array-like
         - [x[start:stop] for x in arrays] if `arrays` is a list
 
-    Can also work on
+    Can also work on list/array of indices: `slice_arrays(x, indices)`
+
+    Arguments:
+        arrays: Single array or list of arrays.
+        start: can be an integer index (start index)
+            or a list/array of ind
