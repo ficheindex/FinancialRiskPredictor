@@ -24,4 +24,13 @@ def slice_arrays(arrays, start=None, stop=None):
     Arguments:
         arrays: Single array or list of arrays.
         start: can be an integer index (start index)
-            or a list/array of ind
+            or a list/array of indices
+        stop: integer (stop index); should be None if
+            `start` was a list.
+
+    Returns:
+        A slice of the array(s).
+
+    Raises:
+        ValueError: If the value of start is a list and stop is not None.
+   
