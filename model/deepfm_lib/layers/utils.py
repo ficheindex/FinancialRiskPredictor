@@ -47,4 +47,10 @@ def slice_arrays(arrays, start=None, stop=None):
     elif isinstance(arrays, list):
         if hasattr(start, '__len__'):
             # hdf5 datasets only support list objects as indices
-      
+            if hasattr(start, 'shape'):
+                start = start.tolist()
+            return [None if x is None else x[start] for x in arrays]
+        else:
+            if len(arrays) == 1:
+                return arrays[0][start:stop]
+            ret
