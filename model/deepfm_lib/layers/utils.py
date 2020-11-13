@@ -33,4 +33,13 @@ def slice_arrays(arrays, start=None, stop=None):
 
     Raises:
         ValueError: If the value of start is a list and stop is not None.
-   
+    """
+
+    if arrays is None:
+        return [None]
+
+    if isinstance(arrays, np.ndarray):
+        arrays = [arrays]
+
+    if isinstance(start, list) and stop is not None:
+        raise ValueError('The stop argument has to be
