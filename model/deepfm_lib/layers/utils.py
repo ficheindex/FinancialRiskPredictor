@@ -53,4 +53,9 @@ def slice_arrays(arrays, start=None, stop=None):
         else:
             if len(arrays) == 1:
                 return arrays[0][start:stop]
+            return [None if x is None else x[start:stop] for x in arrays]
+    else:
+        if hasattr(start, '__len__'):
+            if hasattr(start, 'shape'):
+                start = start.tolist()
             ret
