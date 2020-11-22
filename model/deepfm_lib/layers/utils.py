@@ -58,4 +58,8 @@ def slice_arrays(arrays, start=None, stop=None):
         if hasattr(start, '__len__'):
             if hasattr(start, 'shape'):
                 start = start.tolist()
-            ret
+            return arrays[start]
+        elif hasattr(start, '__getitem__'):
+            return arrays[start:stop]
+        else:
+            return [None]
