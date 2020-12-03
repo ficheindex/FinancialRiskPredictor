@@ -26,4 +26,8 @@ class Linear(nn.Module):
         self.feature_index = feature_index
         self.device = device
         self.sparse_feature_columns = list(
-            filter(lambda x: isinstan
+            filter(lambda x: isinstance(x, SparseFeat), feature_columns)) if len(feature_columns) else []
+        self.dense_feature_columns = list(
+            filter(lambda x: isinstance(x, DenseFeat), feature_columns)) if len(feature_columns) else []
+
+        self.varlen_sparse
