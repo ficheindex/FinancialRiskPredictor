@@ -21,4 +21,9 @@ from model.deepfm_lib.layers.utils import slice_arrays
 
 
 class Linear(nn.Module):
-    def __init__(self, feature_columns, feature_index,
+    def __init__(self, feature_columns, feature_index, init_std=0.0001, device='cpu'):
+        super(Linear, self).__init__()
+        self.feature_index = feature_index
+        self.device = device
+        self.sparse_feature_columns = list(
+            filter(lambda x: isinstan
