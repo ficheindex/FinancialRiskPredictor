@@ -33,4 +33,9 @@ class Linear(nn.Module):
         self.varlen_sparse_feature_columns = list(
             filter(lambda x: isinstance(x, VarLenSparseFeat), feature_columns)) if len(feature_columns) else []
 
-        self.embedding_dict = create_embedding_matrix(feature_columns, init_std, line
+        self.embedding_dict = create_embedding_matrix(feature_columns, init_std, linear=True, sparse=False,
+                                                      device=device)
+
+        #         nn.ModuleDict(
+        #             {feat.embedding_name: nn.Embedding(feat.dimension, 1, sparse=True) for feat in
+ 
