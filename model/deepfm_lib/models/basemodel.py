@@ -38,4 +38,10 @@ class Linear(nn.Module):
 
         #         nn.ModuleDict(
         #             {feat.embedding_name: nn.Embedding(feat.dimension, 1, sparse=True) for feat in
- 
+        #              self.sparse_feature_columns}
+        #         )
+        # .to("cuda:1")
+        for tensor in self.embedding_dict.values():
+            nn.init.normal_(tensor.weight, mean=0, std=init_std)
+
+       
