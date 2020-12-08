@@ -47,4 +47,9 @@ class Linear(nn.Module):
         if len(self.dense_feature_columns) > 0:
             self.weight = nn.Parameter(torch.Tensor(sum(fc.dimension for fc in self.dense_feature_columns), 1).to(
                 device))
-            torch.nn.init.normal_(sel
+            torch.nn.init.normal_(self.weight, mean=0, std=init_std)
+
+    def forward(self, X, sparse_feat_refine_weight=None):
+
+        sparse_embedding_list = [self.embedding_dict[feat.embedding_name](
+            X[:, self.feature_index[feat.name][0]:self.f
