@@ -52,4 +52,8 @@ class Linear(nn.Module):
     def forward(self, X, sparse_feat_refine_weight=None):
 
         sparse_embedding_list = [self.embedding_dict[feat.embedding_name](
-            X[:, self.feature_index[feat.name][0]:self.f
+            X[:, self.feature_index[feat.name][0]:self.feature_index[feat.name][1]].long()) for
+            feat in self.sparse_feature_columns]
+
+        dense_value_list = [X[:, self.feature_index[feat.name][0]:self.feature_index[feat.name][1]] for feat in
+                            self.den
