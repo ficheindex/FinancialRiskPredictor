@@ -56,4 +56,8 @@ class Linear(nn.Module):
             feat in self.sparse_feature_columns]
 
         dense_value_list = [X[:, self.feature_index[feat.name][0]:self.feature_index[feat.name][1]] for feat in
-                            self.den
+                            self.dense_feature_columns]
+
+        sequence_embed_dict = varlen_embedding_lookup(X, self.embedding_dict, self.feature_index,
+                                                      self.varlen_sparse_feature_columns)
+        varlen_e
