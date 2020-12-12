@@ -63,4 +63,8 @@ class Linear(nn.Module):
         varlen_embedding_list = get_varlen_pooling_list(sequence_embed_dict, X, self.feature_index,
                                                         self.varlen_sparse_feature_columns, self.device)
 
-        sparse_embedding_list += varlen_embeddi
+        sparse_embedding_list += varlen_embedding_list
+
+        linear_logit = torch.zeros([X.shape[0], 1]).to(sparse_embedding_list[0].device)
+        if len(sparse_embedding_list) > 0:
+            sparse_embedding_cat = torch.cat(sparse_embedding_list,
