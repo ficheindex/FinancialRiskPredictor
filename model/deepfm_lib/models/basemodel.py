@@ -74,4 +74,12 @@ class Linear(nn.Module):
             sparse_feat_logit = torch.sum(sparse_embedding_cat, dim=-1, keepdim=False)
             linear_logit += sparse_feat_logit
         if len(dense_value_list) > 0:
-            dense_value_logit = torch.c
+            dense_value_logit = torch.cat(
+                dense_value_list, dim=-1).matmul(self.weight)
+            linear_logit += dense_value_logit
+
+        return linear_logit
+
+
+class BaseModel(nn.Module):
+    def __init__(self, linear_feature_col
