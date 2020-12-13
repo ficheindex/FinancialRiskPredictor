@@ -82,4 +82,8 @@ class Linear(nn.Module):
 
 
 class BaseModel(nn.Module):
-    def __init__(self, linear_feature_col
+    def __init__(self, linear_feature_columns, dnn_feature_columns, l2_reg_linear=1e-5, l2_reg_embedding=1e-5,
+                 init_std=0.0001, seed=1024, task='binary', device='cpu', gpus=None):
+
+        super(BaseModel, self).__init__()
+     
