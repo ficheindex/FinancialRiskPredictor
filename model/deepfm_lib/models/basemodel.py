@@ -97,4 +97,8 @@ class BaseModel(nn.Module):
         #   raise ValueError(
         #       "`gpus[0]` should be the same gpu with `device`")
 
-        self.feature_index 
+        self.feature_index = build_input_features(
+            linear_feature_columns + dnn_feature_columns)
+        self.dnn_feature_columns = dnn_feature_columns
+
+        self.embedding_dict = create_embedding_matrix(dnn_feature_col
