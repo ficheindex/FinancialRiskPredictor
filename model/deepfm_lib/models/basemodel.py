@@ -91,4 +91,10 @@ class BaseModel(nn.Module):
 
         self.reg_loss = torch.zeros((1,), device=device)
         self.aux_loss = torch.zeros((1,), device=device)
-        sel
+        self.device = device
+        self.gpus = gpus
+        # if gpus and str(self.gpus[0]) not in self.device:
+        #   raise ValueError(
+        #       "`gpus[0]` should be the same gpu with `device`")
+
+        self.feature_index 
