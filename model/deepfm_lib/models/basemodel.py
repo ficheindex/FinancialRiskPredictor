@@ -104,4 +104,12 @@ class BaseModel(nn.Module):
         self.embedding_dict = create_embedding_matrix(dnn_feature_columns, init_std, sparse=False, device=device)
         #         nn.ModuleDict(
         #             {feat.embedding_name: nn.Embedding(feat.dimension, embedding_size, sparse=True) for feat in
-        #
+        #              self.dnn_feature_columns}
+        #         )
+
+        self.linear_model = Linear(
+            linear_feature_columns, self.feature_index, device=device)
+
+        self.regularization_weight = []
+
+      
