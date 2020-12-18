@@ -101,4 +101,7 @@ class BaseModel(nn.Module):
             linear_feature_columns + dnn_feature_columns)
         self.dnn_feature_columns = dnn_feature_columns
 
-        self.embedding_dict = create_embedding_matrix(dnn_feature_col
+        self.embedding_dict = create_embedding_matrix(dnn_feature_columns, init_std, sparse=False, device=device)
+        #         nn.ModuleDict(
+        #             {feat.embedding_name: nn.Embedding(feat.dimension, embedding_size, sparse=True) for feat in
+        #
