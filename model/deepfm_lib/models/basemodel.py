@@ -112,4 +112,7 @@ class BaseModel(nn.Module):
 
         self.regularization_weight = []
 
-      
+        self.add_regularization_weight(self.embedding_dict.parameters(), l2=l2_reg_embedding)
+        self.add_regularization_weight(self.linear_model.parameters(), l2=l2_reg_linear)
+
+        self.out = PredictionLayer(
