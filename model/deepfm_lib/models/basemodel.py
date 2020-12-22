@@ -115,4 +115,10 @@ class BaseModel(nn.Module):
         self.add_regularization_weight(self.embedding_dict.parameters(), l2=l2_reg_embedding)
         self.add_regularization_weight(self.linear_model.parameters(), l2=l2_reg_linear)
 
-        self.out = PredictionLayer(
+        self.out = PredictionLayer(task, )
+        self.to(device)
+
+        self.epoch_logs = dict({})
+
+    def fit(self, x=None, y=None, batch_size=None, epochs=1, verbose=1, initial_epoch=0, validation_split=0.,
+            validation_data=
