@@ -124,4 +124,6 @@ class BaseModel(nn.Module):
             validation_data=None, shuffle=True, callbacks=None, labels=None, early_stopping=False, patience=0):
         """
 
-        :param x: Numpy array of training data (if the model has a single input), or list of Numpy arrays (if the model has multipl
+        :param x: Numpy array of training data (if the model has a single input), or list of Numpy arrays (if the model has multiple inputs).If input layers in the model are named, you can also pass a
+            dictionary mapping input names to Numpy arrays.
+        :param y: Numpy array of target (label) data (if the model has a si
