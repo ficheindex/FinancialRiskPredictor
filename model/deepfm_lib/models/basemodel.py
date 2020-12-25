@@ -126,4 +126,6 @@ class BaseModel(nn.Module):
 
         :param x: Numpy array of training data (if the model has a single input), or list of Numpy arrays (if the model has multiple inputs).If input layers in the model are named, you can also pass a
             dictionary mapping input names to Numpy arrays.
-        :param y: Numpy array of target (label) data (if the model has a si
+        :param y: Numpy array of target (label) data (if the model has a single output), or list of Numpy arrays (if the model has multiple outputs).
+        :param batch_size: Integer or `None`. Number of samples per gradient update. If unspecified, `batch_size` will default to 256.
+ 
