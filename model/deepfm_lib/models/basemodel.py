@@ -129,4 +129,6 @@ class BaseModel(nn.Module):
         :param y: Numpy array of target (label) data (if the model has a single output), or list of Numpy arrays (if the model has multiple outputs).
         :param batch_size: Integer or `None`. Number of samples per gradient update. If unspecified, `batch_size` will default to 256.
         :param epochs: Integer. Number of epochs to train the model. An epoch is an iteration over the entire `x` and `y` data provided. Note that in conjunction with `initial_epoch`, `epochs` is to be understood as "final epoch". The model is not trained for a number of iterations given by `epochs`, but merely until the epoch of index `epochs` is reached.
-        :param verbose: Integer. 0, 1, or 2. Verbosity mode. 0 = 
+        :param verbose: Integer. 0, 1, or 2. Verbosity mode. 0 = silent, 1 = progress bar, 2 = one line per epoch.
+        :param initial_epoch: Integer. Epoch at which to start training (useful for resuming a previous training run).
+        :param validation_split: Float between 0 and 1. 
