@@ -154,4 +154,7 @@ class BaseModel(nn.Module):
                 raise ValueError(
                     'When passing a `validation_data` argument, '
                     'it must contain either 2 items (x_val, y_val), '
-                    'or 3 it
+                    'or 3 items (x_val, y_val, val_sample_weights), '
+                    'or alternatively it could be a dataset or a '
+                    'dataset or a dataset iterator. '
+                    'However we received `validation_data=%s`' % vali
