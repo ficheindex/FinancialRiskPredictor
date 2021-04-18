@@ -157,4 +157,9 @@ class BaseModel(nn.Module):
                     'or 3 items (x_val, y_val, val_sample_weights), '
                     'or alternatively it could be a dataset or a '
                     'dataset or a dataset iterator. '
-                    'However we received `validation_data=%s`' % vali
+                    'However we received `validation_data=%s`' % validation_data)
+            if isinstance(val_x, dict):
+                val_x = [val_x[feature] for feature in self.feature_index]
+
+        elif validation_split and 0. < validation_split < 1.:
+            do_validation = T
