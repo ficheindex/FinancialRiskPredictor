@@ -149,4 +149,9 @@ class BaseModel(nn.Module):
                 val_x, val_y = validation_data
                 val_sample_weight = None
             elif len(validation_data) == 3:
-                val_x, val_y, val_sample_weight = validation_data  # pylint: disable=unpacking-non-
+                val_x, val_y, val_sample_weight = validation_data  # pylint: disable=unpacking-non-sequence
+            else:
+                raise ValueError(
+                    'When passing a `validation_data` argument, '
+                    'it must contain either 2 items (x_val, y_val), '
+                    'or 3 it
