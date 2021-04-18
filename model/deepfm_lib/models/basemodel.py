@@ -146,4 +146,7 @@ class BaseModel(nn.Module):
         if validation_data:
             do_validation = True
             if len(validation_data) == 2:
-       
+                val_x, val_y = validation_data
+                val_sample_weight = None
+            elif len(validation_data) == 3:
+                val_x, val_y, val_sample_weight = validation_data  # pylint: disable=unpacking-non-
