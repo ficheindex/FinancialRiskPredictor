@@ -139,4 +139,11 @@ class BaseModel(nn.Module):
 
         :return: A `History` object. Its `History.history` attribute is a record of training loss values and metrics values at successive epochs, as well as validation loss values and validation metrics values (if applicable).
         """
-  
+        if isinstance(x, dict):
+            x = [x[feature] for feature in self.feature_index]
+
+        do_validation = False
+        if validation_data:
+            do_validation = True
+            if len(validation_data) == 2:
+       
