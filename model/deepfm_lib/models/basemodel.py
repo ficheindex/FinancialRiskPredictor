@@ -162,4 +162,9 @@ class BaseModel(nn.Module):
                 val_x = [val_x[feature] for feature in self.feature_index]
 
         elif validation_split and 0. < validation_split < 1.:
-            do_validation = T
+            do_validation = True
+            if hasattr(x[0], 'shape'):
+                split_at = int(x[0].shape[0] * (1. - validation_split))
+            else:
+                split_at = int(len(x[0]) * (1. - validation_split))
+            x, val_
