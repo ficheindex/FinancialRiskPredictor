@@ -167,4 +167,9 @@ class BaseModel(nn.Module):
                 split_at = int(x[0].shape[0] * (1. - validation_split))
             else:
                 split_at = int(len(x[0]) * (1. - validation_split))
-            x, val_
+            x, val_x = (slice_arrays(x, 0, split_at),
+                        slice_arrays(x, split_at))
+            y, val_y = (slice_arrays(y, 0, split_at),
+                        slice_arrays(y, split_at))
+
+        else:
