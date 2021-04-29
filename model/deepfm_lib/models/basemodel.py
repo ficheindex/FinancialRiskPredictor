@@ -173,3 +173,10 @@ class BaseModel(nn.Module):
                         slice_arrays(y, split_at))
 
         else:
+            val_x = []
+            val_y = []
+        for i in range(len(x)):
+            if len(x[i].shape) == 1:
+                x[i] = np.expand_dims(x[i], axis=1)
+
+        train_tensor_data = Data.TensorDataset
