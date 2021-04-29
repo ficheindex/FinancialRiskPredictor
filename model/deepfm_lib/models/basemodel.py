@@ -179,4 +179,12 @@ class BaseModel(nn.Module):
             if len(x[i].shape) == 1:
                 x[i] = np.expand_dims(x[i], axis=1)
 
-        train_tensor_data = Data.TensorDataset
+        train_tensor_data = Data.TensorDataset(
+            torch.from_numpy(
+                np.concatenate(x, axis=-1)),
+            torch.from_numpy(y))
+        if batch_size is None:
+            batch_size = 256
+
+        model = self.train()
+        
