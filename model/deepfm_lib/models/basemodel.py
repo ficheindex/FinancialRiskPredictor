@@ -193,4 +193,9 @@ class BaseModel(nn.Module):
         if self.gpus:
             print('parallel running on these gpus:', self.gpus)
             model = torch.nn.DataParallel(model, device_ids=self.gpus)
- 
+            batch_size *= len(self.gpus)  # input `batch_size` is batch_size per gpu
+        else:
+            print(self.device)
+
+        train_loader = DataLoader(
+            dataset=train_tensor_data, shuffle=shuffle, batch_si
