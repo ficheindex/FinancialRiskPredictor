@@ -212,4 +212,11 @@ class BaseModel(nn.Module):
         # Train
         print("Train on {0} samples, validate on {1} samples, {2} steps per epoch".format(
             len(train_tensor_data), len(val_y), steps_per_epoch))
-        for
+        for epoch in range(initial_epoch, epochs):
+            self.metric_logs = dict({})
+            start_time = time.time()
+            loss_epoch = 0
+            total_loss_epoch = 0
+            train_result = {}
+            try:
+      
