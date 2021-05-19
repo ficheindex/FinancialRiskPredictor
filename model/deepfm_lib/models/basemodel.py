@@ -206,4 +206,10 @@ class BaseModel(nn.Module):
         min_loss = float('inf')
         min_loss_step = 0
 
-        loss_history = 
+        loss_history = []
+        val_loss_history = []
+
+        # Train
+        print("Train on {0} samples, validate on {1} samples, {2} steps per epoch".format(
+            len(train_tensor_data), len(val_y), steps_per_epoch))
+        for
