@@ -219,4 +219,7 @@ class BaseModel(nn.Module):
             total_loss_epoch = 0
             train_result = {}
             try:
-      
+                with tqdm(enumerate(train_loader), disable=verbose != 1) as t:
+                    for _, (x_train, y_train) in t:
+                        x = x_train.to(self.device).float()
+                        y = y_train.to(self.de
