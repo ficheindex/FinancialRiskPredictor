@@ -228,4 +228,9 @@ class BaseModel(nn.Module):
 
                         optim.zero_grad()
                         loss = loss_func(y_pred, y.squeeze(), reduction='sum')
-                 
+                        reg_loss = self.get_regularization_loss()
+
+                        total_loss = loss + reg_loss + self.aux_loss
+
+                        loss_epoch += loss.item()
+                        total_loss_epoch += total_
