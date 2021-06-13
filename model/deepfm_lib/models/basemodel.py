@@ -222,4 +222,10 @@ class BaseModel(nn.Module):
                 with tqdm(enumerate(train_loader), disable=verbose != 1) as t:
                     for _, (x_train, y_train) in t:
                         x = x_train.to(self.device).float()
-                        y = y_train.to(self.de
+                        y = y_train.to(self.device).float()
+
+                        y_pred = model(x).squeeze()
+
+                        optim.zero_grad()
+                        loss = loss_func(y_pred, y.squeeze(), reduction='sum')
+                 
