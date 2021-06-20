@@ -233,4 +233,9 @@ class BaseModel(nn.Module):
                         total_loss = loss + reg_loss + self.aux_loss
 
                         loss_epoch += loss.item()
-                        total_loss_epoch += total_
+                        total_loss_epoch += total_loss.item()
+                        total_loss.backward()
+                        optim.step()
+
+                        if verbose > 0:
+                            for name, metric_fun in self.metr
