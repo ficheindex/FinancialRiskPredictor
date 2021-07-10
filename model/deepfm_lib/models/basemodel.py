@@ -243,4 +243,7 @@ class BaseModel(nn.Module):
                                     train_result[name] = []
 
                                 if labels:
-                                    train
+                                    train_result[name].append(metric_fun(
+                                        y.cpu().data.numpy(), y_pred.cpu().data.numpy().astype("float64"),
+                                        labels=labels))
+                              
