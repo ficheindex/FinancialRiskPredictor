@@ -246,4 +246,8 @@ class BaseModel(nn.Module):
                                     train_result[name].append(metric_fun(
                                         y.cpu().data.numpy(), y_pred.cpu().data.numpy().astype("float64"),
                                         labels=labels))
-                              
+                                else:
+                                    train_result[name].append(metric_fun(
+                                        y.cpu().data.numpy(), y_pred.cpu().data.numpy().astype("float64")))
+
+            except Ke
