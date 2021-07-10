@@ -238,4 +238,9 @@ class BaseModel(nn.Module):
                         optim.step()
 
                         if verbose > 0:
-                            for name, metric_fun in self.metr
+                            for name, metric_fun in self.metrics.items():
+                                if name not in train_result:
+                                    train_result[name] = []
+
+                                if labels:
+                                    train
