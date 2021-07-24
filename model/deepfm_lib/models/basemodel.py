@@ -274,4 +274,8 @@ class BaseModel(nn.Module):
                 # eval_str = "{0}s - loss: {1: .4f}".format(
                 #     epoch_time, self.metric_logs["loss"])
 
-             
+                # for name in self.metrics:
+                #     eval_str += " - " + name + \
+                #                 ": {0: .4f}".format(self.metric_logs[name])
+
+                for name, cur_log in self.metric_logs.items
