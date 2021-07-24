@@ -250,4 +250,12 @@ class BaseModel(nn.Module):
                                     train_result[name].append(metric_fun(
                                         y.cpu().data.numpy(), y_pred.cpu().data.numpy().astype("float64")))
 
-            except Ke
+            except KeyboardInterrupt:
+                t.close()
+                raise
+            t.close()
+
+            # Add epoch_logs
+            self.metric_logs["loss"] = total_loss_epoch / sample_num
+            for name, result in train_result.items():
+     
