@@ -258,4 +258,8 @@ class BaseModel(nn.Module):
             # Add epoch_logs
             self.metric_logs["loss"] = total_loss_epoch / sample_num
             for name, result in train_result.items():
-     
+                self.metric_logs[name] = np.sum(result) / steps_per_epoch
+
+            if do_validation:
+                eval_result = self.evaluate(val_x, val_y, batch_size)
+                for name, result in eval_result.items
