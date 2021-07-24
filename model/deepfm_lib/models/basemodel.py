@@ -267,4 +267,11 @@ class BaseModel(nn.Module):
             # verbose
             if verbose > 0:
                 epoch_time = int(time.time() - start_time)
-                print('Epoch {0}/{1}'.format(epoc
+                print('Epoch {0}/{1}'.format(epoch + 1, epochs))
+
+                eval_str = "{0}s".format(epoch_time)
+
+                # eval_str = "{0}s - loss: {1: .4f}".format(
+                #     epoch_time, self.metric_logs["loss"])
+
+             
