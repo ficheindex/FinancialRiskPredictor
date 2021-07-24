@@ -262,4 +262,9 @@ class BaseModel(nn.Module):
 
             if do_validation:
                 eval_result = self.evaluate(val_x, val_y, batch_size)
-                for name, result in eval_result.items
+                for name, result in eval_result.items():
+                    self.metric_logs["val_" + name] = result
+            # verbose
+            if verbose > 0:
+                epoch_time = int(time.time() - start_time)
+                print('Epoch {0}/{1}'.format(epoc
