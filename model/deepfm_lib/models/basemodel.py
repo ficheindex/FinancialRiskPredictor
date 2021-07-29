@@ -278,4 +278,10 @@ class BaseModel(nn.Module):
                 #     eval_str += " - " + name + \
                 #                 ": {0: .4f}".format(self.metric_logs[name])
 
-                for name, cur_log in self.metric_logs.items
+                for name, cur_log in self.metric_logs.items():
+                    if name == "loss":
+                        continue
+                    eval_str += " - " + name + ": {0: .4f}".format(self.metric_logs[name])
+
+                # if do_validation:
+                #     f
