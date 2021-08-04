@@ -289,4 +289,6 @@ class BaseModel(nn.Module):
                 #                     ": {0: .4f}".format(self.epoch_logs["val_" + name])
                 print(eval_str)
 
-       
+            loss_history.append(self.metric_logs['loss'])
+            # val_loss_history.append(self.metric_logs["val_" + next(iter(self.metrics))])
+            val_loss_history.append(self.metric_logs["val_binary_crossentropy"])
