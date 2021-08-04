@@ -284,4 +284,9 @@ class BaseModel(nn.Module):
                     eval_str += " - " + name + ": {0: .4f}".format(self.metric_logs[name])
 
                 # if do_validation:
-                #     f
+                #     for name in self.metrics:
+                #         eval_str += " - " + "val_" + name + \
+                #                     ": {0: .4f}".format(self.epoch_logs["val_" + name])
+                print(eval_str)
+
+       
