@@ -292,3 +292,11 @@ class BaseModel(nn.Module):
             loss_history.append(self.metric_logs['loss'])
             # val_loss_history.append(self.metric_logs["val_" + next(iter(self.metrics))])
             val_loss_history.append(self.metric_logs["val_binary_crossentropy"])
+
+            if early_stopping:
+                # Take first metric for early stopping
+                # name = next(iter(self.metrics))
+                name = "f1"
+                val_loss = self.metric_logs["val_" + name]
+
+    
