@@ -299,4 +299,9 @@ class BaseModel(nn.Module):
                 name = "f1"
                 val_loss = self.metric_logs["val_" + name]
 
-    
+                if val_loss < min_loss:
+                    min_loss = val_loss
+                    min_loss_step = epoch
+
+                if min_loss_step + patience < epoch:
+                    print("Validation loss has not improve
