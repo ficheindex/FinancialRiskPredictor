@@ -312,4 +312,5 @@ class BaseModel(nn.Module):
 
     def evaluate(self, x, y, batch_size=256):
         """
-        
+        :param x: Numpy array of test data (if the model has a single input), or list of Numpy arrays (if the model has multiple inputs).
+        :param y: Numpy array of target (label) data (if the model has a single output), or list of 
