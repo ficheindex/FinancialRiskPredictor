@@ -304,4 +304,12 @@ class BaseModel(nn.Module):
                     min_loss_step = epoch
 
                 if min_loss_step + patience < epoch:
-                    print("Validation loss has not improve
+                    print("Validation loss has not improved for %d steps!" % patience)
+                    print("Early stopping applies.")
+                    break
+
+        return loss_history, val_loss_history
+
+    def evaluate(self, x, y, batch_size=256):
+        """
+        
