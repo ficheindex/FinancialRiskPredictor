@@ -320,4 +320,9 @@ class BaseModel(nn.Module):
         pred_ans = self.predict(x, batch_size)
         eval_result = dict({})
         for name, metric_fun in self.metrics.items():
-            eval_result[name
+            eval_result[name] = metric_fun(y, pred_ans)
+        # preds = np.argmax(pred_ans, axis=1)
+        preds = np.where(pred_ans > 0.5, 1, 0)
+        eval_result["accuracy"] = accuracy_score(y, preds)
+        eval_result["f1"] = f1_score(y, preds)
+        return e
