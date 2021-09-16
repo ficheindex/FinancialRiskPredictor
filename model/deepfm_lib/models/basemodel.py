@@ -341,4 +341,10 @@ class BaseModel(nn.Module):
                 x[i] = np.expand_dims(x[i], axis=1)
 
         tensor_data = Data.TensorDataset(
-            torch.from_numpy(np.concatenate(
+            torch.from_numpy(np.concatenate(x, axis=-1)))
+        test_loader = DataLoader(
+            dataset=tensor_data, shuffle=False, batch_size=batch_size)
+
+        pred_ans = []
+        with torch.no_grad():
+            for _, x_test in enumer
