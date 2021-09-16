@@ -330,4 +330,9 @@ class BaseModel(nn.Module):
     def predict(self, x, batch_size=256):
         """
         :param x: The input data, as a Numpy array (or list of Numpy arrays if the model has multiple inputs).
-        :param batch_size: Inte
+        :param batch_size: Integer. If unspecified, it will default to 256.
+        :return: Numpy array(s) of predictions.
+        """
+        model = self.eval()
+        if isinstance(x, dict):
+            x = [x[feature] for feature in self.feature_ind
