@@ -347,4 +347,10 @@ class BaseModel(nn.Module):
 
         pred_ans = []
         with torch.no_grad():
-            for _, x_test in enumer
+            for _, x_test in enumerate(test_loader):
+                x = x_test[0].to(self.device).float()
+
+                y_pred = model(x).cpu().data.numpy()  # .squeeze()
+                pred_ans.append(y_pred)
+
+        return np.concate
