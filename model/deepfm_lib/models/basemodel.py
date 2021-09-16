@@ -325,4 +325,9 @@ class BaseModel(nn.Module):
         preds = np.where(pred_ans > 0.5, 1, 0)
         eval_result["accuracy"] = accuracy_score(y, preds)
         eval_result["f1"] = f1_score(y, preds)
-        return e
+        return eval_result
+
+    def predict(self, x, batch_size=256):
+        """
+        :param x: The input data, as a Numpy array (or list of Numpy arrays if the model has multiple inputs).
+        :param batch_size: Inte
