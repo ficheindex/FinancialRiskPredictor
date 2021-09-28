@@ -358,4 +358,8 @@ class BaseModel(nn.Module):
     def input_from_feature_columns(self, X, feature_columns, embedding_dict, support_dense=True):
 
         sparse_feature_columns = list(
-            filter(lambda x: isins
+            filter(lambda x: isinstance(x, SparseFeat), feature_columns)) if len(feature_columns) else []
+        dense_feature_columns = list(
+            filter(lambda x: isinstance(x, DenseFeat), feature_columns)) if len(feature_columns) else []
+
+        varlen_sparse_featur
