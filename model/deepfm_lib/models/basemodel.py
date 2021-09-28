@@ -353,4 +353,9 @@ class BaseModel(nn.Module):
                 y_pred = model(x).cpu().data.numpy()  # .squeeze()
                 pred_ans.append(y_pred)
 
-        return np.concate
+        return np.concatenate(pred_ans).astype("float64")
+
+    def input_from_feature_columns(self, X, feature_columns, embedding_dict, support_dense=True):
+
+        sparse_feature_columns = list(
+            filter(lambda x: isins
