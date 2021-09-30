@@ -362,4 +362,8 @@ class BaseModel(nn.Module):
         dense_feature_columns = list(
             filter(lambda x: isinstance(x, DenseFeat), feature_columns)) if len(feature_columns) else []
 
-        varlen_sparse_featur
+        varlen_sparse_feature_columns = list(
+            filter(lambda x: isinstance(x, VarLenSparseFeat), feature_columns)) if feature_columns else []
+
+        if not support_dense and len(dense_feature_columns) > 0:
+            rais
