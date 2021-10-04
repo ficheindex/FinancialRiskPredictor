@@ -376,4 +376,7 @@ class BaseModel(nn.Module):
         sequence_embed_dict = varlen_embedding_lookup(X, self.embedding_dict, self.feature_index,
                                                       varlen_sparse_feature_columns)
         varlen_sparse_embedding_list = get_varlen_pooling_list(sequence_embed_dict, X, self.feature_index,
-                                                               var
+                                                               varlen_sparse_feature_columns, self.device)
+
+        dense_value_list = [X[:, self.feature_index[feat.name][0]:self.feature_index[feat.name][1]] for feat in
+                            dense_feature_c
