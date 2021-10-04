@@ -366,4 +366,8 @@ class BaseModel(nn.Module):
             filter(lambda x: isinstance(x, VarLenSparseFeat), feature_columns)) if feature_columns else []
 
         if not support_dense and len(dense_feature_columns) > 0:
-            rais
+            raise ValueError(
+                "DenseFeat is not supported in dnn_feature_columns")
+
+        sparse_embedding_list = [embedding_dict[feat.embedding_name](
+            X[:, self.feature_index[feat.name][0]:sel
