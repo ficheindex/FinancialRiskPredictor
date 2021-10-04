@@ -370,4 +370,8 @@ class BaseModel(nn.Module):
                 "DenseFeat is not supported in dnn_feature_columns")
 
         sparse_embedding_list = [embedding_dict[feat.embedding_name](
-            X[:, self.feature_index[feat.name][0]:sel
+            X[:, self.feature_index[feat.name][0]:self.feature_index[feat.name][1]].long()) for
+            feat in sparse_feature_columns]
+
+        sequence_embed_dict = varlen_embedding_lookup(X, self.embedding_dict, self.feature_index,
+                                            
