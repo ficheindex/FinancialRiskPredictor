@@ -411,4 +411,8 @@ class BaseModel(nn.Module):
         # e.g., we can't pickle generator objects when we save the model.
         else:
             weight_list = list(weight_list)
-       
+        self.regularization_weight.append((weight_list, l1, l2))
+
+    def get_regularization_loss(self, ):
+        total_reg_loss = torch.zeros((1,), device=self.device)
+        for weight_list, l1, l2 in self.regul
