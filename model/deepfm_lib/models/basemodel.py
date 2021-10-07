@@ -403,4 +403,8 @@ class BaseModel(nn.Module):
             input_dim += dense_input_dim
         return input_dim
 
-    def add_regularization_weight(self, weight_list, l1=0.0, l
+    def add_regularization_weight(self, weight_list, l1=0.0, l2=0.0):
+        # For a Parameter, put it in a list to keep Compatible with get_regularization_loss()
+        if isinstance(weight_list, torch.nn.parameter.Parameter):
+            weight_list = [weight_list]
+        # For
