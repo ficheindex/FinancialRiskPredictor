@@ -415,4 +415,10 @@ class BaseModel(nn.Module):
 
     def get_regularization_loss(self, ):
         total_reg_loss = torch.zeros((1,), device=self.device)
-        for weight_list, l1, l2 in self.regul
+        for weight_list, l1, l2 in self.regularization_weight:
+            for w in weight_list:
+                if isinstance(w, tuple):
+                    parameter = w[1]  # named_parameters
+                else:
+                    parameter = w
+           
