@@ -388,4 +388,8 @@ class BaseModel(nn.Module):
             filter(lambda x: isinstance(x, (SparseFeat, VarLenSparseFeat)), feature_columns)) if len(
             feature_columns) else []
         dense_feature_columns = list(
-            filter(
+            filter(lambda x: isinstance(x, DenseFeat), feature_columns)) if len(feature_columns) else []
+
+        dense_input_dim = sum(
+            map(lambda x: x.dimension, dense_feature_columns))
+        i
