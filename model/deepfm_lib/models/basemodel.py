@@ -379,4 +379,9 @@ class BaseModel(nn.Module):
                                                                varlen_sparse_feature_columns, self.device)
 
         dense_value_list = [X[:, self.feature_index[feat.name][0]:self.feature_index[feat.name][1]] for feat in
-                            dense_feature_c
+                            dense_feature_columns]
+
+        return sparse_embedding_list + varlen_sparse_embedding_list, dense_value_list
+
+    def compute_input_dim(self, feature_columns, include_sparse=True, include_dense=True, feature_group=False):
+        sparse_
