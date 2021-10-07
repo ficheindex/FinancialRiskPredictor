@@ -392,4 +392,9 @@ class BaseModel(nn.Module):
 
         dense_input_dim = sum(
             map(lambda x: x.dimension, dense_feature_columns))
-        i
+        if feature_group:
+            sparse_input_dim = len(sparse_feature_columns)
+        else:
+            sparse_input_dim = sum(feat.embedding_dim for feat in sparse_feature_columns)
+        input_dim = 0
+        if i
