@@ -425,4 +425,11 @@ class BaseModel(nn.Module):
                     total_reg_loss += torch.sum(l1 * torch.abs(parameter))
                 if l2 > 0:
                     try:
-                        total_reg_loss += torch.sum(l2 * torch.square
+                        total_reg_loss += torch.sum(l2 * torch.square(parameter))
+                    except AttributeError:
+                        total_reg_loss += torch.sum(l2 * parameter * parameter)
+
+        return total_reg_loss
+
+    def add_auxiliary_loss(self, aux_loss, alpha):
+        s
