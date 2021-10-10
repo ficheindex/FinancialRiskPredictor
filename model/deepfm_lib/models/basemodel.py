@@ -421,4 +421,8 @@ class BaseModel(nn.Module):
                     parameter = w[1]  # named_parameters
                 else:
                     parameter = w
-           
+                if l1 > 0:
+                    total_reg_loss += torch.sum(l1 * torch.abs(parameter))
+                if l2 > 0:
+                    try:
+                        total_reg_loss += torch.sum(l2 * torch.square
