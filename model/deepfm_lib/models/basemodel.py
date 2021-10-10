@@ -432,4 +432,11 @@ class BaseModel(nn.Module):
         return total_reg_loss
 
     def add_auxiliary_loss(self, aux_loss, alpha):
-        s
+        self.aux_loss = aux_loss * alpha
+
+    def compile(self, optimizer,
+                loss=None,
+                metrics=None,
+                ):
+        """
+        :param optimizer: String (name of optimizer
