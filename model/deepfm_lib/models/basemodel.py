@@ -439,4 +439,5 @@ class BaseModel(nn.Module):
                 metrics=None,
                 ):
         """
-        :param optimizer: String (name of optimizer
+        :param optimizer: String (name of optimizer) or optimizer instance. See [optimizers](https://pytorch.org/docs/stable/optim.html).
+        :param loss: String (name of objective function) or objective function. See [losses](https://pytorch.org/docs/stabl
