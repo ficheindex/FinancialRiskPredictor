@@ -440,4 +440,7 @@ class BaseModel(nn.Module):
                 ):
         """
         :param optimizer: String (name of optimizer) or optimizer instance. See [optimizers](https://pytorch.org/docs/stable/optim.html).
-        :param loss: String (name of objective function) or objective function. See [losses](https://pytorch.org/docs/stabl
+        :param loss: String (name of objective function) or objective function. See [losses](https://pytorch.org/docs/stable/nn.functional.html#loss-functions).
+        :param metrics: List of metrics to be evaluated by the model during training and testing. Typically you will use `metrics=['accuracy']`.
+        """
+        self.metrics_names = ["los
