@@ -443,4 +443,10 @@ class BaseModel(nn.Module):
         :param loss: String (name of objective function) or objective function. See [losses](https://pytorch.org/docs/stable/nn.functional.html#loss-functions).
         :param metrics: List of metrics to be evaluated by the model during training and testing. Typically you will use `metrics=['accuracy']`.
         """
-        self.metrics_names = ["los
+        self.metrics_names = ["loss"]
+        self.optim = self._get_optim(optimizer)
+        self.loss_func = self._get_loss_func(loss)
+        self.metrics = self._get_metrics(metrics)
+
+    def _get_optim(self, optimizer):
+     
