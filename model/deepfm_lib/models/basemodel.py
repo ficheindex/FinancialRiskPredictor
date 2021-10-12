@@ -449,4 +449,8 @@ class BaseModel(nn.Module):
         self.metrics = self._get_metrics(metrics)
 
     def _get_optim(self, optimizer):
-     
+        if isinstance(optimizer, str):
+            if optimizer == "sgd":
+                optim = torch.optim.SGD(self.parameters(), lr=0.01)
+            elif optimizer == "adam":
+                optim = torch.optim.Adam(self.param
