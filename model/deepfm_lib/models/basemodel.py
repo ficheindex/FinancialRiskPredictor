@@ -457,4 +457,12 @@ class BaseModel(nn.Module):
             elif optimizer == "adagrad":
                 optim = torch.optim.Adagrad(self.parameters())  # 0.01
             elif optimizer == "rmsprop":
-                optim = torch.optim.RMSprop(s
+                optim = torch.optim.RMSprop(self.parameters())
+            else:
+                raise NotImplementedError
+        else:
+            optim = optimizer
+        return optim
+
+    def _get_loss_func(self, loss):
+        if isinstanc
