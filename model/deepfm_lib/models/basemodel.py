@@ -471,4 +471,11 @@ class BaseModel(nn.Module):
             elif loss == "mse":
                 loss_func = F.mse_loss
             elif loss == "mae":
-      
+                loss_func = F.l1_loss
+            else:
+                raise NotImplementedError
+        else:
+            loss_func = loss
+        return loss_func
+
+    def _log_loss(self, y_
