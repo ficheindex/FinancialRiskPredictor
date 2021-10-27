@@ -478,4 +478,8 @@ class BaseModel(nn.Module):
             loss_func = loss
         return loss_func
 
-    def _log_loss(self, y_
+    def _log_loss(self, y_true, y_pred, eps=1e-7, normalize=True, sample_weight=None, labels=None):
+        # change eps to improve calculation accuracy
+        return log_loss(y_true,
+                        y_pred,
+           
