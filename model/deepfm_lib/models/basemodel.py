@@ -482,4 +482,11 @@ class BaseModel(nn.Module):
         # change eps to improve calculation accuracy
         return log_loss(y_true,
                         y_pred,
-           
+                        eps,
+                        normalize,
+                        sample_weight,
+                        labels)
+
+    def _get_metrics(self, metrics, set_eps=False):
+        metrics_ = {}
+        if me
