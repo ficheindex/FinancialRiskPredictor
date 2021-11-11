@@ -489,4 +489,10 @@ class BaseModel(nn.Module):
 
     def _get_metrics(self, metrics, set_eps=False):
         metrics_ = {}
-        if me
+        if metrics:
+            for metric in metrics:
+                if metric == "binary_crossentropy" or metric == "logloss":
+                    if set_eps:
+                        metrics_[metric] = self._log_loss
+                    else:
+         
