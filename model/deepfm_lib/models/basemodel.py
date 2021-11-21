@@ -495,4 +495,8 @@ class BaseModel(nn.Module):
                     if set_eps:
                         metrics_[metric] = self._log_loss
                     else:
-         
+                        metrics_[metric] = log_loss
+                if metric == "auc":
+                    metrics_[metric] = roc_auc_score
+                if metric == "mse":
+                    metrics_[metric] = m
