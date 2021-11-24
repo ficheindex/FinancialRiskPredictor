@@ -505,4 +505,12 @@ class BaseModel(nn.Module):
                         y_true, np.where(y_pred > 0.5, 1, 0))
                 self.metrics_names.append(metric)
         # metrics_["accuracy"] = lambda y_true, y_pred: accuracy_score(y_true, np.where(y_pred > 0.5, 1, 0))
-        # metrics_["f1"] = lambda y_t
+        # metrics_["f1"] = lambda y_true, y_pred: f1_score(y_true, np.where(y_pred > 0.5, 1, 0))
+        return metrics_
+
+    def _in_multi_worker_mode(self):
+        # used for EarlyStopping in tf1.15
+        return None
+
+    @property
+    def embedding_size(
