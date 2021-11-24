@@ -502,4 +502,7 @@ class BaseModel(nn.Module):
                     metrics_[metric] = mean_squared_error
                 if metric == "accuracy" or metric == "acc":
                     metrics_[metric] = lambda y_true, y_pred: accuracy_score(
-                        y_true, np.where(y_pred > 0.5,
+                        y_true, np.where(y_pred > 0.5, 1, 0))
+                self.metrics_names.append(metric)
+        # metrics_["accuracy"] = lambda y_true, y_pred: accuracy_score(y_true, np.where(y_pred > 0.5, 1, 0))
+        # metrics_["f1"] = lambda y_t
