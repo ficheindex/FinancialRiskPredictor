@@ -517,4 +517,7 @@ class BaseModel(nn.Module):
         feature_columns = self.dnn_feature_columns
         sparse_feature_columns = list(
             filter(lambda x: isinstance(x, (SparseFeat, VarLenSparseFeat)), feature_columns)) if len(
-            feature_colum
+            feature_columns) else []
+        embedding_size_set = set([feat.embedding_dim for feat in sparse_feature_columns])
+        if len(embedding_size_set) > 1:
+            raise ValueError("embedding_dim of SparseF
