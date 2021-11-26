@@ -513,4 +513,8 @@ class BaseModel(nn.Module):
         return None
 
     @property
-    def embedding_size(
+    def embedding_size(self, ):
+        feature_columns = self.dnn_feature_columns
+        sparse_feature_columns = list(
+            filter(lambda x: isinstance(x, (SparseFeat, VarLenSparseFeat)), feature_columns)) if len(
+            feature_colum
