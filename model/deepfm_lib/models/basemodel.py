@@ -520,4 +520,5 @@ class BaseModel(nn.Module):
             feature_columns) else []
         embedding_size_set = set([feat.embedding_dim for feat in sparse_feature_columns])
         if len(embedding_size_set) > 1:
-            raise ValueError("embedding_dim of SparseF
+            raise ValueError("embedding_dim of SparseFeat and VarlenSparseFeat must be same in this model!")
+        return list(embedding_size_set)[0]
