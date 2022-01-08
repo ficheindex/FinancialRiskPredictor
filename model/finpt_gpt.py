@@ -35,4 +35,6 @@ from transformers.models.gpt2.modeling_gpt2 import GPT2_START_DOCSTRING, GPT2_IN
     """,
     GPT2_START_DOCSTRING,
 )
-class Finp
+class FinptGPT2ForSequenceClassification(GPT2PreTrainedModel):
+    _keys_to_ignore_on_load_unexpected = [r"h\.\d+\.attn\.bias", r"h\.\d+\.attn\.masked_bias"]
+    _keys_to_ignore_on_load_missing = [r"h\.\d+\.attn\.masked_bias",
