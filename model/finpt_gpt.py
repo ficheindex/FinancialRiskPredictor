@@ -44,4 +44,11 @@ class FinptGPT2ForSequenceClassification(GPT2PreTrainedModel):
 
     def __init__(self, config):
         super().__init__(config)
-        self.num_labels = config.num_l
+        self.num_labels = config.num_labels
+        self.transformer = GPT2Model(config)
+
+        self.dropout_prob = 0.1
+        self.dropout = nn.Dropout(self.dropout_prob)
+        self.classifier = nn.Linear(config.n_embd, self.num_labels, bias=False)
+
+     
