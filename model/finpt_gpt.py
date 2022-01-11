@@ -51,4 +51,11 @@ class FinptGPT2ForSequenceClassification(GPT2PreTrainedModel):
         self.dropout = nn.Dropout(self.dropout_prob)
         self.classifier = nn.Linear(config.n_embd, self.num_labels, bias=False)
 
-     
+        # Model parallel
+        self.model_parallel = False
+        self.device_map = None
+
+        self.tokenizer = None
+        self.neg_to_pos = float(1.0)
+        self.use_pos_weight = False
+        self.nan_batch_count 
