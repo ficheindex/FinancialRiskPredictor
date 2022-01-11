@@ -37,4 +37,11 @@ from transformers.models.gpt2.modeling_gpt2 import GPT2_START_DOCSTRING, GPT2_IN
 )
 class FinptGPT2ForSequenceClassification(GPT2PreTrainedModel):
     _keys_to_ignore_on_load_unexpected = [r"h\.\d+\.attn\.bias", r"h\.\d+\.attn\.masked_bias"]
-    _keys_to_ignore_on_load_missing = [r"h\.\d+\.attn\.masked_bias",
+    _keys_to_ignore_on_load_missing = [r"h\.\d+\.attn\.masked_bias", r"classifier.weight"]
+
+    _CHECKPOINT_FOR_DOC = "gpt2"
+    _CONFIG_FOR_DOC = "GPT2Config"
+
+    def __init__(self, config):
+        super().__init__(config)
+        self.num_labels = config.num_l
