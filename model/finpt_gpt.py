@@ -58,4 +58,11 @@ class FinptGPT2ForSequenceClassification(GPT2PreTrainedModel):
         self.tokenizer = None
         self.neg_to_pos = float(1.0)
         self.use_pos_weight = False
-        self.nan_batch_count 
+        self.nan_batch_count = 0
+
+        # Initialize weights and apply final processing
+        self.post_init()
+
+    @add_start_docstrings_to_model_forward(GPT2_INPUTS_DOCSTRING)
+    @add_code_sample_docstrings(
+        checkpoint="
