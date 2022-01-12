@@ -71,4 +71,8 @@ class FinptGPT2ForSequenceClassification(GPT2PreTrainedModel):
     )
     def forward(
         self,
-        input_ids: Optional[torch.LongTensor] = N
+        input_ids: Optional[torch.LongTensor] = None,
+        past_key_values: Optional[Tuple[Tuple[torch.Tensor]]] = None,
+        attention_mask: Optional[torch.FloatTensor] = None,
+        token_type_ids: Optional[torch.LongTensor] = None,
+        posit
