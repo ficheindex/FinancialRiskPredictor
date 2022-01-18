@@ -111,4 +111,9 @@ class FinptGPT2ForSequenceClassification(GPT2PreTrainedModel):
         if np.isnan(hidden_states.cpu().detach().numpy()).sum() > 0:
             self.nan_batch_count += 1
 
-        # use the hid
+        # use the hidden states of the last token only
+        batch_size = attention_mask.size(0)
+        sequence_lengths = attention_mask.sum(-1)
+        cls_hidden = []
+        for b_idx in range(batch_size):
+            cur_seq_len = sequence_lengt
