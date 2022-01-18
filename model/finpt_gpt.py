@@ -105,4 +105,10 @@ class FinptGPT2ForSequenceClassification(GPT2PreTrainedModel):
             output_hidden_states=output_hidden_states,
             return_dict=return_dict,
         )
-       
+        hidden_states = transformer_outputs[0]
+        # logits = self.classifier(hidden_states)
+
+        if np.isnan(hidden_states.cpu().detach().numpy()).sum() > 0:
+            self.nan_batch_count += 1
+
+        # use the hid
