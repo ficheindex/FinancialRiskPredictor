@@ -116,4 +116,9 @@ class FinptGPT2ForSequenceClassification(GPT2PreTrainedModel):
         sequence_lengths = attention_mask.sum(-1)
         cls_hidden = []
         for b_idx in range(batch_size):
-            cur_seq_len = sequence_lengt
+            cur_seq_len = sequence_lengths[b_idx]
+            cls_hidden.append(hidden_states[b_idx: b_idx + 1, cur_seq_len - 1, :])
+        cls_hidden = torch.cat(cls_hidden, dim=0)
+
+        cls_hidden = self.dropout(cls_hidden)
+        logits = self.cl
