@@ -121,4 +121,11 @@ class FinptGPT2ForSequenceClassification(GPT2PreTrainedModel):
         cls_hidden = torch.cat(cls_hidden, dim=0)
 
         cls_hidden = self.dropout(cls_hidden)
-        logits = self.cl
+        logits = self.classifier(cls_hidden)
+        pooled_logits = logits
+
+        loss = None
+        if labels is not None:
+            if self.config.problem_type is None:
+                if self.num_labels == 1:
+                    self.c
