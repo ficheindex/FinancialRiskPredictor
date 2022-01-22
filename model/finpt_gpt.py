@@ -131,4 +131,9 @@ class FinptGPT2ForSequenceClassification(GPT2PreTrainedModel):
                     self.config.problem_type = "regression"
                 elif self.num_labels > 1 and (labels.dtype == torch.long or labels.dtype == torch.int):
                     self.config.problem_type = "single_label_classification"
-      
+                else:
+                    self.config.problem_type = "multi_label_classification"
+
+            if self.config.problem_type == "regression":
+                loss_fct = MSELoss()
+                if self.nu
