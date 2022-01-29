@@ -145,4 +145,6 @@ class FinptGPT2ForSequenceClassification(GPT2PreTrainedModel):
                 if self.use_pos_weight:
                     cur_dev = logits.device
 
-                    pos_weight = torch.tensor([1.0, self.neg_to_pos], dtype=torch.float32, devi
+                    pos_weight = torch.tensor([1.0, self.neg_to_pos], dtype=torch.float32, device=cur_dev)
+                    loss_fct = BCEWithLogitsLoss(pos_weight=pos_weight)
+                    labels_bce = F.one_hot(labels, num_classes=self.num_labels).to(dtype=torch.float32, device=cur_d
