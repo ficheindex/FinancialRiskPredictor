@@ -136,4 +136,9 @@ class FinptGPT2ForSequenceClassification(GPT2PreTrainedModel):
 
             if self.config.problem_type == "regression":
                 loss_fct = MSELoss()
-                if self.nu
+                if self.num_labels == 1:
+                    loss = loss_fct(pooled_logits.squeeze(), labels.squeeze())
+                else:
+                    loss = loss_fct(pooled_logits, labels)
+
+            elif self.config.p
