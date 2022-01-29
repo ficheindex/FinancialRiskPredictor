@@ -141,4 +141,8 @@ class FinptGPT2ForSequenceClassification(GPT2PreTrainedModel):
                 else:
                     loss = loss_fct(pooled_logits, labels)
 
-            elif self.config.p
+            elif self.config.problem_type == "single_label_classification":
+                if self.use_pos_weight:
+                    cur_dev = logits.device
+
+                    pos_weight = torch.tensor([1.0, self.neg_to_pos], dtype=torch.float32, devi
