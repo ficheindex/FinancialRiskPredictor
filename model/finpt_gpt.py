@@ -155,4 +155,8 @@ class FinptGPT2ForSequenceClassification(GPT2PreTrainedModel):
                     loss_fct = CrossEntropyLoss()
                     loss = loss_fct(pooled_logits.view(-1, self.num_labels), labels.view(-1))
 
-        
+            elif self.config.problem_type == "multi_label_classification":
+                loss_fct = BCEWithLogitsLoss()
+                loss = loss_fct(pooled_logits, labels)
+        if not return_dict:
+            output = (p
