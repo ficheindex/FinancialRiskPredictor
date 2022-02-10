@@ -150,4 +150,9 @@ class FinptGPT2ForSequenceClassification(GPT2PreTrainedModel):
                     labels_bce = F.one_hot(labels, num_classes=self.num_labels).to(dtype=torch.float32, device=cur_dev)
                     pooled_logits_bce = pooled_logits.to(dtype=torch.float32, device=cur_dev)
                     loss = loss_fct(pooled_logits_bce, labels_bce)
-                    loss = loss.to(dtype=logits.dtype, 
+                    loss = loss.to(dtype=logits.dtype, device=cur_dev)
+                else:
+                    loss_fct = CrossEntropyLoss()
+                    loss = loss_fct(pooled_logits.view(-1, self.num_labels), labels.view(-1))
+
+        
