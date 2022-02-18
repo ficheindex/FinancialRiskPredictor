@@ -164,4 +164,7 @@ class FinptGPT2ForSequenceClassification(GPT2PreTrainedModel):
 
         return SequenceClassifierOutputWithPast(
             loss=loss,
-       
+            logits=pooled_logits,
+            past_key_values=transformer_outputs.past_key_values,
+            hidden_states=transformer_outputs.hidden_states,
+            attentions=transformer_outputs.attentions
