@@ -1,31 +1,30 @@
+
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 __author__ = "@YuweiYin"
 """
 
-from typing import Optional, Tuple, Union
+from typing import List, Optional, Tuple, Union
 import numpy as np
 
 import torch
-import torch.utils.checkpoint
 from torch import nn
 import torch.nn.functional as F
 from torch.nn import BCEWithLogitsLoss, CrossEntropyLoss, MSELoss
 
 from transformers.modeling_outputs import SequenceClassifierOutputWithPast
-from transformers.utils import add_code_sample_docstrings, add_start_docstrings, add_start_docstrings_to_model_forward
-
-from transformers import GPT2Model, GPT2PreTrainedModel
-from transformers.models.gpt2.modeling_gpt2 import GPT2_START_DOCSTRING, GPT2_INPUTS_DOCSTRING
+from transformers.models.llama.modeling_llama import LLAMA_INPUTS_DOCSTRING, LLAMA_START_DOCSTRING
+from transformers.models.t5.modeling_t5 import add_start_docstrings, add_start_docstrings_to_model_forward
+from transformers import LlamaModel, LlamaPreTrainedModel
 
 
 @add_start_docstrings(
     """
-    The GPT2 Model transformer with a sequence classification head on top (linear layer).
+    The LLaMa Model transformer with a sequence classification head on top (linear layer).
 
-    [`GPT2ForSequenceClassification`] uses the last token in order to do the classification, as other causal models
-    (e.g. GPT-1) do.
+    [`LlamaForSequenceClassification`] uses the last token in order to do the classification, as other causal models
+    (e.g. GPT-2) do.
 
     Since it does classification on the last token, it requires to know the position of the last token. If a
     `pad_token_id` is defined in the configuration, it finds the last token that is not a padding token in each row. If
@@ -33,27 +32,19 @@ from transformers.models.gpt2.modeling_gpt2 import GPT2_START_DOCSTRING, GPT2_IN
     padding tokens when `inputs_embeds` are passed instead of `input_ids`, it does the same (take the last value in
     each row of the batch).
     """,
-    GPT2_START_DOCSTRING,
+    LLAMA_START_DOCSTRING,
 )
-class FinptGPT2ForSequenceClassification(GPT2PreTrainedModel):
-    _keys_to_ignore_on_load_unexpected = [r"h\.\d+\.attn\.bias", r"h\.\d+\.attn\.masked_bias"]
-    _keys_to_ignore_on_load_missing = [r"h\.\d+\.attn\.masked_bias", r"classifier.weight"]
-
-    _CHECKPOINT_FOR_DOC = "gpt2"
-    _CONFIG_FOR_DOC = "GPT2Config"
+class FinptLlamaForSequenceClassification(LlamaPreTrainedModel):
+    _keys_to_ignore_on_load_missing = [r"classifier.weight"]
 
     def __init__(self, config):
         super().__init__(config)
         self.num_labels = config.num_labels
-        self.transformer = GPT2Model(config)
+        self.model = LlamaModel(config)
 
         self.dropout_prob = 0.1
         self.dropout = nn.Dropout(self.dropout_prob)
-        self.classifier = nn.Linear(config.n_embd, self.num_labels, bias=False)
-
-        # Model parallel
-        self.model_parallel = False
-        self.device_map = None
+        self.classifier = nn.Linear(config.hidden_size, self.num_labels, bias=False)
 
         self.tokenizer = None
         self.neg_to_pos = float(1.0)
@@ -63,20 +54,19 @@ class FinptGPT2ForSequenceClassification(GPT2PreTrainedModel):
         # Initialize weights and apply final processing
         self.post_init()
 
-    @add_start_docstrings_to_model_forward(GPT2_INPUTS_DOCSTRING)
-    @add_code_sample_docstrings(
-        checkpoint="microsoft/DialogRPT-updown",
-        output_type=SequenceClassifierOutputWithPast,
-        config_class=_CONFIG_FOR_DOC,
-    )
+    def get_input_embeddings(self):
+        return self.model.embed_tokens
+
+    def set_input_embeddings(self, value):
+        self.model.embed_tokens = value
+
+    @add_start_docstrings_to_model_forward(LLAMA_INPUTS_DOCSTRING)
     def forward(
         self,
-        input_ids: Optional[torch.LongTensor] = None,
-        past_key_values: Optional[Tuple[Tuple[torch.Tensor]]] = None,
-        attention_mask: Optional[torch.FloatTensor] = None,
-        token_type_ids: Optional[torch.LongTensor] = None,
+        input_ids: torch.LongTensor = None,
+        attention_mask: Optional[torch.Tensor] = None,
         position_ids: Optional[torch.LongTensor] = None,
-        head_mask: Optional[torch.FloatTensor] = None,
+        past_key_values: Optional[List[torch.FloatTensor]] = None,
         inputs_embeds: Optional[torch.FloatTensor] = None,
         labels: Optional[torch.LongTensor] = None,
         use_cache: Optional[bool] = None,
@@ -92,13 +82,11 @@ class FinptGPT2ForSequenceClassification(GPT2PreTrainedModel):
         """
         return_dict = return_dict if return_dict is not None else self.config.use_return_dict
 
-        transformer_outputs = self.transformer(
+        transformer_outputs = self.model(
             input_ids,
-            past_key_values=past_key_values,
             attention_mask=attention_mask,
-            token_type_ids=token_type_ids,
             position_ids=position_ids,
-            head_mask=head_mask,
+            past_key_values=past_key_values,
             inputs_embeds=inputs_embeds,
             use_cache=use_cache,
             output_attentions=output_attentions,
@@ -111,6 +99,22 @@ class FinptGPT2ForSequenceClassification(GPT2PreTrainedModel):
         if np.isnan(hidden_states.cpu().detach().numpy()).sum() > 0:
             self.nan_batch_count += 1
 
+        # if input_ids is not None:
+        #     batch_size = input_ids.shape[0]
+        # else:
+        #     batch_size = inputs_embeds.shape[0]
+        #
+        # if self.tokenizer.pad_token_id is None and batch_size != 1:
+        #     raise ValueError("Cannot handle batch sizes > 1 if no padding token is defined.")
+        # if self.tokenizer.pad_token_id is None:
+        #     sequence_lengths = -1
+        # else:
+        #     if input_ids is not None:
+        #         sequence_lengths = (torch.ne(input_ids, self.tokenizer.pad_token_id).sum(-1) - 1).to(logits.device)
+        #     else:
+        #         sequence_lengths = -1
+        # pooled_logits = logits[torch.arange(batch_size, device=logits.device), sequence_lengths]
+
         # use the hidden states of the last token only
         batch_size = attention_mask.size(0)
         sequence_lengths = attention_mask.sum(-1)
@@ -121,12 +125,14 @@ class FinptGPT2ForSequenceClassification(GPT2PreTrainedModel):
         cls_hidden = torch.cat(cls_hidden, dim=0)
 
         cls_hidden = self.dropout(cls_hidden)
-        logits = self.classifier(cls_hidden)
-        pooled_logits = logits
+        cls_logits = self.classifier(cls_hidden)
+        pooled_logits = cls_logits
 
         loss = None
         if labels is not None:
+            labels = labels.to(cls_logits.device)
             if self.config.problem_type is None:
+                assert isinstance(self.num_labels, int) and self.num_labels >= 1
                 if self.num_labels == 1:
                     self.config.problem_type = "regression"
                 elif self.num_labels > 1 and (labels.dtype == torch.long or labels.dtype == torch.int):
@@ -143,14 +149,14 @@ class FinptGPT2ForSequenceClassification(GPT2PreTrainedModel):
 
             elif self.config.problem_type == "single_label_classification":
                 if self.use_pos_weight:
-                    cur_dev = logits.device
+                    cur_dev = cls_logits.device
 
                     pos_weight = torch.tensor([1.0, self.neg_to_pos], dtype=torch.float32, device=cur_dev)
                     loss_fct = BCEWithLogitsLoss(pos_weight=pos_weight)
                     labels_bce = F.one_hot(labels, num_classes=self.num_labels).to(dtype=torch.float32, device=cur_dev)
                     pooled_logits_bce = pooled_logits.to(dtype=torch.float32, device=cur_dev)
                     loss = loss_fct(pooled_logits_bce, labels_bce)
-                    loss = loss.to(dtype=logits.dtype, device=cur_dev)
+                    loss = loss.to(dtype=cls_logits.dtype, device=cur_dev)
                 else:
                     loss_fct = CrossEntropyLoss()
                     loss = loss_fct(pooled_logits.view(-1, self.num_labels), labels.view(-1))
