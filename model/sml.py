@@ -429,3 +429,32 @@ class ModelLGBMClassifier(ModelSML):
         self.param_grid = {
             "random_state": [0, 1, 42, 1234],
             "n_estimators": list(range(80, 200, 10)),
+            "max_depth": list(range(2, 15, 1)),
+            "learning_rate": list(np.linspace(0.01, 2, 20)),
+            "subsample": list(np.linspace(0.7, 1.0, 20)),
+            "colsample_bytree": list(np.linspace(0.5, 1.0, 10)),
+            "min_child_weight": list(range(1, 20, 2)),
+        }
+
+        self.model = LGBMClassifier(
+            boosting_type="gbdt",
+            num_leaves=31,
+            max_depth=-1 if self.max_depth is None else self.max_depth,
+            learning_rate=0.1 if self.learning_rate is None else self.learning_rate,
+            n_estimators=100 if self.n_estimators is None else self.n_estimators,
+            subsample_for_bin=200000,
+            objective=None,
+            class_weight=args.class_weight if hasattr(args, "class_weight") else None,
+            min_split_gain=0.,
+            min_child_weight=1e-3 if self.min_child_weight is None else self.min_child_weight,
+            min_child_samples=20,
+            subsample=1. if self.subsample is None else self.subsample,
+            subsample_freq=0,
+            colsample_bytree=1. if self.colsample_bytree is None else self.colsample_bytree,
+            reg_alpha=0.,
+            reg_lambda=0.,
+            random_state=args.seed if self.random_state is None else self.random_state,
+            n_jobs=-1,
+            silent='warn',
+            importance_type='split',
+        )
