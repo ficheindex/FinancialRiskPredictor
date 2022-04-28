@@ -19,4 +19,12 @@ Code: https://github.com/runopti/stg
 class STG(BaseModelTorch, ABC):
 
     def __init__(self, params=None, args=None):
-        s
+        super().__init__(params, args)
+
+        self.params = dict({
+            "learning_rate": 4.64e-3,
+            "lam": 6.2e-3,
+            "hidden_dims": [500, 50, 10]
+        })
+
+        task = "classif
