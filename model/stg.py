@@ -27,4 +27,8 @@ class STG(BaseModelTorch, ABC):
             "hidden_dims": [500, 50, 10]
         })
 
-        task = "classif
+        task = "classification" if self.args.objective == "binary" else self.args.objective
+        out_dim = 2 if self.args.objective == "binary" else self.args.num_classes
+
+        self.device = args.device
+        self.model = ST
