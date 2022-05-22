@@ -38,4 +38,10 @@ class STG(BaseModelTorch, ABC):
         # self.model = STGModel(device=self.device, task_type=task, input_dim=self.args.num_features,
         #                       output_dim=out_dim, activation="tanh", sigma=0.5,
         #                       optimizer="SGD", feature_selection=True, random_state=1,
-        #                       batch_size=self.args.bsz) 
+        #                       batch_size=self.args.bsz)  # hidden_dims=[500, 50, 10],
+
+    def fit(self, X, y, X_val=None, y_val=None, optimizer=None, criterion=None):
+        X, X_val = X.astype("float"), X_val.astype("float")
+
+        if self.args.objective == "regression":
+  
