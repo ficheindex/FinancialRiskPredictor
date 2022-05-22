@@ -31,4 +31,6 @@ class STG(BaseModelTorch, ABC):
         out_dim = 2 if self.args.objective == "binary" else self.args.num_classes
 
         self.device = args.device
-        self.model = ST
+        self.model = STGModel(device=self.device, task_type=task, input_dim=self.args.num_features,
+                              output_dim=out_dim, activation="tanh", sigma=0.5,
+                              optimizer="SGD", feature_selection=True, rando
