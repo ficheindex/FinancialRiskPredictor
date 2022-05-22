@@ -36,4 +36,6 @@ class STG(BaseModelTorch, ABC):
                               optimizer="SGD", feature_selection=True, random_state=1,
                               batch_size=self.args.bsz, **self.params)
         # self.model = STGModel(device=self.device, task_type=task, input_dim=self.args.num_features,
-        #                       ou
+        #                       output_dim=out_dim, activation="tanh", sigma=0.5,
+        #                       optimizer="SGD", feature_selection=True, random_state=1,
+        #                       batch_size=self.args.bsz) 
