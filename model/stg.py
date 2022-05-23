@@ -44,4 +44,8 @@ class STG(BaseModelTorch, ABC):
         X, X_val = X.astype("float"), X_val.astype("float")
 
         if self.args.objective == "regression":
-  
+            y, y_val = y.reshape(-1, 1), y_val.reshape(-1, 1)
+
+        # self.args.logging_period # early_stop=True
+        loss, val_loss = self.model.fit(
+            X, y, nr_epochs=self.args.epoch, val
