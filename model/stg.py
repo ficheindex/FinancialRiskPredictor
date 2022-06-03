@@ -48,4 +48,13 @@ class STG(BaseModelTorch, ABC):
 
         # self.args.logging_period # early_stop=True
         loss, val_loss = self.model.fit(
-            X, y, nr_epochs=self.args.epoch, val
+            X, y, nr_epochs=self.args.epoch, valid_X=X_val, valid_y=y_val,
+            print_interval=100,  # original: 1
+        )
+
+        return loss, val_loss
+
+    def predict_helper(self, X):
+        return self.model.predict(X)
+
+    def save_model(s
