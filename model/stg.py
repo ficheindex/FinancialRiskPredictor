@@ -60,4 +60,11 @@ class STG(BaseModelTorch, ABC):
     def save_model(self, filename_extension="", directory="models"):
         filename = get_output_path(self.args, directory=directory, filename="m", extension=filename_extension,
                                    file_type="pt")
-        torch.
+        torch.save(self.model._model.state_dict(), filename)
+
+    def get_model_size(self):
+        model_size = sum(t.numel() for t in self.model._model.parameters() if t.requires_grad)
+        return model_size
+
+    @classmethod
+    def define
