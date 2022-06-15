@@ -67,4 +67,7 @@ class STG(BaseModelTorch, ABC):
         return model_size
 
     @classmethod
-    def define
+    def define_trial_parameters(cls, trial, args):
+        params = {
+            "learning_rate": trial.suggest_float("learning_rate", 1e-4, 1e-1, log=True),
+            "lam": trial.suggest_float("lam", 1e-3,
