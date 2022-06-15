@@ -57,4 +57,7 @@ class STG(BaseModelTorch, ABC):
     def predict_helper(self, X):
         return self.model.predict(X)
 
-    def save_model(s
+    def save_model(self, filename_extension="", directory="models"):
+        filename = get_output_path(self.args, directory=directory, filename="m", extension=filename_extension,
+                                   file_type="pt")
+        torch.
