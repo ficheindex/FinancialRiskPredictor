@@ -74,4 +74,5 @@ class STG(BaseModelTorch, ABC):
             # Change also the number and size of the hidden_dims?
             "hidden_dims": trial.suggest_categorical(
                 "hidden_dims", [[500, 50, 10], [60, 20], [500, 500, 10], [500, 400, 20]]),
- 
+        }
+        return params
