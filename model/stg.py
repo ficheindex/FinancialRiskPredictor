@@ -70,4 +70,8 @@ class STG(BaseModelTorch, ABC):
     def define_trial_parameters(cls, trial, args):
         params = {
             "learning_rate": trial.suggest_float("learning_rate", 1e-4, 1e-1, log=True),
-            "lam": trial.suggest_float("lam", 1e-3,
+            "lam": trial.suggest_float("lam", 1e-3, 10, log=True),
+            # Change also the number and size of the hidden_dims?
+            "hidden_dims": trial.suggest_categorical(
+                "hidden_dims", [[500, 50, 10], [60, 20], [500, 500, 10], [500, 400, 20]]),
+ 
