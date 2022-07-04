@@ -21,4 +21,12 @@ class FeatureSelector(nn.Module):
     def forward(self, prev_x):
         z = self.mu + self.sigma*self.noise.normal_()*self.training 
         stochastic_gate = self.hard_sigmoid(z)
-        n
+        new_x = prev_x * stochastic_gate
+        return new_x
+    
+    def hard_sigmoid(self, x):
+        return torch.clamp(x+0.5, 0.0, 1.0)
+
+    def regularizer(self, x):
+        ''' Gaussian CDF. '''
+        return 0.5 * (1 + to
