@@ -29,4 +29,13 @@ class FeatureSelector(nn.Module):
 
     def regularizer(self, x):
         ''' Gaussian CDF. '''
-        return 0.5 * (1 + to
+        return 0.5 * (1 + torch.erf(x / math.sqrt(2))) 
+
+    def _apply(self, fn):
+        super(FeatureSelector, self)._apply(fn)
+        self.noise = fn(self.noise)
+        return self
+
+
+class GatingLayer(nn.Module):
+    '''To implement L1-based gating lay
