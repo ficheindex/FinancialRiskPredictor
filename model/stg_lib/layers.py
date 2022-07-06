@@ -42,4 +42,12 @@ class GatingLayer(nn.Module):
     '''
     def __init__(self, input_dim, device):
         super(GatingLayer, self).__init__()
-        self.mu = torch.nn.Parameter(0.01*torc
+        self.mu = torch.nn.Parameter(0.01*torch.randn(input_dim, ), requires_grad=True)
+        self.device = device
+    
+    def forward(self, prev_x):
+        new_x = prev_x * self.mu 
+        return new_x
+    
+    def regularizer(self, x):
+        ''' Gaussian
