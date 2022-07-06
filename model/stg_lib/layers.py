@@ -38,4 +38,8 @@ class FeatureSelector(nn.Module):
 
 
 class GatingLayer(nn.Module):
-    '''To implement L1-based gating lay
+    '''To implement L1-based gating layer (so that we can compare L1 with L0(STG) in a fair way)
+    '''
+    def __init__(self, input_dim, device):
+        super(GatingLayer, self).__init__()
+        self.mu = torch.nn.Parameter(0.01*torc
