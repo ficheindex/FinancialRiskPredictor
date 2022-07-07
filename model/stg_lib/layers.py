@@ -71,4 +71,9 @@ class LinearLayer(nn.Sequential):
     def reset_parameters(self):
         for module in self.modules():
             if isinstance(module, nn.Linear):
-      
+                module.reset_parameters()
+
+
+class MLPLayer(nn.Module):
+    def __init__(self, input_dim, output_dim, hidden_dims, batch_norm=None, dropout=None, activation='relu', flatten=True):
+        super().__init
