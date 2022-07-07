@@ -50,4 +50,10 @@ class GatingLayer(nn.Module):
         return new_x
     
     def regularizer(self, x):
-        ''' Gaussian
+        ''' Gaussian CDF. '''
+        return torch.sum(torch.abs(x))
+
+
+class LinearLayer(nn.Sequential):
+    def __init__(self, in_features, out_features, batch_norm=None, dropout=None, bias=None, activation=None):
+        if bias 
