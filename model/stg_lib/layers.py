@@ -61,4 +61,8 @@ class LinearLayer(nn.Sequential):
 
         modules = [nn.Linear(in_features, out_features, bias=bias)]
         if batch_norm is not None and batch_norm is not False:
-            modules.append(get_batcnnorm(b
+            modules.append(get_batcnnorm(batch_norm, out_features, 1))
+        if dropout is not None and dropout is not False:
+            modules.append(get_dropout(dropout, 1))
+        if activation is not None and activation is not False:
+            modules
