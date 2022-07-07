@@ -56,4 +56,9 @@ class GatingLayer(nn.Module):
 
 class LinearLayer(nn.Sequential):
     def __init__(self, in_features, out_features, batch_norm=None, dropout=None, bias=None, activation=None):
-        if bias 
+        if bias is None:
+            bias = (batch_norm is None)
+
+        modules = [nn.Linear(in_features, out_features, bias=bias)]
+        if batch_norm is not None and batch_norm is not False:
+            modules.append(get_batcnnorm(b
