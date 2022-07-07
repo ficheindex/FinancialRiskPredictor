@@ -65,4 +65,10 @@ class LinearLayer(nn.Sequential):
         if dropout is not None and dropout is not False:
             modules.append(get_dropout(dropout, 1))
         if activation is not None and activation is not False:
-            modules
+            modules.append(get_activation(activation))
+        super().__init__(*modules)
+
+    def reset_parameters(self):
+        for module in self.modules():
+            if isinstance(module, nn.Linear):
+      
