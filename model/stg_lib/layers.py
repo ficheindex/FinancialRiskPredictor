@@ -84,4 +84,10 @@ class MLPLayer(nn.Module):
             hidden_dims = [hidden_dims]
 
         dims = [input_dim]
-        dims.extend(hid
+        dims.extend(hidden_dims)
+        dims.append(output_dim)
+        modules = []
+
+        nr_hiddens = len(hidden_dims)
+        for i in range(nr_hiddens):
+            layer = LinearLayer(dims[i], dims[i+1], batch_norm=
