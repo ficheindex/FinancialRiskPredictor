@@ -95,4 +95,13 @@ class MLPLayer(nn.Module):
         layer = nn.Linear(dims[-2], dims[-1], bias=True)
         modules.append(layer)
         self.mlp = nn.Sequential(*modules)
-        self.f
+        self.flatten = flatten
+
+    def reset_parameters(self):
+        for module in self.modules():
+            if isinstance(module, nn.Linear):
+                module.reset_parameters()
+
+    def forward(self, input):
+        if self.flatten:
+            input = input.view
