@@ -104,4 +104,5 @@ class MLPLayer(nn.Module):
 
     def forward(self, input):
         if self.flatten:
-            input = input.view
+            input = input.view(input.size(0), -1)
+        return self.mlp(input)
