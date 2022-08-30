@@ -126,3 +126,16 @@ class IENameMatcher(object):
 
         if ret:
             self._last_stat[0].add(k)
+        else:
+            self._last_stat[1].add(k)
+        return ret
+
+    def __enter__(self):
+        self.begin()
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.end()
+
+    def get_last_stat(self):
+        return self._last_stat
