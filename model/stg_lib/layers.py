@@ -90,4 +90,9 @@ class MLPLayer(nn.Module):
 
         nr_hiddens = len(hidden_dims)
         for i in range(nr_hiddens):
-            layer = LinearLayer(dims[i], dims[i+1], batch_norm=
+            layer = LinearLayer(dims[i], dims[i+1], batch_norm=batch_norm, dropout=dropout, activation=activation)
+            modules.append(layer)
+        layer = nn.Linear(dims[-2], dims[-1], bias=True)
+        modules.append(layer)
+        self.mlp = nn.Sequential(*modules)
+        self.f
