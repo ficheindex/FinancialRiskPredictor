@@ -16,4 +16,15 @@ from model.stg_lib.utils import get_optimizer, as_tensor, as_float, as_numpy, as
     FastTensorDataLoader, probe_infnan
 from model.stg_lib.io import load_state_dict, state_dict
 from model.stg_lib.meter import GroupMeters
-from model.stg_lib.losses import calc
+from model.stg_lib.losses import calc_concordance_index, PartialLogLikelihood
+
+import logging
+
+# import logging.config
+
+logger = logging.getLogger("my-logger")
+
+__all__ = ['STG']
+
+
+def _standard_truncnorm_sample(lower_bound, upper_bound, sample_shape=torch
