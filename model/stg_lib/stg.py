@@ -27,4 +27,8 @@ logger = logging.getLogger("my-logger")
 __all__ = ['STG']
 
 
-def _standard_truncnorm_sample(lower_bound, upper_bound, sample_shape=torch
+def _standard_truncnorm_sample(lower_bound, upper_bound, sample_shape=torch.Size()):
+    r"""
+    Implements accept-reject algorithm for doubly truncated standard normal distribution.
+    (Section 2.2. Two-sided truncated normal distribution in [1])
+    [1] Robert, Christian P. "Simulation of truncated normal 
