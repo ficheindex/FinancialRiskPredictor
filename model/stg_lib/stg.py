@@ -34,4 +34,8 @@ def _standard_truncnorm_sample(lower_bound, upper_bound, sample_shape=torch.Size
     [1] Robert, Christian P. "Simulation of truncated normal variables." Statistics and computing 5.2 (1995): 121-125.
     Available online: https://arxiv.org/abs/0907.4010
     Args:
-        lower_bound (Tensor): lower bound for standard normal distribution. Best to keep it
+        lower_bound (Tensor): lower bound for standard normal distribution. Best to keep it greater than -4.0 for
+        stable results
+        upper_bound (Tensor): upper bound for standard normal distribution. Best to keep it smaller than 4.0 for
+        stable results
+    """
