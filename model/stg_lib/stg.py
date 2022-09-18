@@ -39,3 +39,8 @@ def _standard_truncnorm_sample(lower_bound, upper_bound, sample_shape=torch.Size
         upper_bound (Tensor): upper bound for standard normal distribution. Best to keep it smaller than 4.0 for
         stable results
     """
+    x = torch.randn(sample_shape)
+    done = torch.zeros(sample_shape).byte()
+    while not done.all():
+        proposed_x = lower_bound + torch.rand(sample_shape) * (upper_bound - lower_bound)
+        if (upper_bound * lowe
