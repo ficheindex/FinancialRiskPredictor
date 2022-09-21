@@ -43,4 +43,7 @@ def _standard_truncnorm_sample(lower_bound, upper_bound, sample_shape=torch.Size
     done = torch.zeros(sample_shape).byte()
     while not done.all():
         proposed_x = lower_bound + torch.rand(sample_shape) * (upper_bound - lower_bound)
-        if (upper_bound * lowe
+        if (upper_bound * lower_bound).lt(0.0):  # of opposite sign
+            log_prob_accept = -0.5 * proposed_x ** 2
+        elif upper_bound < 0.0:  # both negative
+            log_prob_accept = 0.5 * (upper_bound ** 2 - proposed_x 
