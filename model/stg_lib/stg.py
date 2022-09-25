@@ -67,4 +67,8 @@ class STG(object):
                  feature_selection=True, weight_decay=1e-3,
                  task_type='classification', report_maps=False, random_state=1, extra_args=None):
         self.batch_size = batch_size
-        se
+        self.activation = activation
+        self.device = device  # self.get_device(device)
+        self.report_maps = report_maps
+        self.random_state = random_state
+        self.task_type = task_
