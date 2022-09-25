@@ -51,4 +51,13 @@ def _standard_truncnorm_sample(lower_bound, upper_bound, sample_shape=torch.Size
             assert (lower_bound.gt(0.0))
             log_prob_accept = 0.5 * (lower_bound ** 2 - proposed_x ** 2)
         prob_accept = torch.exp(log_prob_accept).clamp_(0.0, 1.0)
-        acce
+        accept = torch.bernoulli(prob_accept).byte() & ~done
+        if accept.any():
+            accept = accept.bool()
+            x[accept] = proposed_x[accept]
+            accept = accept.byte()
+            done |= accept
+    return x
+
+
+cla
