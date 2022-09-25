@@ -71,4 +71,8 @@ class STG(object):
         self.device = device  # self.get_device(device)
         self.report_maps = report_maps
         self.random_state = random_state
-        self.task_type = task_
+        self.task_type = task_type
+        self.extra_args = extra_args
+        self.freeze_onward = freeze_onward
+        self._model = self.build_model(input_dim, output_dim, hidden_dims, activation, sigma, lam,
+              
