@@ -63,4 +63,8 @@ def _standard_truncnorm_sample(lower_bound, upper_bound, sample_shape=torch.Size
 class STG(object):
     def __init__(self, device, input_dim=784, output_dim=10, hidden_dims=[400, 200],
                  activation='relu', sigma=0.5, lam=0.1,
-                 optimizer='Adam', learning_rate=1e-5, batch_size=100, freeze_onward=N
+                 optimizer='Adam', learning_rate=1e-5, batch_size=100, freeze_onward=None,
+                 feature_selection=True, weight_decay=1e-3,
+                 task_type='classification', report_maps=False, random_state=1, extra_args=None):
+        self.batch_size = batch_size
+        se
