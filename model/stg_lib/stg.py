@@ -90,4 +90,8 @@ class STG(object):
             raise NotImplementedError("Only 'cpu' or 'cuda' is a valid option.")
         return device
 
-    def init_weights(sel
+    def init_weights(self, m):
+        if isinstance(m, nn.Linear):
+            stddev = torch.tensor(0.1)
+            shape = m.weight.shape
+            m.weight = nn.Parameter(_standard_truncnorm_sample(lower_bound=-2 * stddev, upper_bound=2 *
