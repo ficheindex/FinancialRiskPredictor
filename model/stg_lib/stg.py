@@ -94,4 +94,8 @@ class STG(object):
         if isinstance(m, nn.Linear):
             stddev = torch.tensor(0.1)
             shape = m.weight.shape
-            m.weight = nn.Parameter(_standard_truncnorm_sample(lower_bound=-2 * stddev, upper_bound=2 *
+            m.weight = nn.Parameter(_standard_truncnorm_sample(lower_bound=-2 * stddev, upper_bound=2 * stddev,
+                                                               sample_shape=shape))
+            torch.nn.init.zeros_(m.bias)
+
+    def build_model(self, input_dim, output_dim, hidden_dims, activation, sigma, lam, task_ty
