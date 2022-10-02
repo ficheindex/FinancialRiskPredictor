@@ -78,4 +78,10 @@ class STG(object):
                                        task_type, feature_selection)
         self._model.apply(self.init_weights)
         self._model = self._model.to(device)
-        self._optimizer = get_optimizer(optimizer,
+        self._optimizer = get_optimizer(optimizer, self._model, lr=learning_rate, weight_decay=weight_decay)
+
+    def get_device(self, device):
+        if device == "cpu":
+            device = torch.device("cpu")
+        elif device is None:
+            args_cuda = torch.cuda.is
