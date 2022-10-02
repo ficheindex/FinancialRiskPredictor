@@ -84,4 +84,10 @@ class STG(object):
         if device == "cpu":
             device = torch.device("cpu")
         elif device is None:
-            args_cuda = torch.cuda.is
+            args_cuda = torch.cuda.is_available()
+            device = device = torch.device("cuda" if args_cuda else "cpu")
+        else:
+            raise NotImplementedError("Only 'cpu' or 'cuda' is a valid option.")
+        return device
+
+    def init_weights(sel
