@@ -75,4 +75,7 @@ class STG(object):
         self.extra_args = extra_args
         self.freeze_onward = freeze_onward
         self._model = self.build_model(input_dim, output_dim, hidden_dims, activation, sigma, lam,
-              
+                                       task_type, feature_selection)
+        self._model.apply(self.init_weights)
+        self._model = self._model.to(device)
+        self._optimizer = get_optimizer(optimizer,
