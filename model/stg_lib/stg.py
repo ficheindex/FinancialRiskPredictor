@@ -103,4 +103,7 @@ class STG(object):
             self.metric = nn.CrossEntropyLoss()
             self.tensor_names = ('input', 'label')
             if feature_selection:
-                return STGCl
+                return STGClassificationModel(input_dim, output_dim, hidden_dims, device=self.device,
+                                              activation=activation, sigma=sigma, lam=lam)
+            else:
+                return MLPClassificationModel(in
