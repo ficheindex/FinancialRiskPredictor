@@ -98,4 +98,9 @@ class STG(object):
                                                                sample_shape=shape))
             torch.nn.init.zeros_(m.bias)
 
-    def build_model(self, input_dim, output_dim, hidden_dims, activation, sigma, lam, task_ty
+    def build_model(self, input_dim, output_dim, hidden_dims, activation, sigma, lam, task_type, feature_selection):
+        if task_type == 'classification':
+            self.metric = nn.CrossEntropyLoss()
+            self.tensor_names = ('input', 'label')
+            if feature_selection:
+                return STGCl
