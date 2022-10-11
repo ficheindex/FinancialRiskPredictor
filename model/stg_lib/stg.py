@@ -106,4 +106,9 @@ class STG(object):
                 return STGClassificationModel(input_dim, output_dim, hidden_dims, device=self.device,
                                               activation=activation, sigma=sigma, lam=lam)
             else:
-                return MLPClassificationModel(in
+                return MLPClassificationModel(input_dim, output_dim, hidden_dims, activation=activation)
+        elif task_type == 'regression':
+            assert output_dim == 1
+            self.metric = nn.MSELoss()
+            self.tensor_names = ('input', 'label')
+            
