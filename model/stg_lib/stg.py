@@ -114,4 +114,6 @@ class STG(object):
             if self.extra_args is not None:
                 if self.extra_args == 'l1-softthresh':
                     return SoftThreshRegressionModel(input_dim, output_dim, hidden_dims, device=self.device,
-        
+                                                     activation=activation)
+                elif self.extra_args == 'l1-norm-reg':
+                    return L1RegressionModel(input_dim, output_dim, hidden_dims, device=
