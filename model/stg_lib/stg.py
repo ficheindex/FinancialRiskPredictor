@@ -111,4 +111,7 @@ class STG(object):
             assert output_dim == 1
             self.metric = nn.MSELoss()
             self.tensor_names = ('input', 'label')
-            
+            if self.extra_args is not None:
+                if self.extra_args == 'l1-softthresh':
+                    return SoftThreshRegressionModel(input_dim, output_dim, hidden_dims, device=self.device,
+        
