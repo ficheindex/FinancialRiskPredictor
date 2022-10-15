@@ -116,4 +116,7 @@ class STG(object):
                     return SoftThreshRegressionModel(input_dim, output_dim, hidden_dims, device=self.device,
                                                      activation=activation)
                 elif self.extra_args == 'l1-norm-reg':
-                    return L1RegressionModel(input_dim, output_dim, hidden_dims, device=
+                    return L1RegressionModel(input_dim, output_dim, hidden_dims, device=self.device,
+                                             activation=activation)
+                elif self.extra_args == 'l1-gate':
+                    return L1GateRegressionModel(input_dim, output_dim, hi
