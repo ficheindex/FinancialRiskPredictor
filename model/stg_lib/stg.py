@@ -131,4 +131,7 @@ class STG(object):
             self.metric = PartialLogLikelihood
             self.tensor_names = ('X', 'E', 'T')
             if feature_selection:
-                retu
+                return STGCoxModel(input_dim, output_dim, hidden_dims, device=self.device, activation=activation,
+                                   sigma=sigma, lam=lam)
+            else:
+                return MLPCoxModel(input_dim, output_dim, hidde
