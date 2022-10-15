@@ -123,4 +123,7 @@ class STG(object):
                                                  activation=activation)
             else:
                 if feature_selection:
-                    return STGRegressionModel(input_dim,
+                    return STGRegressionModel(input_dim, output_dim, hidden_dims, device=self.device,
+                                              activation=activation, sigma=sigma, lam=lam)
+                else:
+                    return MLPRegressionModel(input_dim, output_di
