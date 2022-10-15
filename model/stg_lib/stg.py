@@ -119,4 +119,8 @@ class STG(object):
                     return L1RegressionModel(input_dim, output_dim, hidden_dims, device=self.device,
                                              activation=activation)
                 elif self.extra_args == 'l1-gate':
-                    return L1GateRegressionModel(input_dim, output_dim, hi
+                    return L1GateRegressionModel(input_dim, output_dim, hidden_dims, device=self.device,
+                                                 activation=activation)
+            else:
+                if feature_selection:
+                    return STGRegressionModel(input_dim,
