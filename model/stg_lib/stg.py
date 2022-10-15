@@ -126,4 +126,9 @@ class STG(object):
                     return STGRegressionModel(input_dim, output_dim, hidden_dims, device=self.device,
                                               activation=activation, sigma=sigma, lam=lam)
                 else:
-                    return MLPRegressionModel(input_dim, output_di
+                    return MLPRegressionModel(input_dim, output_dim, hidden_dims, activation=activation)
+        elif task_type == 'cox':
+            self.metric = PartialLogLikelihood
+            self.tensor_names = ('X', 'E', 'T')
+            if feature_selection:
+                retu
