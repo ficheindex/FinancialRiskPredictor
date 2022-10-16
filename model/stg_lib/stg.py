@@ -147,4 +147,7 @@ class STG(object):
         self._optimizer.step()
         # probe_infnan(logits, 'logits')
         if self.task_type == 'cox':
+            ci = calc_concordance_index(logits.detach().numpy(),
+                                        feed_dict['E'].detach().numpy(), feed_dict['T'].detach().numpy())
+        if self.extra_args == 'l1-softthresh':
            
