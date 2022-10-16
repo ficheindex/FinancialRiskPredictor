@@ -150,4 +150,10 @@ class STG(object):
             ci = calc_concordance_index(logits.detach().numpy(),
                                         feed_dict['E'].detach().numpy(), feed_dict['T'].detach().numpy())
         if self.extra_args == 'l1-softthresh':
-           
+            self._model.mlp[0][0].weight.data = self._model.prox_op(self._model.mlp[0][0].weight)
+
+        loss = as_float(loss)
+        if meters is not None:
+            meters.update(loss=loss)
+            if self.task_type == 'cox':
+ 
