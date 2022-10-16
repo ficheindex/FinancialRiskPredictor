@@ -134,4 +134,11 @@ class STG(object):
                 return STGCoxModel(input_dim, output_dim, hidden_dims, device=self.device, activation=activation,
                                    sigma=sigma, lam=lam)
             else:
-                return MLPCoxModel(input_dim, output_dim, hidde
+                return MLPCoxModel(input_dim, output_dim, hidden_dims, activation=activation)
+        else:
+            raise NotImplementedError()
+
+    def train_step(self, feed_dict, meters=None):
+        assert self._model.training
+
+        loss, logits, monitor
