@@ -141,4 +141,10 @@ class STG(object):
     def train_step(self, feed_dict, meters=None):
         assert self._model.training
 
-        loss, logits, monitor
+        loss, logits, monitors = self._model(feed_dict)
+        self._optimizer.zero_grad()
+        loss.backward()
+        self._optimizer.step()
+        # probe_infnan(logits, 'logits')
+        if self.task_type == 'cox':
+           
