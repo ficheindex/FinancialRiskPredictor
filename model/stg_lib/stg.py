@@ -156,4 +156,9 @@ class STG(object):
         if meters is not None:
             meters.update(loss=loss)
             if self.task_type == 'cox':
- 
+                meters.update(CI=ci)
+            meters.update(monitors)
+
+    def get_dataloader(self, X, y, shuffle):
+        if self.task_type == 'classification':
+            data_loader = FastTensorDataLoader(torch.from_numpy(X).float
