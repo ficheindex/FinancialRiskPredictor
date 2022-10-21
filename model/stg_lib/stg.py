@@ -161,4 +161,7 @@ class STG(object):
 
     def get_dataloader(self, X, y, shuffle):
         if self.task_type == 'classification':
-            data_loader = FastTensorDataLoader(torch.from_numpy(X).float
+            data_loader = FastTensorDataLoader(torch.from_numpy(X).float().to(self.device),
+                                               torch.from_numpy(y).long().to(self.device),
+                                               tensor_names=self.tensor_names,
+                        
