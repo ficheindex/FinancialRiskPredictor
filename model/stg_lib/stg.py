@@ -164,4 +164,7 @@ class STG(object):
             data_loader = FastTensorDataLoader(torch.from_numpy(X).float().to(self.device),
                                                torch.from_numpy(y).long().to(self.device),
                                                tensor_names=self.tensor_names,
-                        
+                                               batch_size=self.batch_size, shuffle=shuffle)
+
+        elif self.task_type == 'regression':
+            data_loader = FastTensorDataLoader(torch.from_numpy(X).float().to(self.device),
