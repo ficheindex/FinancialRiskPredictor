@@ -176,4 +176,9 @@ class STG(object):
             assert isinstance(y, dict)
             data_loader = FastTensorDataLoader(torch.from_numpy(X).float().to(self.device),
                                                torch.from_numpy(y['E']).float().to(self.device),
-                                               torch.from_numpy(y['T']).float().to(self.dev
+                                               torch.from_numpy(y['T']).float().to(self.device),
+                                               tensor_names=self.tensor_names,
+                                               batch_size=self.batch_size, shuffle=shuffle)
+
+        else:
+    
