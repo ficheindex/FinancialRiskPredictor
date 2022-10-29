@@ -174,4 +174,6 @@ class STG(object):
 
         elif self.task_type == 'cox':
             assert isinstance(y, dict)
-            data_loader = FastTensorDataLoader
+            data_loader = FastTensorDataLoader(torch.from_numpy(X).float().to(self.device),
+                                               torch.from_numpy(y['E']).float().to(self.device),
+                                               torch.from_numpy(y['T']).float().to(self.dev
