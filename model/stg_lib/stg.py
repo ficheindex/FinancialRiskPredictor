@@ -186,4 +186,10 @@ class STG(object):
         return data_loader
 
     def fit(self, X, y, nr_epochs, valid_X=None, valid_y=None,
-            verbose=True, meters=None, early_stop=None, print_interval=1, sh
+            verbose=True, meters=None, early_stop=None, print_interval=1, shuffle=False):
+        data_loader = self.get_dataloader(X, y, shuffle)
+
+        if valid_X is not None:
+            val_data_loader = self.get_dataloader(valid_X, valid_y, shuffle)
+        else:
+            val_data_loader = N
