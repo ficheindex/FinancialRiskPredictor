@@ -181,4 +181,9 @@ class STG(object):
                                                batch_size=self.batch_size, shuffle=shuffle)
 
         else:
-    
+            raise NotImplementedError()
+
+        return data_loader
+
+    def fit(self, X, y, nr_epochs, valid_X=None, valid_y=None,
+            verbose=True, meters=None, early_stop=None, print_interval=1, sh
