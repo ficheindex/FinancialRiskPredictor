@@ -192,4 +192,9 @@ class STG(object):
         if valid_X is not None:
             val_data_loader = self.get_dataloader(valid_X, valid_y, shuffle)
         else:
-            val_data_loader = N
+            val_data_loader = None
+        return self.train(data_loader, nr_epochs, val_data_loader, verbose, meters, early_stop, print_interval)
+
+    def evaluate(self, X, y):
+        data_loader = self.get_dataloader(X, y, shuffle=None)
+        m
