@@ -197,4 +197,10 @@ class STG(object):
 
     def evaluate(self, X, y):
         data_loader = self.get_dataloader(X, y, shuffle=None)
-        m
+        meters = GroupMeters()
+        self.validate(data_loader, self.metric, meters, mode='test')
+        print(meters.format_simple(''))
+
+    def predict(self, X, verbose=True):
+        dataset = SimpleDataset(X)
+        dat
