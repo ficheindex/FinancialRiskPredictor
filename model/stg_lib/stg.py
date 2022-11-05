@@ -203,4 +203,9 @@ class STG(object):
 
     def predict(self, X, verbose=True):
         dataset = SimpleDataset(X)
-        dat
+        data_loader = DataLoader(dataset, batch_size=X.shape[0], shuffle=False)
+        res = []
+        self._model.eval()
+        for feed_dict in data_loader:
+            # feed_dict_np = as_numpy(feed_dict)
+            feed_dict = as_tenso
