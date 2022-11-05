@@ -208,4 +208,10 @@ class STG(object):
         self._model.eval()
         for feed_dict in data_loader:
             # feed_dict_np = as_numpy(feed_dict)
-            feed_dict = as_tenso
+            feed_dict = as_tensor(feed_dict)
+            feed_dict['input'] = feed_dict['input'].to(self.device)
+
+            with torch.no_grad():
+                output_dict = self._model(feed_dict)
+
+            output_dict_np = as_nu
