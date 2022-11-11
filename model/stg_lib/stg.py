@@ -227,4 +227,10 @@ class STG(object):
         if meters is None:
             meters = GroupMeters()
 
-        self._model.tra
+        self._model.train()
+        end = time.time()
+        for feed_dict in data_loader:
+            data_time = time.time() - end
+            end = time.time()
+            self.train_step(feed_dict, meters=meters)
+            step_time = 
