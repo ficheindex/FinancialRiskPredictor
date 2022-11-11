@@ -220,4 +220,11 @@ class STG(object):
             if self.task_type == "classification":
                 res.append(output_dict_np['prob'])
             else:
-                res.
+                res.append(output_dict_np['pred'])
+        return np.concatenate(res, axis=0)
+
+    def train_epoch(self, data_loader, meters=None):
+        if meters is None:
+            meters = GroupMeters()
+
+        self._model.tra
