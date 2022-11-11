@@ -214,4 +214,10 @@ class STG(object):
             with torch.no_grad():
                 output_dict = self._model(feed_dict)
 
-            output_dict_np = as_nu
+            output_dict_np = as_numpy(output_dict)
+
+            # returning probabilities instead of predictions!
+            if self.task_type == "classification":
+                res.append(output_dict_np['prob'])
+            else:
+                res.
