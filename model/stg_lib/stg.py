@@ -248,4 +248,8 @@ class STG(object):
         if meters is None:
             meters = GroupMeters()
 
-       
+        for epoch in range(1, 1 + nr_epochs):
+            meters.reset()
+            if epoch == self.freeze_onward:
+                self._model.freeze_weights()
+            self.train_epoch(data_loader, meters=meters)
