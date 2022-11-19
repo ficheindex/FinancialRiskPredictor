@@ -239,4 +239,13 @@ class STG(object):
             # meters.update({'time/data': data_time, 'time/step': step_time})
         return meters
 
-    def train(self, data_loader, nr_epochs, val_data_
+    def train(self, data_loader, nr_epochs, val_data_loader=None, verbose=True,
+              meters=None, early_stop=None, print_interval=1):
+
+        loss_history = []
+        val_loss_history = []
+
+        if meters is None:
+            meters = GroupMeters()
+
+       
