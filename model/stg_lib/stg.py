@@ -253,3 +253,8 @@ class STG(object):
             if epoch == self.freeze_onward:
                 self._model.freeze_weights()
             self.train_epoch(data_loader, meters=meters)
+            loss_history.append(meters.avg['loss'])
+
+            if verbose and epoch % print_interval == 0:
+                self.validate(val_data_loader, self.metric, meters)
+                caption = 'Epoch: {}:'.format
