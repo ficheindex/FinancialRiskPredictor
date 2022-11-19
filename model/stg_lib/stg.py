@@ -233,4 +233,10 @@ class STG(object):
             data_time = time.time() - end
             end = time.time()
             self.train_step(feed_dict, meters=meters)
-            step_time = 
+            step_time = time.time() - end
+            end = time.time()
+            # if dev:
+            # meters.update({'time/data': data_time, 'time/step': step_time})
+        return meters
+
+    def train(self, data_loader, nr_epochs, val_data_
