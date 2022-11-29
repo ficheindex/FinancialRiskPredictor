@@ -263,4 +263,12 @@ class STG(object):
                 val_loss_history.append(meters.avg["valid_loss"].item())
 
             if early_stop is not None:
-                flag = early_st
+                flag = early_stop(self._model)
+                if flag:
+                    break
+
+        return loss_history, val_loss_history
+
+    def validate_step(self, feed_dict, metric, meters=None, mode='valid'):
+        with torch.no_grad():
+        
