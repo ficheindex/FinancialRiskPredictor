@@ -257,4 +257,10 @@ class STG(object):
 
             if verbose and epoch % print_interval == 0:
                 self.validate(val_data_loader, self.metric, meters)
-                caption = 'Epoch: {}:'.format
+                caption = 'Epoch: {}:'.format(epoch)
+                print(meters.format_simple(caption))
+
+                val_loss_history.append(meters.avg["valid_loss"].item())
+
+            if early_stop is not None:
+                flag = early_st
