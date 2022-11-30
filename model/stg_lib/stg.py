@@ -278,4 +278,7 @@ class STG(object):
             result = metric(pred['pred'], self._model._get_label(feed_dict))
 
         elif self.task_type == 'cox':
-            result = metric(pred['logits'], self._model._get_fail_indicator(feed_dict), 'no
+            result = metric(pred['logits'], self._model._get_fail_indicator(feed_dict), 'noties')
+            val_CI = calc_concordance_index(pred['logits'].detach().numpy(),
+                                            feed_dict['E'].detach().numpy(), feed_dict['T'].detach().numpy())
+            result = as_float(re
