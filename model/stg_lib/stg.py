@@ -274,4 +274,8 @@ class STG(object):
             pred = self._model(feed_dict)
         if self.task_type == 'classification':
             result = metric(pred['logits'], self._model._get_label(feed_dict))
-        elif self.task_type == 'regressio
+        elif self.task_type == 'regression':
+            result = metric(pred['pred'], self._model._get_label(feed_dict))
+
+        elif self.task_type == 'cox':
+            result = metric(pred['logits'], self._model._get_fail_indicator(feed_dict), 'no
