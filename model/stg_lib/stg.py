@@ -271,4 +271,7 @@ class STG(object):
 
     def validate_step(self, feed_dict, metric, meters=None, mode='valid'):
         with torch.no_grad():
-        
+            pred = self._model(feed_dict)
+        if self.task_type == 'classification':
+            result = metric(pred['logits'], self._model._get_label(feed_dict))
+        elif self.task_type == 'regressio
