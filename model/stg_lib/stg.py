@@ -281,4 +281,11 @@ class STG(object):
             result = metric(pred['logits'], self._model._get_fail_indicator(feed_dict), 'noties')
             val_CI = calc_concordance_index(pred['logits'].detach().numpy(),
                                             feed_dict['E'].detach().numpy(), feed_dict['T'].detach().numpy())
-            result = as_float(re
+            result = as_float(result)
+        else:
+            raise NotImplementedError()
+
+        if meters is not None:
+            meters.update({mode + '_loss': result})
+            if self.task_type == 'cox':
+            
