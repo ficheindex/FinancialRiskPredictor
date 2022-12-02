@@ -294,4 +294,10 @@ class STG(object):
         if meters is None:
             meters = GroupMeters()
 
-        self._model.ev
+        self._model.eval()
+        end = time.time()
+        for fd in data_loader:
+            data_time = time.time() - end
+            end = time.time()
+            self.validate_step(fd, metric, meters=meters, mode=mode)
+ 
