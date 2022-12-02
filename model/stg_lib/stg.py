@@ -300,4 +300,13 @@ class STG(object):
             data_time = time.time() - end
             end = time.time()
             self.validate_step(fd, metric, meters=meters, mode=mode)
- 
+            step_time = time.time() - end
+            end = time.time()
+
+        return meters.avg
+
+    def save_checkpoint(self, filename, extra=None):
+        model = self._model
+
+        state = {
+            'model': state_dict(model, cp
