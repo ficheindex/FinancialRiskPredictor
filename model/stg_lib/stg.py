@@ -288,4 +288,10 @@ class STG(object):
         if meters is not None:
             meters.update({mode + '_loss': result})
             if self.task_type == 'cox':
-            
+                meters.update({mode + '_CI': val_CI})
+
+    def validate(self, data_loader, metric, meters=None, mode='valid'):
+        if meters is None:
+            meters = GroupMeters()
+
+        self._model.ev
