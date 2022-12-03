@@ -321,4 +321,10 @@ class STG(object):
 
     def load_checkpoint(self, filename):
         if os.path.isfile(filename):
-            model
+            model = self._model
+            if isinstance(model, nn.DataParallel):
+                model = model.module
+
+            try:
+                checkpoint = torch.load(filename)
+                load_state_dict(model, check
