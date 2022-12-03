@@ -316,4 +316,9 @@ class STG(object):
         try:
             torch.save(state, filename)
             logger.info('Checkpoint saved: "{}".'.format(filename))
- 
+        except Exception:
+            logger.exception('Error occurred when dump checkpoint "{}".'.format(filename))
+
+    def load_checkpoint(self, filename):
+        if os.path.isfile(filename):
+            model
