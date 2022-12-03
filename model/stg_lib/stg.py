@@ -327,4 +327,8 @@ class STG(object):
 
             try:
                 checkpoint = torch.load(filename)
-                load_state_dict(model, check
+                load_state_dict(model, checkpoint['model'])
+                self._optimizer.load_state_dict(checkpoint['optimizer'])
+                logger.critical('Checkpoint loaded: {}.'.format(filename))
+                return checkpoint['extra']
+            exce
