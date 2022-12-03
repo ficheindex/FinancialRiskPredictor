@@ -309,4 +309,11 @@ class STG(object):
         model = self._model
 
         state = {
-            'model': state_dict(model, cp
+            'model': state_dict(model, cpu=True),
+            'optimizer': as_cpu(self._optimizer.state_dict()),
+            'extra': extra
+        }
+        try:
+            torch.save(state, filename)
+            logger.info('Checkpoint saved: "{}".'.format(filename))
+ 
