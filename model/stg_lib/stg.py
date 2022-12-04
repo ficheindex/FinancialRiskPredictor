@@ -331,4 +331,7 @@ class STG(object):
                 self._optimizer.load_state_dict(checkpoint['optimizer'])
                 logger.critical('Checkpoint loaded: {}.'.format(filename))
                 return checkpoint['extra']
-            exce
+            except Exception:
+                logger.exception('Error occurred when load checkpoint "{}".'.format(filename))
+        else:
+            logger.warning('No checkpoint found at specified position: "{}".'.format(filename)
