@@ -18,4 +18,12 @@ from torch.utils.data import Dataset
 SKIP_TYPES = six.string_types
 
 
-class SimpleDatas
+class SimpleDataset(Dataset):
+    """
+    Assuming X and y are numpy arrays and
+     with X.shape = (n_samples, n_features)
+          y.shape = (n_samples,)
+    """
+    def __init__(self, X, y=None):
+        self.X = X
+   
