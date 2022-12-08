@@ -334,4 +334,8 @@ class STG(object):
             except Exception:
                 logger.exception('Error occurred when load checkpoint "{}".'.format(filename))
         else:
-            logger.warning('No checkpoint found at specified position: "{}".'.format(filename)
+            logger.warning('No checkpoint found at specified position: "{}".'.format(filename))
+        return None
+
+    def get_gates(self, mode):
+        return self._model.get_gates(mode)
