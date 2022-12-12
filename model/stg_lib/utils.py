@@ -26,4 +26,12 @@ class SimpleDataset(Dataset):
     """
     def __init__(self, X, y=None):
         self.X = X
-   
+        self.y = y
+    
+    def __len__(self):
+        return (len(self.X))
+
+    def __getitem__(self, i):
+        data = self.X[i]
+        data = np.array(data).astype(np.float32)
+        if self.y is not Non
