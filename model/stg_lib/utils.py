@@ -42,4 +42,7 @@ class SimpleDataset(Dataset):
 
 class FastTensorDataLoader:
     """
-    A DataLoader-like object for a set 
+    A DataLoader-like object for a set of tensors that can be much faster than
+    TensorDataset + DataLoader because dataloader grabs individual indices of
+    the dataset and calls cat (slow).
+    Source: https://discuss.pytorch.org/t/dataload
