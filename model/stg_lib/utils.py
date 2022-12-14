@@ -34,4 +34,12 @@ class SimpleDataset(Dataset):
     def __getitem__(self, i):
         data = self.X[i]
         data = np.array(data).astype(np.float32)
-        if self.y is not Non
+        if self.y is not None:
+            return dict(input=data, label=self.y[i])
+        else:
+            return dict(input=data)
+
+
+class FastTensorDataLoader:
+    """
+    A DataLoader-like object for a set 
