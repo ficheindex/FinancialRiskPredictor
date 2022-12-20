@@ -58,3 +58,11 @@ class FastTensorDataLoader:
         :returns: A FastTensorDataLoader.
         """
         assert all(t.shape[0] == tensors[0].shape[0] for t in tensors)
+        self.tensors = tensors
+        self.tensor_names = tensor_names
+
+        self.dataset_len = self.tensors[0].shape[0]
+        self.batch_size = batch_size
+        self.shuffle = shuffle
+
+        # Calcula
