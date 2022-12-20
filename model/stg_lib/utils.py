@@ -50,4 +50,7 @@ class FastTensorDataLoader:
     def __init__(self, *tensors, tensor_names, batch_size=32, shuffle=False):
         """
         Initialize a FastTensorDataLoader.
-        :param 
+        :param *tensors: tensors to store. Must have the same length @ dim 0.
+        :param tensor_names: name of tensors (for feed_dict)
+        :param batch_size: batch size to load.
+        :param shuffle: if True, shuffle
