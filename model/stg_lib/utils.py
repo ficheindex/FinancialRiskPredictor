@@ -53,4 +53,8 @@ class FastTensorDataLoader:
         :param *tensors: tensors to store. Must have the same length @ dim 0.
         :param tensor_names: name of tensors (for feed_dict)
         :param batch_size: batch size to load.
-        :param shuffle: if True, shuffle
+        :param shuffle: if True, shuffle the data *in-place* whenever an
+            iterator is created out of this object.
+        :returns: A FastTensorDataLoader.
+        """
+        assert all(t.shape[0] == tensors[0].shape[0] for t in tensors)
