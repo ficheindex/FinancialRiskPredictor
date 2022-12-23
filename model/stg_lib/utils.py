@@ -79,4 +79,9 @@ class FastTensorDataLoader:
         return self
 
     def __next__(self):
-        if 
+        if self.i >= self.dataset_len:
+            raise StopIteration
+        batch = {}
+        for k in range(len(self.tensor_names)):
+            batch.update({self.tensor_names[k]: self.tensors[k][self.i:self.i+self.batch_size]})
+ 
