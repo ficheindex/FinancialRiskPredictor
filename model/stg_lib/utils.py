@@ -71,4 +71,12 @@ class FastTensorDataLoader:
             n_batches += 1
         self.n_batches = n_batches
 
-    def __iter_
+    def __iter__(self):
+        if self.shuffle:
+            r = torch.randperm(self.dataset_len)
+            self.tensors = [t[r] for t in self.tensors]
+        self.i = 0
+        return self
+
+    def __next__(self):
+        if 
