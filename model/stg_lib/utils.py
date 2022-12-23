@@ -65,4 +65,10 @@ class FastTensorDataLoader:
         self.batch_size = batch_size
         self.shuffle = shuffle
 
-        # Calcula
+        # Calculate # batches
+        n_batches, remainder = divmod(self.dataset_len, self.batch_size)
+        if remainder > 0:
+            n_batches += 1
+        self.n_batches = n_batches
+
+    def __iter_
