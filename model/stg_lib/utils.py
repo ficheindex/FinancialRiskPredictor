@@ -100,4 +100,13 @@ def standardize_dataset(dataset, offset, scale):
 
 
 '''load_datasets function is from utils_jared.py'''
-def load_datasets(dataset_fi
+def load_datasets(dataset_file):
+    datasets = defaultdict(dict)
+    with h5py.File(dataset_file, 'r') as fp:
+        for ds in fp:
+            for array in fp[ds]:
+                datasets[ds][array] = fp[ds][array][:]
+
+    return datasets
+
+def load_cox_gaussi
