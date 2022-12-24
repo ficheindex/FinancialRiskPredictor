@@ -84,4 +84,13 @@ class FastTensorDataLoader:
         batch = {}
         for k in range(len(self.tensor_names)):
             batch.update({self.tensor_names[k]: self.tensors[k][self.i:self.i+self.batch_size]})
- 
+        self.i += self.batch_size
+        return batch
+        
+
+    def __len__(self):
+        return self.n_batches
+
+
+'''standardize_dataset function is from utils_jared.py'''
+def standardize_dataset
