@@ -109,4 +109,9 @@ def load_datasets(dataset_file):
 
     return datasets
 
-def load_cox_gaussi
+def load_cox_gaussian_data():
+    dataset_file = os.path.join(os.path.dirname(__file__), 
+        'datasets/gaussian_survival_data.h5')
+    datasets = defaultdict(dict)
+    with h5py.File(dataset_file, 'r') as fp:
+    
