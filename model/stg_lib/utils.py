@@ -93,4 +93,11 @@ class FastTensorDataLoader:
 
 
 '''standardize_dataset function is from utils_jared.py'''
-def standardize_dataset
+def standardize_dataset(dataset, offset, scale):
+    norm_ds = copy.deepcopy(dataset)
+    norm_ds['x'] = (norm_ds['x'] - offset) / scale
+    return norm_ds
+
+
+'''load_datasets function is from utils_jared.py'''
+def load_datasets(dataset_fi
