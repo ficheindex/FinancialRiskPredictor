@@ -122,4 +122,12 @@ def load_cox_gaussian_data():
 
 def prepare_data(x, label):
     if isinstance(label, dict):
-       e, t = label['e'], label[
+       e, t = label['e'], label['t']
+
+    # Sort training data for accurate partial likelihood calculation.
+    sort_idx = np.argsort(t)[::-1]
+    x = x[sort_idx]
+    e = e[sort_idx]
+    t = t[sort_idx]
+
+    #return x, {'e': e, 't': t} this is for parse_data(x, label); 
