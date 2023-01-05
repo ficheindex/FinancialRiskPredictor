@@ -147,4 +147,13 @@ def probe_infnan(v, name, extras={}):
 
 
 class Identity(nn.Module):
-    d
+    def forward(self, *args):
+        if len(args) == 1:
+            return args[0]
+        return args
+
+def get_batcnnorm(bn, nr_features=None, nr_dims=1):
+    if isinstance(bn, nn.Module):
+        return bn
+
+    assert 1
