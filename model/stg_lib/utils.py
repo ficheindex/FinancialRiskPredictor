@@ -137,4 +137,14 @@ def prepare_data(x, label):
 def probe_infnan(v, name, extras={}):
     nps = torch.isnan(v)
     s = nps.sum().item()
-    if s > 
+    if s > 0:
+        print('>>> {} >>>'.format(name))
+        print(name, s)
+        print(v[nps])
+        for k, val in extras.items():
+            print(k, val, val.sum().item())
+        quit()
+
+
+class Identity(nn.Module):
+    d
