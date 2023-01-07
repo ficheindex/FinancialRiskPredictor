@@ -156,4 +156,10 @@ def get_batcnnorm(bn, nr_features=None, nr_dims=1):
     if isinstance(bn, nn.Module):
         return bn
 
-    assert 1
+    assert 1 <= nr_dims <= 3
+
+    if bn in (True, 'async'):
+        clz_name = 'BatchNorm{}d'.format(nr_dims)
+        return getattr(nn, clz_name)(nr_features)
+    else:
+        raise ValueError('Unknown type of batch normalization: {}.'.format(bn))
