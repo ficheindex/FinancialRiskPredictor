@@ -174,4 +174,12 @@ def get_dropout(dropout, nr_dims=1):
     if nr_dims == 1:
         return nn.Dropout(dropout, True)
     else:
-        
+        clz_name = 'Dropout{}d'.format(nr_dims)
+        return getattr(nn, clz_name)(dropout)
+
+
+def get_activation(act):
+    if isinstance(act, nn.Module):
+        return act
+
+    assert type(act) is str, 'Unknown type of activat
