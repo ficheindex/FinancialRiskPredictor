@@ -182,4 +182,11 @@ def get_activation(act):
     if isinstance(act, nn.Module):
         return act
 
-    assert type(act) is str, 'Unknown type of activat
+    assert type(act) is str, 'Unknown type of activation: {}.'.format(act)
+    act_lower = act.lower()
+    if act_lower == 'identity':
+        return Identity()
+    elif act_lower == 'relu':
+        return nn.ReLU(True)
+    elif act_lower == 'selu':
+        return nn.SELU(True)
