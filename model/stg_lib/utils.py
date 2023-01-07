@@ -163,3 +163,15 @@ def get_batcnnorm(bn, nr_features=None, nr_dims=1):
         return getattr(nn, clz_name)(nr_features)
     else:
         raise ValueError('Unknown type of batch normalization: {}.'.format(bn))
+
+
+def get_dropout(dropout, nr_dims=1):
+    if isinstance(dropout, nn.Module):
+        return dropout
+
+    if dropout is True:
+        dropout = 0.5
+    if nr_dims == 1:
+        return nn.Dropout(dropout, True)
+    else:
+        
