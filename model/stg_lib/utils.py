@@ -190,3 +190,11 @@ def get_activation(act):
         return nn.ReLU(True)
     elif act_lower == 'selu':
         return nn.SELU(True)
+    elif act_lower == 'sigmoid':
+        return nn.Sigmoid()
+    elif act_lower == 'tanh':
+        return nn.Tanh()
+    else:
+        try:
+            return getattr(nn, act)
+        except AttributeError:
