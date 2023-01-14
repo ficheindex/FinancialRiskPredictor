@@ -198,3 +198,9 @@ def get_activation(act):
         try:
             return getattr(nn, act)
         except AttributeError:
+            raise ValueError('Unknown activation function: {}.'.format(act))
+
+
+def get_optimizer(optimizer, model, *args, **kwargs):
+    if isinstance(optimizer, (optim.Optimizer)):
+        
