@@ -203,4 +203,11 @@ def get_activation(act):
 
 def get_optimizer(optimizer, model, *args, **kwargs):
     if isinstance(optimizer, (optim.Optimizer)):
-        
+        return optimizer
+
+    if type(optimizer) is str:
+        try:
+            optimizer = getattr(optim, optimizer)
+        except AttributeError:
+            raise ValueError('Unknown optimizer type: {}.'.format(optimizer))
+    return optimize
