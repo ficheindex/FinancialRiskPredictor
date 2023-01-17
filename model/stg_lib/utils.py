@@ -210,4 +210,10 @@ def get_optimizer(optimizer, model, *args, **kwargs):
             optimizer = getattr(optim, optimizer)
         except AttributeError:
             raise ValueError('Unknown optimizer type: {}.'.format(optimizer))
-    return optimize
+    return optimizer(filter(lambda p: p.requires_grad, model.parameters()), *args, **kwargs)
+    
+
+def stmap(func, iterable):
+    if isinstance(iterable, six.string_types):
+        return func(iterable)
+    elif isinstance(iterable, (collections.
