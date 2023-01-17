@@ -216,4 +216,8 @@ def get_optimizer(optimizer, model, *args, **kwargs):
 def stmap(func, iterable):
     if isinstance(iterable, six.string_types):
         return func(iterable)
-    elif isinstance(iterable, (collections.
+    elif isinstance(iterable, (collections.Sequence, collections.UserList)):
+        return [stmap(func, v) for v in iterable]
+    elif isinstance(iterable, collections.Set):
+        return {stmap(func, v) for v in iterable}
+    elif isinstance(iterable, (collections
