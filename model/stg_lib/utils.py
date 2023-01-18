@@ -238,4 +238,14 @@ def _as_tensor(o):
 
 
 def as_tensor(obj):
-    return stmap(_as_t
+    return stmap(_as_tensor, obj)
+
+
+def _as_numpy(o):
+    from torch.autograd import Variable
+    if isinstance(o, SKIP_TYPES):
+        return o
+    if isinstance(o, Variable):
+        o = o
+    if torch.is_tensor(o):
+        return o
