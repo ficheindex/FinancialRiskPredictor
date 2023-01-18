@@ -220,4 +220,12 @@ def stmap(func, iterable):
         return [stmap(func, v) for v in iterable]
     elif isinstance(iterable, collections.Set):
         return {stmap(func, v) for v in iterable}
-    elif isinstance(iterable, (collections
+    elif isinstance(iterable, (collections.Mapping, collections.UserDict)):
+        return {k: stmap(func, v) for k, v in iterable.items()}
+    else:
+        return func(iterable)
+
+
+def _as_tensor(o):
+    from torch.autograd import Variable
+    if
