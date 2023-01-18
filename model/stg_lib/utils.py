@@ -228,4 +228,14 @@ def stmap(func, iterable):
 
 def _as_tensor(o):
     from torch.autograd import Variable
-    if
+    if isinstance(o, SKIP_TYPES):
+        return o
+    if isinstance(o, Variable):
+        return o
+    if torch.is_tensor(o):
+        return o
+    return torch.from_numpy(np.array(o))
+
+
+def as_tensor(obj):
+    return stmap(_as_t
