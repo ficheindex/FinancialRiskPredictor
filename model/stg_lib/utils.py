@@ -248,4 +248,16 @@ def _as_numpy(o):
     if isinstance(o, Variable):
         o = o
     if torch.is_tensor(o):
+        return o.cpu().numpy()
+    return np.array(o)
+
+
+def as_numpy(obj):
+    return stmap(_as_numpy, obj)
+
+
+def _as_float(o):
+    if isinstance(o, SKIP_TYPES):
+        return o
+    if torch.is_tensor(o):
         return o
