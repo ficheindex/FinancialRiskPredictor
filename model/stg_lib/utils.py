@@ -260,4 +260,16 @@ def _as_float(o):
     if isinstance(o, SKIP_TYPES):
         return o
     if torch.is_tensor(o):
-        return o
+        return o.item()
+    arr = as_numpy(o)
+    assert arr.size == 1
+    return float(arr)
+
+
+def as_float(obj):
+    return stmap(_as_float, obj)
+
+
+def _as_cpu(o):
+    from torch.autograd import Variable
+    if isinstance(o, Variable) or torch.is_tensor(
