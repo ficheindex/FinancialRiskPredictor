@@ -272,4 +272,20 @@ def as_float(obj):
 
 def _as_cpu(o):
     from torch.autograd import Variable
-    if isinstance(o, Variable) or torch.is_tensor(
+    if isinstance(o, Variable) or torch.is_tensor(o):
+        return o.cpu()
+    return o
+
+
+def as_cpu(obj):
+    return stmap(_as_cpu, obj)
+
+
+## For synthetic dataset creation
+import math
+from sklearn.datasets import make_moons
+from scipy.stats import norm
+
+
+# Create a simple dataset
+def crea
