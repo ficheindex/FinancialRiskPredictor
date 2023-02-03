@@ -292,4 +292,12 @@ def create_twomoon_dataset(n, p):
     relevant, y = make_moons(n_samples=n, shuffle=True, noise=0.1, random_state=None)
     print(y.shape)
     noise_vector = norm.rvs(loc=0, scale=1, size=[n,p-2])
-    data = np.concatenate([releva
+    data = np.concatenate([relevant, noise_vector], axis=1)
+    print(data.shape)
+    return data, y
+
+
+def create_sin_dataset(n,p):
+    x1=5*(np.random.uniform(0,1,n)).reshape(-1,1)
+    x2=5*(np.random.uniform(0,1,n)).reshape(-1,1)
+    y=np.sin(x1)
