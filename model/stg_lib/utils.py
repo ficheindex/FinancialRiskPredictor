@@ -300,4 +300,8 @@ def create_twomoon_dataset(n, p):
 def create_sin_dataset(n,p):
     x1=5*(np.random.uniform(0,1,n)).reshape(-1,1)
     x2=5*(np.random.uniform(0,1,n)).reshape(-1,1)
-    y=np.sin(x1)
+    y=np.sin(x1)*np.cos(x2)**3
+    relevant=np.hstack((x1,x2))
+    noise_vector = norm.rvs(loc=0, scale=1, size=[n,p-2])
+    data = np.concatenate([relevant, noise_vector], axis=1)
+    return data, y.astype(np.float
