@@ -304,4 +304,12 @@ def create_sin_dataset(n,p):
     relevant=np.hstack((x1,x2))
     noise_vector = norm.rvs(loc=0, scale=1, size=[n,p-2])
     data = np.concatenate([relevant, noise_vector], axis=1)
-    return data, y.astype(np.float
+    return data, y.astype(np.float32)
+
+
+
+def create_simple_sin_dataset(n, p):
+    '''This dataset was added to provide an example of L1 norm reg failure for presentation.
+    '''
+    assert p == 2
+    x1 = np.random.uniform(-math.pi, math.pi, n).reshape(n ,1)
