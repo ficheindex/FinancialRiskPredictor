@@ -313,3 +313,9 @@ def create_simple_sin_dataset(n, p):
     '''
     assert p == 2
     x1 = np.random.uniform(-math.pi, math.pi, n).reshape(n ,1)
+    x2 = np.random.uniform(-math.pi, math.pi, n).reshape(n, 1)
+    y = np.sin(x1)
+    data = np.concatenate([x1, x2], axis=1)
+    print("data.shape: {}".format(data.shape))
+    return data, y
+    
