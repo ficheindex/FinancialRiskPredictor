@@ -24,4 +24,11 @@ class TabNet(BaseModelTorch, ABC):
         super().__init__(params, args)
 
         self.params = dict({
-         
+            "n_d": 14,
+            "n_steps": 3,
+            "gamma": 1.76,
+            "cat_emb_dim": 2,
+            "n_independent": 3,
+            "n_shared": 2,
+            "momentum": 0.319,
+            "mask_type": "en
