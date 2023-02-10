@@ -38,4 +38,11 @@ class TabNet(BaseModelTorch, ABC):
         self.params["n_a"] = self.params["n_d"]
 
         self.params["cat_idxs"] = args.cat_idx if args.cat_idx else []
-        self.params["cat_dims"] = arg
+        self.params["cat_dims"] = args.cat_dim
+
+        self.params["device_name"] = self.device
+
+        if args.objective == "regression":
+            self.model = TabNetRegressor(**self.params)
+            self.metric = ["rmse"]
+        elif args.objective == "cla
