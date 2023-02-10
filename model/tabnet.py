@@ -31,4 +31,11 @@ class TabNet(BaseModelTorch, ABC):
             "n_independent": 3,
             "n_shared": 2,
             "momentum": 0.319,
-            "mask_type": "en
+            "mask_type": "entmax"
+        })
+
+        # Paper recommends to be n_d and n_a the same
+        self.params["n_a"] = self.params["n_d"]
+
+        self.params["cat_idxs"] = args.cat_idx if args.cat_idx else []
+        self.params["cat_dims"] = arg
