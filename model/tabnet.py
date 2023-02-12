@@ -45,4 +45,9 @@ class TabNet(BaseModelTorch, ABC):
         if args.objective == "regression":
             self.model = TabNetRegressor(**self.params)
             self.metric = ["rmse"]
-        elif args.objective == "cla
+        elif args.objective == "classification" or args.objective == "binary":
+            self.model = TabNetClassifier(**self.params)
+            self.metric = ["logloss"]
+
+    def fit(self, X, y, X_val=None, y_val=None, optimizer=None, criterion=None):
+        if sel
