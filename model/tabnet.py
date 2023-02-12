@@ -55,4 +55,9 @@ class TabNet(BaseModelTorch, ABC):
 
         X = X.astype(np.float32)
 
-        self.model.fit(X, y, eval_set=[(X_val, y_val)], eval_name=["eval"], eval_metric=self.metri
+        self.model.fit(X, y, eval_set=[(X_val, y_val)], eval_name=["eval"], eval_metric=self.metric,
+                       max_epochs=self.args.epoch, patience=self.args.early_stopping_rounds,
+                       batch_size=self.args.bsz)
+        history = self.model.history
+        self.save_model(filename_extension="best")
+      
