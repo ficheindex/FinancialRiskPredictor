@@ -50,4 +50,9 @@ class TabNet(BaseModelTorch, ABC):
             self.metric = ["logloss"]
 
     def fit(self, X, y, X_val=None, y_val=None, optimizer=None, criterion=None):
-        if sel
+        if self.args.objective == "regression":
+            y, y_val = y.reshape(-1, 1), y_val.reshape(-1, 1)
+
+        X = X.astype(np.float32)
+
+        self.model.fit(X, y, eval_set=[(X_val, y_val)], eval_name=["eval"], eval_metric=self.metri
