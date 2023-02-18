@@ -66,4 +66,9 @@ class TabNet(BaseModelTorch, ABC):
         X = np.array(X, dtype=np.float)
 
         if self.args.objective == "regression":
-            return self.mod
+            return self.model.predict(X)
+        elif self.args.objective == "classification" or self.args.objective == "binary":
+            return self.model.predict_proba(X)
+
+    def save_model(self, filename_extension=""):
+        sa
