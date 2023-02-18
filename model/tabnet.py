@@ -60,4 +60,10 @@ class TabNet(BaseModelTorch, ABC):
                        batch_size=self.args.bsz)
         history = self.model.history
         self.save_model(filename_extension="best")
-      
+        return history["loss"], history["eval_" + self.metric[0]]
+
+    def predict_helper(self, X):
+        X = np.array(X, dtype=np.float)
+
+        if self.args.objective == "regression":
+            return self.mod
