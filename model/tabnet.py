@@ -71,4 +71,9 @@ class TabNet(BaseModelTorch, ABC):
             return self.model.predict_proba(X)
 
     def save_model(self, filename_extension=""):
-        sa
+        save_model_to_file(self.model, self.args, filename_extension)
+
+    def load_model(self, filename_extension=""):
+        self.model = load_model_from_file(self.model, self.args, filename_extension)
+
+    def 
