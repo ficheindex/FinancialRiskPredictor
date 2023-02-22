@@ -82,3 +82,8 @@ class TabNet(BaseModelTorch, ABC):
         return model_size
 
     @classmethod
+    def define_trial_parameters(cls, trial, args):
+        params = {
+            "n_d": trial.suggest_int("n_d", 8, 64),
+            "n_steps": trial.suggest_int("n_steps", 3, 10),
+            "gamma": tri
