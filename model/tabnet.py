@@ -86,4 +86,7 @@ class TabNet(BaseModelTorch, ABC):
         params = {
             "n_d": trial.suggest_int("n_d", 8, 64),
             "n_steps": trial.suggest_int("n_steps", 3, 10),
-            "gamma": tri
+            "gamma": trial.suggest_float("gamma", 1.0, 2.0),
+            "cat_emb_dim": trial.suggest_int("cat_emb_dim", 1, 3),
+            "n_independent": trial.suggest_int("n_independent", 1, 5),
+            "n_shared": trial.suggest
