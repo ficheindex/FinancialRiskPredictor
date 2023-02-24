@@ -89,4 +89,8 @@ class TabNet(BaseModelTorch, ABC):
             "gamma": trial.suggest_float("gamma", 1.0, 2.0),
             "cat_emb_dim": trial.suggest_int("cat_emb_dim", 1, 3),
             "n_independent": trial.suggest_int("n_independent", 1, 5),
-            "n_shared": trial.suggest
+            "n_shared": trial.suggest_int("n_shared", 1, 5),
+            "momentum": trial.suggest_float("momentum", 0.001, 0.4, log=True),
+            "mask_type": trial.suggest_categorical("mask_type", ["sparsemax", "entmax"]),
+        }
+        return params
