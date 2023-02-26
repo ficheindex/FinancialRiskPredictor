@@ -102,4 +102,4 @@ class TabNet(BaseModelTorch, ABC):
         """
         X = np.array(X, dtype=np.float)
         attributions = self.model.explain(torch.tensor(X, dtype=torch.float32))[0]
-        return attribution
+        return attributions
