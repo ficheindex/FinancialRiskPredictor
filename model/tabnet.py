@@ -98,4 +98,8 @@ class TabNet(BaseModelTorch, ABC):
     def attribute(self, X: np.ndarray, y: np.ndarray, stategy=""):
         """ Generate feature attributions for the model input.
             Only strategy are supported: default ("") 
-            Return
+            Return attribution in the same shape as X.
+        """
+        X = np.array(X, dtype=np.float)
+        attributions = self.model.explain(torch.tensor(X, dtype=torch.float32))[0]
+        return attribution
