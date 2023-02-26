@@ -94,3 +94,8 @@ class TabNet(BaseModelTorch, ABC):
             "mask_type": trial.suggest_categorical("mask_type", ["sparsemax", "entmax"]),
         }
         return params
+
+    def attribute(self, X: np.ndarray, y: np.ndarray, stategy=""):
+        """ Generate feature attributions for the model input.
+            Only strategy are supported: default ("") 
+            Return
