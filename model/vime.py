@@ -22,4 +22,9 @@ Code: https://github.com/jsyoon0823/VIME
 
 class VIME(BaseModelTorch, ABC):
 
-    def __init__(self, params=None, ar
+    def __init__(self, params=None, args=None):
+        super().__init__(params, args)
+
+        self.device = args.device
+        self.model_self = VIMESelf(args.num_features).to(self.device)
+        self.model_semi = VIMESemi(args, args.num_fe
