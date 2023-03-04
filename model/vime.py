@@ -27,4 +27,8 @@ class VIME(BaseModelTorch, ABC):
 
         self.device = args.device
         self.model_self = VIMESelf(args.num_features).to(self.device)
-        self.model_semi = VIMESemi(args, args.num_fe
+        self.model_semi = VIMESemi(args, args.num_features, args.num_classes).to(self.device)
+
+        if self.args.data_parallel:
+            self.model_self = nn.DataParallel(self.model_self, device_ids=self.args.gpu_ids)
+            self.model_
