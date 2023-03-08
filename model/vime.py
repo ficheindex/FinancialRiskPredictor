@@ -37,4 +37,13 @@ class VIME(BaseModelTorch, ABC):
             "p_m": 0.113,
             "K": 15,
             "alpha": 9.83,
-            "beta": 0.31
+            "beta": 0.313,
+        })
+
+        print("On Device:", self.device)
+
+        self.encoder_layer = None
+
+    def fit(self, X, y, X_val=None, y_val=None, optimizer=None, criterion=None):
+        X = np.array(X, dtype=np.float)
+  
