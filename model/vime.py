@@ -31,4 +31,10 @@ class VIME(BaseModelTorch, ABC):
 
         if self.args.data_parallel:
             self.model_self = nn.DataParallel(self.model_self, device_ids=self.args.gpu_ids)
-            self.model_
+            self.model_semi = nn.DataParallel(self.model_semi, device_ids=self.args.gpu_ids)
+
+        self.params = dict({
+            "p_m": 0.113,
+            "K": 15,
+            "alpha": 9.83,
+            "beta": 0.31
