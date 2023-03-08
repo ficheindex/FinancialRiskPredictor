@@ -46,4 +46,10 @@ class VIME(BaseModelTorch, ABC):
 
     def fit(self, X, y, X_val=None, y_val=None, optimizer=None, criterion=None):
         X = np.array(X, dtype=np.float)
-  
+        X_val = np.array(X_val, dtype=np.float)
+
+        X_unlab = np.concatenate([X, X_val], axis=0)
+
+        self.fit_self(X_unlab, p_m=self.params["p_m"], alpha=self.params["alpha"])
+
+        if self.arg
