@@ -52,4 +52,10 @@ class VIME(BaseModelTorch, ABC):
 
         self.fit_self(X_unlab, p_m=self.params["p_m"], alpha=self.params["alpha"])
 
-        if self.arg
+        if self.args.data_parallel:
+            self.encoder_layer = self.model_self.module.input_layer
+        else:
+            self.encoder_layer = self.model_self.input_layer
+
+        loss_history, val_loss_history = self.fit_semi(
+            X, y, X, X_v
