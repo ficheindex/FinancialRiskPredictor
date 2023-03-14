@@ -61,4 +61,13 @@ class VIME(BaseModelTorch, ABC):
             X, y, X, X_val, y_val, p_m=self.params["p_m"], K=self.params["K"], beta=self.params["beta"])
 
         self.load_model(filename_extension="best", directory="tmp")
-        return loss_history, val_loss_
+        return loss_history, val_loss_history
+
+    def predict_helper(self, X):
+        self.model_self.eval()
+        self.model_semi.eval()
+
+        X = np.array(X, dtype=np.float)
+        X = torch.tensor(X).float()
+
+        test_dataset = TensorDataset(X
