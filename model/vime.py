@@ -70,4 +70,10 @@ class VIME(BaseModelTorch, ABC):
         X = np.array(X, dtype=np.float)
         X = torch.tensor(X).float()
 
-        test_dataset = TensorDataset(X
+        test_dataset = TensorDataset(X)
+        test_loader = DataLoader(dataset=test_dataset, batch_size=self.args.val_batch_size, shuffle=False,
+                                 num_workers=2)
+
+        predictions = []
+
+        with torch.no_grad():
