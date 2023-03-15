@@ -81,4 +81,11 @@ class VIME(BaseModelTorch, ABC):
                 X_encoded = self.encoder_layer(batch_X[0].to(self.device))
                 preds = self.model_semi(X_encoded)
 
-                if self.args
+                if self.args.objective == "binary":
+                    preds = torch.sigmoid(preds)
+
+                predictions.append(preds.detach().cpu().numpy())
+        return np.concatenate(predictions)
+
+    @classmethod
+    def define_
