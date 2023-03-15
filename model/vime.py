@@ -77,3 +77,8 @@ class VIME(BaseModelTorch, ABC):
         predictions = []
 
         with torch.no_grad():
+            for batch_X in test_loader:
+                X_encoded = self.encoder_layer(batch_X[0].to(self.device))
+                preds = self.model_semi(X_encoded)
+
+                if self.args
