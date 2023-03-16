@@ -88,4 +88,8 @@ class VIME(BaseModelTorch, ABC):
         return np.concatenate(predictions)
 
     @classmethod
-    def define_
+    def define_trial_parameters(cls, trial, args):
+        params = {
+            "p_m": trial.suggest_float("p_m", 0.1, 0.9),
+            "alpha": trial.suggest_float("alpha", 0.1, 10),
+            "K": trial.suggest_categorical("K"
