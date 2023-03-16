@@ -92,4 +92,10 @@ class VIME(BaseModelTorch, ABC):
         params = {
             "p_m": trial.suggest_float("p_m", 0.1, 0.9),
             "alpha": trial.suggest_float("alpha", 0.1, 10),
-            "K": trial.suggest_categorical("K"
+            "K": trial.suggest_categorical("K", [2, 3, 5, 10, 15, 20]),
+            "beta": trial.suggest_float("beta", 0.1, 10),
+        }
+        return params
+
+    def fit_self(self, X, p_m=0.3, alpha=2):
+        optimizer = optim.RMSprop(self.model_self.p
