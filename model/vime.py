@@ -109,4 +109,8 @@ class VIME(BaseModelTorch, ABC):
         m_label = torch.tensor(m_label).float()
         X = torch.tensor(X).float()
         train_dataset = TensorDataset(x_tilde, m_label, X)
-        train_loader = DataLoader(datas
+        train_loader = DataLoader(dataset=train_dataset, batch_size=self.args.bsz, shuffle=True, num_workers=2)
+
+        for epoch in range(self.args.epoch):
+            for batch_X, batch_mask, batch_feat in train_loader:
+                out_mask, out_feat = 
