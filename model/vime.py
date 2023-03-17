@@ -98,4 +98,11 @@ class VIME(BaseModelTorch, ABC):
         return params
 
     def fit_self(self, X, p_m=0.3, alpha=2):
-        optimizer = optim.RMSprop(self.model_self.p
+        optimizer = optim.RMSprop(self.model_self.parameters(), lr=0.001)
+        loss_func_mask = nn.BCELoss()
+        loss_func_feat = nn.MSELoss()
+
+        m_unlab = mask_generator(p_m, X)
+        m_label, x_tilde = pretext_generator(m_unlab, X)
+
+        
