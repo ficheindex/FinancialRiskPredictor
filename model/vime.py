@@ -105,4 +105,8 @@ class VIME(BaseModelTorch, ABC):
         m_unlab = mask_generator(p_m, X)
         m_label, x_tilde = pretext_generator(m_unlab, X)
 
-        
+        x_tilde = torch.tensor(x_tilde).float()
+        m_label = torch.tensor(m_label).float()
+        X = torch.tensor(X).float()
+        train_dataset = TensorDataset(x_tilde, m_label, X)
+        train_loader = DataLoader(datas
