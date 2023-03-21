@@ -113,4 +113,9 @@ class VIME(BaseModelTorch, ABC):
 
         for epoch in range(self.args.epoch):
             for batch_X, batch_mask, batch_feat in train_loader:
-                out_mask, out_feat = 
+                out_mask, out_feat = self.model_self(batch_X.to(self.device))
+
+                loss_mask = loss_func_mask(out_mask, batch_mask.to(self.device))
+                loss_feat = loss_func_feat(out_feat, batch_feat.to(self.device))
+
+                loss = l
