@@ -118,4 +118,12 @@ class VIME(BaseModelTorch, ABC):
                 loss_mask = loss_func_mask(out_mask, batch_mask.to(self.device))
                 loss_feat = loss_func_feat(out_feat, batch_feat.to(self.device))
 
-                loss = l
+                loss = loss_mask + loss_feat * alpha
+
+                optimizer.zero_grad()
+                loss.backward()
+                optimizer.step()
+
+        print("Fitted encoder")
+
+    def fit_semi(self, X, y, x_unlab, X_val=None, y_v
