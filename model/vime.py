@@ -143,4 +143,11 @@ class VIME(BaseModelTorch, ABC):
         # else:
         #     loss_func_supervised = nn.BCEWithLogitsLoss()
         #     y = y.float()
-      
+        #     y_val = y_val.float()
+
+        if self.args.objective == "regression":
+            loss_func_supervised = nn.MSELoss()
+            y = y.float()
+            y_val = y_val.float()
+        else:
+            loss_func_supervised = nn.
