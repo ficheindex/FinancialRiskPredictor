@@ -126,4 +126,9 @@ class VIME(BaseModelTorch, ABC):
 
         print("Fitted encoder")
 
-    def fit_semi(self, X, y, x_unlab, X_val=None, y_v
+    def fit_semi(self, X, y, x_unlab, X_val=None, y_val=None, p_m=0.3, K=3, beta=1):
+        X = torch.tensor(X).float().to(self.device)
+        y = torch.tensor(y).to(self.device)
+        x_unlab = torch.tensor(x_unlab).float().to(self.device)
+
+        X_val = torch.tensor(X_val)
