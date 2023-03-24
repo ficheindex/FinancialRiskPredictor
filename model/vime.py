@@ -138,4 +138,9 @@ class VIME(BaseModelTorch, ABC):
         #     loss_func_supervised = nn.MSELoss()
         #     y = y.float()
         #     y_val = y_val.float()
-    
+        # elif self.args.objective == "classification":
+        #     loss_func_supervised = nn.CrossEntropyLoss()
+        # else:
+        #     loss_func_supervised = nn.BCEWithLogitsLoss()
+        #     y = y.float()
+      
