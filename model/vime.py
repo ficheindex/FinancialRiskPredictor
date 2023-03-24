@@ -131,4 +131,11 @@ class VIME(BaseModelTorch, ABC):
         y = torch.tensor(y).to(self.device)
         x_unlab = torch.tensor(x_unlab).float().to(self.device)
 
-        X_val = torch.tensor(X_val)
+        X_val = torch.tensor(X_val).float().to(self.device)
+        y_val = torch.tensor(y_val).to(self.device)
+
+        # if self.args.objective == "regression":
+        #     loss_func_supervised = nn.MSELoss()
+        #     y = y.float()
+        #     y_val = y_val.float()
+    
