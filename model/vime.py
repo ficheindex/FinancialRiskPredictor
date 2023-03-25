@@ -157,4 +157,7 @@ class VIME(BaseModelTorch, ABC):
         optimizer = optim.AdamW(self.model_semi.parameters())
 
         train_dataset = TensorDataset(X, y, x_unlab)
-      
+        train_loader = DataLoader(dataset=train_dataset, batch_size=self.args.bsz, shuffle=True, num_workers=2,
+                                  drop_last=True)
+
+        val_dataset = TensorDataset(X_val, y_val)
