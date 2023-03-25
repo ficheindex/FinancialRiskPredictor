@@ -169,4 +169,8 @@ class VIME(BaseModelTorch, ABC):
         loss_history = []
         val_loss_history = []
 
-   
+        for epoch in range(self.args.epoch):
+            for i, (batch_X, batch_y, batch_unlab) in enumerate(train_loader):
+
+                batch_X_encoded = self.encoder_layer(batch_X.to(self.device))
+                y_hat = sel
