@@ -150,4 +150,11 @@ class VIME(BaseModelTorch, ABC):
             y = y.float()
             y_val = y_val.float()
         else:
-            loss_func_supervised = nn.
+            loss_func_supervised = nn.CrossEntropyLoss()
+            y = y.long()
+            y_val = y_val.long()
+
+        optimizer = optim.AdamW(self.model_semi.parameters())
+
+        train_dataset = TensorDataset(X, y, x_unlab)
+      
