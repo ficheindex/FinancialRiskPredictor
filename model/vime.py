@@ -161,3 +161,12 @@ class VIME(BaseModelTorch, ABC):
                                   drop_last=True)
 
         val_dataset = TensorDataset(X_val, y_val)
+        val_loader = DataLoader(dataset=val_dataset, batch_size=self.args.bsz, shuffle=False)
+
+        min_val_loss = float("inf")
+        min_val_loss_idx = 0
+
+        loss_history = []
+        val_loss_history = []
+
+   
