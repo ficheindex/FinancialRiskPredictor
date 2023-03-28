@@ -173,4 +173,9 @@ class VIME(BaseModelTorch, ABC):
             for i, (batch_X, batch_y, batch_unlab) in enumerate(train_loader):
 
                 batch_X_encoded = self.encoder_layer(batch_X.to(self.device))
-                y_hat = sel
+                y_hat = self.model_semi(batch_X_encoded)
+
+                yv_hats = torch.empty(K, self.args.bsz, self.args.num_classes)
+                for rep in range(K):
+                    m_batch = mask_generator(p_m, batch_unlab)
+   
