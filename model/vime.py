@@ -178,4 +178,7 @@ class VIME(BaseModelTorch, ABC):
                 yv_hats = torch.empty(K, self.args.bsz, self.args.num_classes)
                 for rep in range(K):
                     m_batch = mask_generator(p_m, batch_unlab)
-   
+                    _, batch_unlab_tmp = pretext_generator(m_batch, batch_unlab)
+
+                    batch_unlab_encoded = self.encoder_layer(batch_unlab_tmp.float().to(self.device))
+                    yv_hat = self.model_semi(batch
