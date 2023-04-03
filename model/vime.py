@@ -181,4 +181,10 @@ class VIME(BaseModelTorch, ABC):
                     _, batch_unlab_tmp = pretext_generator(m_batch, batch_unlab)
 
                     batch_unlab_encoded = self.encoder_layer(batch_unlab_tmp.float().to(self.device))
-                    yv_hat = self.model_semi(batch
+                    yv_hat = self.model_semi(batch_unlab_encoded)
+                    yv_hats[rep] = yv_hat
+
+                if self.args.objective == "regression" or self.args.objective == "binary":
+                    y_hat = y_hat.squeeze()
+
+         
