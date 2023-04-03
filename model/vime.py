@@ -187,4 +187,7 @@ class VIME(BaseModelTorch, ABC):
                 if self.args.objective == "regression" or self.args.objective == "binary":
                     y_hat = y_hat.squeeze()
 
-         
+                y_loss = loss_func_supervised(y_hat, batch_y.to(self.device))
+                yu_loss = torch.mean(torch.var(yv_hats, dim=0))
+                loss = y_loss + beta * yu_loss
+                lo
