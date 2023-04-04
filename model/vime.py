@@ -199,4 +199,8 @@ class VIME(BaseModelTorch, ABC):
             # Early Stopping
             val_loss = 0.0
             val_dim = 0
-            fo
+            for val_i, (batch_val_X, batch_val_y) in enumerate(val_loader):
+                batch_val_X_encoded = self.encoder_layer(batch_val_X.to(self.device))
+                y_hat = self.model_semi(batch_val_X_encoded)
+
+                if self.a
