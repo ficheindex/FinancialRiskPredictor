@@ -190,4 +190,13 @@ class VIME(BaseModelTorch, ABC):
                 y_loss = loss_func_supervised(y_hat, batch_y.to(self.device))
                 yu_loss = torch.mean(torch.var(yv_hats, dim=0))
                 loss = y_loss + beta * yu_loss
-                lo
+                loss_history.append(loss.item())
+
+                optimizer.zero_grad()
+                loss.backward()
+                optimizer.step()
+
+            # Early Stopping
+            val_loss = 0.0
+            val_dim = 0
+            fo
