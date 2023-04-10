@@ -207,4 +207,12 @@ class VIME(BaseModelTorch, ABC):
                     y_hat = y_hat.squeeze()
 
                 val_loss += loss_func_supervised(y_hat, batch_val_y.to(self.device))
-                val_di
+                val_dim += 1
+
+            val_loss /= val_dim
+            val_loss_history.append(val_loss.item())
+
+            print("Epoch %d, Val Loss: %.5f" % (epoch, val_loss))
+
+            if val_loss < min_val_loss:
+                min
