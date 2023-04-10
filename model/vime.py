@@ -203,4 +203,8 @@ class VIME(BaseModelTorch, ABC):
                 batch_val_X_encoded = self.encoder_layer(batch_val_X.to(self.device))
                 y_hat = self.model_semi(batch_val_X_encoded)
 
-                if self.a
+                if self.args.objective == "regression" or self.args.objective == "binary":
+                    y_hat = y_hat.squeeze()
+
+                val_loss += loss_func_supervised(y_hat, batch_val_y.to(self.device))
+                val_di
