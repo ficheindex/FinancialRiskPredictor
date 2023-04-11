@@ -215,4 +215,10 @@ class VIME(BaseModelTorch, ABC):
             print("Epoch %d, Val Loss: %.5f" % (epoch, val_loss))
 
             if val_loss < min_val_loss:
-                min
+                min_val_loss = val_loss
+                min_val_loss_idx = epoch
+
+                self.save_model(filename_extension="best", directory="tmp")
+
+            if min_val_loss_idx + self.args.early_stopping_rounds < epoch:
+       
