@@ -229,4 +229,7 @@ class VIME(BaseModelTorch, ABC):
     def save_model(self, filename_extension="", directory="models"):
         filename_self = get_output_path(self.args, directory=directory, filename="m_self", extension=filename_extension,
                                         file_type="pt")
-        torch.save(se
+        torch.save(self.model_self.state_dict(), filename_self)
+
+        filename_semi = get_output_path(self.args, directory=directory, filename="m_semi", extension=filename_extension,
+                                        file_type="
