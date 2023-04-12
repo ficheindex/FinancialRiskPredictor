@@ -221,4 +221,10 @@ class VIME(BaseModelTorch, ABC):
                 self.save_model(filename_extension="best", directory="tmp")
 
             if min_val_loss_idx + self.args.early_stopping_rounds < epoch:
-       
+                print("Early stopping applies.")
+                break
+
+        return loss_history, val_loss_history
+
+    def save_model(self, filename_extension="", directory="models"):
+        filename_self = get_
