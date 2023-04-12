@@ -227,4 +227,6 @@ class VIME(BaseModelTorch, ABC):
         return loss_history, val_loss_history
 
     def save_model(self, filename_extension="", directory="models"):
-        filename_self = get_
+        filename_self = get_output_path(self.args, directory=directory, filename="m_self", extension=filename_extension,
+                                        file_type="pt")
+        torch.save(se
