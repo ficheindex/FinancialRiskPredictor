@@ -236,4 +236,9 @@ class VIME(BaseModelTorch, ABC):
         torch.save(self.model_semi.state_dict(), filename_semi)
 
     def load_model(self, filename_extension="", directory="models"):
-        filename_self = get_output_path(self.args, directory=director
+        filename_self = get_output_path(self.args, directory=directory, filename="m_self", extension=filename_extension,
+                                        file_type="pt")
+        state_dict = torch.load(filename_self)
+        self.model_self.load_state_dict(state_dict)
+
+        filename_se
