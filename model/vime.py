@@ -244,4 +244,8 @@ class VIME(BaseModelTorch, ABC):
         filename_semi = get_output_path(self.args, directory=directory, filename="m_semi", extension=filename_extension,
                                         file_type="pt")
         state_dict = torch.load(filename_semi)
- 
+        self.model_semi.load_state_dict(state_dict)
+
+    def get_model_size(self):
+        self_size = sum(t.numel() for t in self.model_self.parameters() if t.requires_grad)
+        semi_size = sum(t.numel() for 
