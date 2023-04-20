@@ -257,4 +257,10 @@ class VIMESelf(nn.Module):
     def __init__(self, input_dim):
         super().__init__()
 
-        self.input_la
+        self.input_layer = nn.Linear(input_dim, input_dim)
+
+        self.mask_layer = nn.Linear(input_dim, input_dim)
+        self.feat_layer = nn.Linear(input_dim, input_dim)
+
+    def forward(self, x):
+        x = F.relu(self.input_layer(x
