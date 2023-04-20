@@ -248,4 +248,13 @@ class VIME(BaseModelTorch, ABC):
 
     def get_model_size(self):
         self_size = sum(t.numel() for t in self.model_self.parameters() if t.requires_grad)
-        semi_size = sum(t.numel() for 
+        semi_size = sum(t.numel() for t in self.model_semi.parameters() if t.requires_grad)
+        return self_size + semi_size
+
+
+class VIMESelf(nn.Module):
+
+    def __init__(self, input_dim):
+        super().__init__()
+
+        self.input_la
