@@ -273,4 +273,11 @@ class VIMESelf(nn.Module):
 
 class VIMESemi(nn.Module):
 
-    def __init__(self, args, input_dim, output_dim, hidden_dim=
+    def __init__(self, args, input_dim, output_dim, hidden_dim=100, n_layers=5):
+        super().__init__()
+        self.args = args
+
+        self.input_layer = nn.Linear(input_dim, hidden_dim)
+
+        self.layers = nn.ModuleList()
+        self.layers.extend([nn.Linear(hid
