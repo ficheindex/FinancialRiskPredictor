@@ -280,4 +280,11 @@ class VIMESemi(nn.Module):
         self.input_layer = nn.Linear(input_dim, hidden_dim)
 
         self.layers = nn.ModuleList()
-        self.layers.extend([nn.Linear(hid
+        self.layers.extend([nn.Linear(hidden_dim, hidden_dim) for _ in range(n_layers - 1)])
+
+        self.output_layer = nn.Linear(hidden_dim, output_dim)
+
+    def forward(self, x):
+        x = F.relu(self.input_layer(x))
+
+        for layer in se
