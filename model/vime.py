@@ -287,4 +287,15 @@ class VIMESemi(nn.Module):
     def forward(self, x):
         x = F.relu(self.input_layer(x))
 
-        for layer in se
+        for layer in self.layers:
+            x = F.relu(layer(x))
+
+        out = self.output_layer(x)
+
+        if self.args.objective == "classification":
+            out = F.softmax(out, dim=1)
+
+        return out
+
+
+def mask_generator(
