@@ -263,4 +263,14 @@ class VIMESelf(nn.Module):
         self.feat_layer = nn.Linear(input_dim, input_dim)
 
     def forward(self, x):
-        x = F.relu(self.input_layer(x
+        x = F.relu(self.input_layer(x))
+
+        out_mask = torch.sigmoid(self.mask_layer(x))
+        out_feat = torch.sigmoid(self.feat_layer(x))
+
+        return out_mask, out_feat
+
+
+class VIMESemi(nn.Module):
+
+    def __init__(self, args, input_dim, output_dim, hidden_dim=
