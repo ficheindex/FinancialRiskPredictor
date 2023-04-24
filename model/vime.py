@@ -298,4 +298,12 @@ class VIMESemi(nn.Module):
         return out
 
 
-def mask_generator(
+def mask_generator(p_m, x):
+    mask = np.random.binomial(1, p_m, x.shape)
+    return mask
+
+
+def pretext_generator(m, x):
+    no, dim = x.shape  # Parameters
+    x_bar = np.zeros([no, dim])
+    for i in range(dim):  # Randomly (and c
