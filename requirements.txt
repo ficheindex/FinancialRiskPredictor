@@ -26,3 +26,6 @@ tensorflow
 keras
 einops
 lifelines
+h5py
+loguru
+ray
