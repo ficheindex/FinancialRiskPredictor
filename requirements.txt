@@ -1,0 +1,6 @@
+deepspeed
+git+https://github.com/huggingface/transformers
+torch
+wandb
+openai
+data

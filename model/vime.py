@@ -311,4 +311,6 @@ def pretext_generator(m, x):
         x_bar[:, i] = x[idx, i]
 
     x_tilde = x * (1 - m) + x_bar * m  # Corrupt samples
-    m_new = 1 * (x != x_tilde)  # Define new mask m
+    m_new = 1 * (x != x_tilde)  # Define new mask matrix
+
+    return m_new, x_tilde
