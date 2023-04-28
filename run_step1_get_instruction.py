@@ -27,4 +27,8 @@ if __name__ == "__main__":
 
     cache_dir = "~/.cache/huggingface/"
     os.environ["TRANSFORMERS_CACHE"] = cache_dir
-    cache_model = 
+    cache_model = os.path.join(cache_dir, "models")
+    cache_ds = os.path.join(cache_dir, "datasets")
+
+    profile_root_dir = os.path.join("./data/profile")
+    ds_name_list = ["cd1", "cd2", "ld1", "ld2", "ld3", "cf1", 
