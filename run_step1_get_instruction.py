@@ -20,4 +20,11 @@ if __name__ == "__main__":
     )
     logger = logging.getLogger(__name__)
 
-    parser = argparse.Arg
+    parser = argparse.ArgumentParser(description="Step1 Get_Instruction Args")
+    args = parser.parse_args()
+
+    logger.info(args)
+
+    cache_dir = "~/.cache/huggingface/"
+    os.environ["TRANSFORMERS_CACHE"] = cache_dir
+    cache_model = 
