@@ -31,4 +31,8 @@ if __name__ == "__main__":
     cache_ds = os.path.join(cache_dir, "datasets")
 
     profile_root_dir = os.path.join("./data/profile")
-    ds_name_list = ["cd1", "cd2", "ld1", "ld2", "ld3", "cf1", 
+    ds_name_list = ["cd1", "cd2", "ld1", "ld2", "ld3", "cf1", "cf2", "cc1", "cc2", "cc3"]
+    for ds_name in ds_name_list:
+        logger.info(f"\n\n>>> ds_name: {ds_name}")
+        profile_dir = os.path.join(profile_root_dir, ds_name)
+        os.makedirs(profile_dir, exi
