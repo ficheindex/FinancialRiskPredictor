@@ -35,4 +35,9 @@ if __name__ == "__main__":
     for ds_name in ds_name_list:
         logger.info(f"\n\n>>> ds_name: {ds_name}")
         profile_dir = os.path.join(profile_root_dir, ds_name)
-        os.makedirs(profile_dir, exi
+        os.makedirs(profile_dir, exist_ok=True)
+        try:
+            data = load_dataset("yuweiyin/FinBench", ds_name, cache_dir=cache_ds)
+
+            if "train" in data:
+                logger.info(f">>> len(data['train']) = {len(data['tr
