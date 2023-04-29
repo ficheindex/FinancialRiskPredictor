@@ -40,4 +40,8 @@ if __name__ == "__main__":
             data = load_dataset("yuweiyin/FinBench", ds_name, cache_dir=cache_ds)
 
             if "train" in data:
-                logger.info(f">>> len(data['train']) = {len(data['tr
+                logger.info(f">>> len(data['train']) = {len(data['train'])}")
+            if "validation" in data:
+                logger.info(f">>> len(data['validation']) = {len(data['validation'])}")
+            if "test" in data:
+                logger.info(f">>> len(data
