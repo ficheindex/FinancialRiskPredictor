@@ -44,4 +44,10 @@ if __name__ == "__main__":
             if "validation" in data:
                 logger.info(f">>> len(data['validation']) = {len(data['validation'])}")
             if "test" in data:
-                logger.info(f">>> len(data
+                logger.info(f">>> len(data['test']) = {len(data['test'])}")
+
+            for data_split in ["train", "validation", "test"]:
+                if data_split in data:
+                    cur_data = data[data_split]
+                else:
+                    logger.info
