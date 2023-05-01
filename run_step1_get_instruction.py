@@ -50,4 +50,8 @@ if __name__ == "__main__":
                 if data_split in data:
                     cur_data = data[data_split]
                 else:
-                    logger.info
+                    logger.info(f">>> >>> {data_split} NOT in data")
+                    continue  # should NOT enter here
+
+                instruction_path = os.path.join(profile_dir, f"instruction_for_profile_X_{data_split}.jsonl")
+                with open(inst
