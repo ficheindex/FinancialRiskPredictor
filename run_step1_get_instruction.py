@@ -54,4 +54,7 @@ if __name__ == "__main__":
                     continue  # should NOT enter here
 
                 instruction_path = os.path.join(profile_dir, f"instruction_for_profile_X_{data_split}.jsonl")
-                with open(inst
+                with open(instruction_path, mode="w", encoding="utf-8") as fp_out:
+                    for instance in cur_data:
+                        # X_ml = instance["X_ml"]  # List[float] (The tabular data array of the current instance)
+       
