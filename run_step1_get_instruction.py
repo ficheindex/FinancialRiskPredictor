@@ -57,4 +57,6 @@ if __name__ == "__main__":
                 with open(instruction_path, mode="w", encoding="utf-8") as fp_out:
                     for instance in cur_data:
                         # X_ml = instance["X_ml"]  # List[float] (The tabular data array of the current instance)
-       
+                        X_ml_unscale = instance["X_ml_unscale"]  # List[float] (Scaled tabular data array)
+                        # y = instance["y"]  # int (The label / ground-truth)
+                        # num_classes = instance["nu
