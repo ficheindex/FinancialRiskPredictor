@@ -59,4 +59,6 @@ if __name__ == "__main__":
                         # X_ml = instance["X_ml"]  # List[float] (The tabular data array of the current instance)
                         X_ml_unscale = instance["X_ml_unscale"]  # List[float] (Scaled tabular data array)
                         # y = instance["y"]  # int (The label / ground-truth)
-                        # num_classes = instance["nu
+                        # num_classes = instance["num_classes"]  # int (The total number of classes)
+                        # num_features = instance["num_features"]  # int (The total number of features)
+                        num_idx = instance["num_idx"]  # List[int] (The i
