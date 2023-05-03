@@ -63,4 +63,6 @@ if __name__ == "__main__":
                         # num_features = instance["num_features"]  # int (The total number of features)
                         num_idx = instance["num_idx"]  # List[int] (The indices of the numerical datatype columns)
                         cat_idx = instance["cat_idx"]  # List[int] (The indices of the categorical datatype columns)
-                        # cat_dim = instance["cat_dim"]  #
+                        # cat_dim = instance["cat_dim"]  # List[int] (The dimension of each categorical column)
+                        cat_str = instance["cat_str"]  # List[List[str]] (The category names of each column)
+                        col_name = instance["col_name"]  # List[str] (The name of ea
