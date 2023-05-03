@@ -61,4 +61,6 @@ if __name__ == "__main__":
                         # y = instance["y"]  # int (The label / ground-truth)
                         # num_classes = instance["num_classes"]  # int (The total number of classes)
                         # num_features = instance["num_features"]  # int (The total number of features)
-                        num_idx = instance["num_idx"]  # List[int] (The i
+                        num_idx = instance["num_idx"]  # List[int] (The indices of the numerical datatype columns)
+                        cat_idx = instance["cat_idx"]  # List[int] (The indices of the categorical datatype columns)
+                        # cat_dim = instance["cat_dim"]  #
