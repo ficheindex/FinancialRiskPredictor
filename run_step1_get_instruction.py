@@ -69,4 +69,8 @@ if __name__ == "__main__":
                         assert len(X_ml_unscale) == len(num_idx) + len(cat_idx) == len(col_name)
                         num_idx_set = set(num_idx)
                         cat_idx_set = set(cat_idx)
- 
+                        col_idx_2_cat_idx = dict({
+                            col_idx: cat_idx for cat_idx, col_idx in enumerate(cat_idx)
+                        })
+                        # Construct the customer profiles
+     
