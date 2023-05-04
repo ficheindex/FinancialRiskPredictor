@@ -65,4 +65,8 @@ if __name__ == "__main__":
                         cat_idx = instance["cat_idx"]  # List[int] (The indices of the categorical datatype columns)
                         # cat_dim = instance["cat_dim"]  # List[int] (The dimension of each categorical column)
                         cat_str = instance["cat_str"]  # List[List[str]] (The category names of each column)
-                        col_name = instance["col_name"]  # List[str] (The name of ea
+                        col_name = instance["col_name"]  # List[str] (The name of each column)
+                        assert len(X_ml_unscale) == len(num_idx) + len(cat_idx) == len(col_name)
+                        num_idx_set = set(num_idx)
+                        cat_idx_set = set(cat_idx)
+ 
