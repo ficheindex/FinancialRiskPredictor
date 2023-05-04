@@ -73,4 +73,7 @@ if __name__ == "__main__":
                             col_idx: cat_idx for cat_idx, col_idx in enumerate(cat_idx)
                         })
                         # Construct the customer profiles
-     
+                        instruction = "Construct a concise customer profile description " \
+                                      "including all the following information:\n"
+                        for col_idx, x in enumerate(X_ml_unscale):
+              
