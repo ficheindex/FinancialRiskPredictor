@@ -76,4 +76,7 @@ if __name__ == "__main__":
                         instruction = "Construct a concise customer profile description " \
                                       "including all the following information:\n"
                         for col_idx, x in enumerate(X_ml_unscale):
-              
+                            cur_col_name = col_name[col_idx]
+                            if ds_name == "cf3" and cur_col_name[:2] == "x_":
+                                continue  # skip features without certain meaning
+    
