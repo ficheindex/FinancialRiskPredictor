@@ -82,4 +82,7 @@ if __name__ == "__main__":
                             if col_idx in num_idx_set:
                                 instruction += f"{cur_col_name}: {x};\n"
                             elif col_idx in cat_idx_set:
-                  
+                                x = int(x)
+                                cat_idx = col_idx_2_cat_idx[col_idx]
+                                cat_string = cat_str[cat_idx][x]
+                                instruction += f"{cur_col_name}: {cat_string};\
