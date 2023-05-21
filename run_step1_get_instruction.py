@@ -79,4 +79,7 @@ if __name__ == "__main__":
                             cur_col_name = col_name[col_idx]
                             if ds_name == "cf3" and cur_col_name[:2] == "x_":
                                 continue  # skip features without certain meaning
-    
+                            if col_idx in num_idx_set:
+                                instruction += f"{cur_col_name}: {x};\n"
+                            elif col_idx in cat_idx_set:
+                  
