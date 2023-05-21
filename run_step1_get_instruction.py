@@ -85,4 +85,8 @@ if __name__ == "__main__":
                                 x = int(x)
                                 cat_idx = col_idx_2_cat_idx[col_idx]
                                 cat_string = cat_str[cat_idx][x]
-                                instruction += f"{cur_col_name}: {cat_string};\
+                                instruction += f"{cur_col_name}: {cat_string};\n"
+                            else:
+                                continue  # should NOT enter here
+                        instruction = instruction.replace("_", " ")
+                        ins_json = json.dumps(inst
