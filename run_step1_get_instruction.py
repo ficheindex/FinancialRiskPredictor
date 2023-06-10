@@ -89,4 +89,11 @@ if __name__ == "__main__":
                             else:
                                 continue  # should NOT enter here
                         instruction = instruction.replace("_", " ")
-                        ins_json = json.dumps(inst
+                        ins_json = json.dumps(instruction.strip())
+                        fp_out.write(ins_json + "\n")
+
+        except Exception as e:
+            logger.info(f"Exception: {e}")
+            continue  # should NOT enter here
+
+    sys.exit(0)
