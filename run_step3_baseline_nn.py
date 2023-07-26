@@ -27,4 +27,7 @@ def run_baselines_nn(cur_ds_name, cur_model_name):
     val_set = data["validation"] if "train" in data else []
     test_set = data["test"] if "train" in data else []
 
-    args.dev
+    args.device = device
+    args.num_classes = train_set[0]["num_classes"]  # int (The total number of classes)
+    args.num_features = train_set[0]["num_features"]  # int (The total number of features)
+    args.num_idx = train_se
