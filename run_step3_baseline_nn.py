@@ -32,4 +32,6 @@ def run_baselines_nn(cur_ds_name, cur_model_name):
     args.num_features = train_set[0]["num_features"]  # int (The total number of features)
     args.num_idx = train_set[0]["num_idx"]  # List[int] (The indices of the numerical datatype columns)
     args.cat_idx = train_set[0]["cat_idx"]  # List[int] (The indices of the categorical datatype columns)
-    args.cat_dim = train_set[0]["cat
+    args.cat_dim = train_set[0]["cat_dim"]  # List[int] (The dimension of each categorical column)
+    args.cat_str = train_set[0]["cat_str"]  # List[List[str]] (The category names of categorical columns)
+    args.col_name = train_set[0]["col_name"]  # List
