@@ -30,4 +30,6 @@ def run_baselines_nn(cur_ds_name, cur_model_name):
     args.device = device
     args.num_classes = train_set[0]["num_classes"]  # int (The total number of classes)
     args.num_features = train_set[0]["num_features"]  # int (The total number of features)
-    args.num_idx = train_se
+    args.num_idx = train_set[0]["num_idx"]  # List[int] (The indices of the numerical datatype columns)
+    args.cat_idx = train_set[0]["cat_idx"]  # List[int] (The indices of the categorical datatype columns)
+    args.cat_dim = train_set[0]["cat
