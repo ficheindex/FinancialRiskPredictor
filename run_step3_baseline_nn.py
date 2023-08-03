@@ -34,4 +34,9 @@ def run_baselines_nn(cur_ds_name, cur_model_name):
     args.cat_idx = train_set[0]["cat_idx"]  # List[int] (The indices of the categorical datatype columns)
     args.cat_dim = train_set[0]["cat_dim"]  # List[int] (The dimension of each categorical column)
     args.cat_str = train_set[0]["cat_str"]  # List[List[str]] (The category names of categorical columns)
-    args.col_name = train_set[0]["col_name"]  # List
+    args.col_name = train_set[0]["col_name"]  # List[str] (The name of each column)
+
+    x_key = "X_ml"
+    # x_key = "X_ml_unscale"
+    train_X_ml, train_y = np.asarray(train_set[x_key], dtype=np.float32), np.asarray(train_set["y"], dtype=np.int64)
+    val_X_ml, val_y = np.a
