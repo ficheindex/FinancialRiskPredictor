@@ -39,4 +39,7 @@ def run_baselines_nn(cur_ds_name, cur_model_name):
     x_key = "X_ml"
     # x_key = "X_ml_unscale"
     train_X_ml, train_y = np.asarray(train_set[x_key], dtype=np.float32), np.asarray(train_set["y"], dtype=np.int64)
-    val_X_ml, val_y = np.a
+    val_X_ml, val_y = np.asarray(val_set[x_key], dtype=np.float32), np.asarray(val_set["y"], dtype=np.int64)
+    test_X_ml, test_y = np.asarray(test_set[x_key], dtype=np.float32), np.asarray(test_set["y"], dtype=np.int64)
+
+    assert is
