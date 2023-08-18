@@ -42,4 +42,9 @@ def run_baselines_nn(cur_ds_name, cur_model_name):
     val_X_ml, val_y = np.asarray(val_set[x_key], dtype=np.float32), np.asarray(val_set["y"], dtype=np.int64)
     test_X_ml, test_y = np.asarray(test_set[x_key], dtype=np.float32), np.asarray(test_set["y"], dtype=np.int64)
 
-    assert is
+    assert isinstance(criterion_name, str) and criterion_name in CRITERION_DICT
+    criterion = CRITERION_DICT[criterion_name]()
+    logger.info(criterion)
+
+    model = MODEL_DICT[cur_model_name](args=args)
+    # model = mod
