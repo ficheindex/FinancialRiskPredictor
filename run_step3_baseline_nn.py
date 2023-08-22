@@ -47,4 +47,10 @@ def run_baselines_nn(cur_ds_name, cur_model_name):
     logger.info(criterion)
 
     model = MODEL_DICT[cur_model_name](args=args)
-    # model = mod
+    # model = model.to(device=device)
+
+    eval_results_train[cur_ds_name] = []
+    eval_results_val[cur_ds_name] = []
+    eval_results_test[cur_ds_name] = []
+
+    model.fit(X=train_X_ml, y=train_y, X_val=val_X_ml, y_val=val_y, optimizer=None, criterion=
