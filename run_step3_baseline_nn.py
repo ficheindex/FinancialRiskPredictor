@@ -53,4 +53,10 @@ def run_baselines_nn(cur_ds_name, cur_model_name):
     eval_results_val[cur_ds_name] = []
     eval_results_test[cur_ds_name] = []
 
-    model.fit(X=train_X_ml, y=train_y, X_val=val_X_ml, y_val=val_y, optimizer=None, criterion=
+    model.fit(X=train_X_ml, y=train_y, X_val=val_X_ml, y_val=val_y, optimizer=None, criterion=criterion)
+
+    train_eval_res = model.evaluate(X=train_X_ml, y=train_y)
+    val_eval_res = model.evaluate(X=val_X_ml, y=val_y)
+    test_eval_res = model.evaluate(X=test_X_ml, y=test_y)
+
+    logger.info(f">>> Dataset
