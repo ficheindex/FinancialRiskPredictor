@@ -59,4 +59,6 @@ def run_baselines_nn(cur_ds_name, cur_model_name):
     val_eval_res = model.evaluate(X=val_X_ml, y=val_y)
     test_eval_res = model.evaluate(X=test_X_ml, y=test_y)
 
-    logger.info(f">>> Dataset
+    logger.info(f">>> Dataset = {cur_ds_name}; Model = {cur_model_name}")
+    logger.info(f">>> [{cur_ds_name}---{cur_model_name}] Evaluation (Training set): {train_eval_res}")
+    logger.info(f">>> [{cur_ds_name}---{cur_model_name}] Evaluation 
