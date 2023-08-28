@@ -61,4 +61,13 @@ def run_baselines_nn(cur_ds_name, cur_model_name):
 
     logger.info(f">>> Dataset = {cur_ds_name}; Model = {cur_model_name}")
     logger.info(f">>> [{cur_ds_name}---{cur_model_name}] Evaluation (Training set): {train_eval_res}")
-    logger.info(f">>> [{cur_ds_name}---{cur_model_name}] Evaluation 
+    logger.info(f">>> [{cur_ds_name}---{cur_model_name}] Evaluation (Validation set): {val_eval_res}")
+    logger.info(f">>> [{cur_ds_name}---{cur_model_name}] Evaluation (Test set): {test_eval_res}")
+
+    del data
+    del model
+    gc.collect()
+    torch.cuda.empty_cache()
+
+
+if __name__ == "__main_
