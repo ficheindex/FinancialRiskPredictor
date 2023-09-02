@@ -70,4 +70,11 @@ def run_baselines_nn(cur_ds_name, cur_model_name):
     torch.cuda.empty_cache()
 
 
-if __name__ == "__main_
+if __name__ == "__main__":
+    logging.basicConfig(
+        format="[%(asctime)s - %(levelname)s - %(name)s] -   %(message)s",
+        datefmt="%m/%d/%Y %H:%M:%S", level=logging.INFO
+    )
+    logger = logging.getLogger(__name__)
+
+    parser = argparse.Argu
