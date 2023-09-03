@@ -77,4 +77,8 @@ if __name__ == "__main__":
     )
     logger = logging.getLogger(__name__)
 
-    parser = argparse.Argu
+    parser = argparse.ArgumentParser(description="Baseline-NN args")
+
+    parser.add_argument("--cuda", type=str, default="cpu", help="Specify which device to use")
+    parser.add_argument("--seed", type=int, default=0, help="Seed of random modules")
+    parser.add_a
