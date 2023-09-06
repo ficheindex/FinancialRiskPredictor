@@ -81,4 +81,6 @@ if __name__ == "__main__":
 
     parser.add_argument("--cuda", type=str, default="cpu", help="Specify which device to use")
     parser.add_argument("--seed", type=int, default=0, help="Seed of random modules")
-    parser.add_a
+    parser.add_argument("--task", type=str, default="binary", help="binary/classification OR regression")
+    parser.add_argument("--ds_name", type=str, default="cd1", help="Specify which dataset to use.",
+                        choices=["cd1
