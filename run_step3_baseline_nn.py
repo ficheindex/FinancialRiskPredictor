@@ -83,4 +83,6 @@ if __name__ == "__main__":
     parser.add_argument("--seed", type=int, default=0, help="Seed of random modules")
     parser.add_argument("--task", type=str, default="binary", help="binary/classification OR regression")
     parser.add_argument("--ds_name", type=str, default="cd1", help="Specify which dataset to use.",
-                        choices=["cd1
+                        choices=["cd1", "cd2", "ld1", "ld2", "ld3", "cf1", "cf2", "cc1", "cc2", "cc3"])
+    parser.add_argument("--model_name", type=str, default="DeepFM", help="Specify which model to use.",
+                        choices=["DeepFM", "STG", "VIME
