@@ -92,4 +92,6 @@ if __name__ == "__main__":
     parser.add_argument("--lr", type=float, default=float(3e-5), help="Learning rate")
     parser.add_argument("--bsz", type=int, default=128, help="TrainingArguments: per_device_train/eval_batch_size")
     parser.add_argument("--epoch", type=int, default=100, help="TrainingArguments: num_train_epochs")
-    parser.add_argum
+    parser.add_argument("--early_stopping_rounds", type=int, default=100, help="Early-stopping rounds")
+    parser.add_argument("--logging_period", type=int, default=100, help="logging_period")
+    parser.add_argument("--objective", ty
