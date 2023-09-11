@@ -88,4 +88,6 @@ if __name__ == "__main__":
                         choices=["DeepFM", "STG", "VIME", "TabNet"])
     parser.add_argument("--model_name", type=str, default="MLP", help="Specify which model to use")
     parser.add_argument("--optimizer_name", type=str, default="AdamW", help="Specify which optimizer to use")
-   
+    parser.add_argument("--criterion_name", type=str, default="CrossEntropyLoss", help="Specify which criterion to use")
+    parser.add_argument("--lr", type=float, default=float(3e-5), help="Learning rate")
+    parser.
