@@ -85,4 +85,7 @@ if __name__ == "__main__":
     parser.add_argument("--ds_name", type=str, default="cd1", help="Specify which dataset to use.",
                         choices=["cd1", "cd2", "ld1", "ld2", "ld3", "cf1", "cf2", "cc1", "cc2", "cc3"])
     parser.add_argument("--model_name", type=str, default="DeepFM", help="Specify which model to use.",
-                        choices=["DeepFM", "STG", "VIME
+                        choices=["DeepFM", "STG", "VIME", "TabNet"])
+    parser.add_argument("--model_name", type=str, default="MLP", help="Specify which model to use")
+    parser.add_argument("--optimizer_name", type=str, default="AdamW", help="Specify which optimizer to use")
+   
