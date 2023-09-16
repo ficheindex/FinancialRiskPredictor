@@ -105,4 +105,10 @@ if __name__ == "__main__":
     has_cuda = torch.cuda.is_available()
     cnt_cuda = torch.cuda.device_count()
     device = torch.device("cpu" if not has_cuda else f"cuda")
-    logger.info(f"has_cuda: {has_cud
+    logger.info(f"has_cuda: {has_cuda}; cnt_cuda: {cnt_cuda}; device: {device}")
+
+    seed = int(args.seed)
+    task = str(args.task)
+    ds_name = str(args.ds_name)
+    model_name = str(args.model_name)
+    optimizer_name = str(args.optimizer_na
