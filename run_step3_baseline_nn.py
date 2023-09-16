@@ -94,4 +94,10 @@ if __name__ == "__main__":
     parser.add_argument("--epoch", type=int, default=100, help="TrainingArguments: num_train_epochs")
     parser.add_argument("--early_stopping_rounds", type=int, default=100, help="Early-stopping rounds")
     parser.add_argument("--logging_period", type=int, default=100, help="logging_period")
-    parser.add_argument("--objective", ty
+    parser.add_argument("--objective", type=str, default="classification", help="The type of the current task",
+                        choices=["classification", "binary", "regression"])
+
+    args = parser.parse_args()
+    logger.info(args)
+
+    cuda = str(args.
