@@ -100,4 +100,9 @@ if __name__ == "__main__":
     args = parser.parse_args()
     logger.info(args)
 
-    cuda = str(args.
+    cuda = str(args.cuda)
+    os.environ["CUDA_VISIBLE_DEVICES"] = cuda
+    has_cuda = torch.cuda.is_available()
+    cnt_cuda = torch.cuda.device_count()
+    device = torch.device("cpu" if not has_cuda else f"cuda")
+    logger.info(f"has_cuda: {has_cud
