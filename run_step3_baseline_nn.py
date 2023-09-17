@@ -130,4 +130,10 @@ if __name__ == "__main__":
     eval_results_val = dict({})
     eval_results_test = dict({})
 
-    run_baselines_nn(cur_ds_name=ds_name, cur_model_name=mo
+    run_baselines_nn(cur_ds_name=ds_name, cur_model_name=model_name)
+
+    logger.info(f">>> END: eval_results_train: {eval_results_train}")
+    logger.info(f">>> END: eval_results_val: {eval_results_val}")
+    logger.info(f">>> END: eval_results_test: {eval_results_test}")
+
+    
