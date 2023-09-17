@@ -119,4 +119,11 @@ if __name__ == "__main__":
     early_stopping_rounds = int(args.early_stopping_rounds)
     logging_period = int(args.logging_period)
 
-    set
+    set_seed(seed)
+
+    cache_dir = "~/.cache/huggingface/"
+    os.environ["TRANSFORMERS_CACHE"] = cache_dir
+    cache_model = os.path.join(cache_dir, "models")
+    cache_ds = os.path.join(cache_dir, "datasets")
+
+    e
