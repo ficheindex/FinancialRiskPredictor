@@ -126,4 +126,8 @@ if __name__ == "__main__":
     cache_model = os.path.join(cache_dir, "models")
     cache_ds = os.path.join(cache_dir, "datasets")
 
-    e
+    eval_results_train = dict({})  # dict{ds_name: List[Tuple(epoch_idx, acc, f1, auc, p, r, avg_p)]}
+    eval_results_val = dict({})
+    eval_results_test = dict({})
+
+    run_baselines_nn(cur_ds_name=ds_name, cur_model_name=mo
