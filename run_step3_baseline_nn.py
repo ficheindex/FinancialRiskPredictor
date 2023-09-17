@@ -111,4 +111,12 @@ if __name__ == "__main__":
     task = str(args.task)
     ds_name = str(args.ds_name)
     model_name = str(args.model_name)
-    optimizer_name = str(args.optimizer_na
+    optimizer_name = str(args.optimizer_name)
+    criterion_name = str(args.criterion_name)
+    lr = float(args.lr)
+    bsz = int(args.bsz)
+    epoch = int(args.epoch)
+    early_stopping_rounds = int(args.early_stopping_rounds)
+    logging_period = int(args.logging_period)
+
+    set
