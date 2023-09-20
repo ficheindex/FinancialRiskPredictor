@@ -136,4 +136,4 @@ if __name__ == "__main__":
     logger.info(f">>> END: eval_results_val: {eval_results_val}")
     logger.info(f">>> END: eval_results_test: {eval_results_test}")
 
-    
+    sys.exit(0)
