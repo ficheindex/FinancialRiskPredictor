@@ -259,3 +259,120 @@ if __name__ == "__main__":
     neg_to_pos = float((total_y - pos_y) / pos_y)
     pos_ratio = float(pos_y / total_y)
     logger.info(f">>> pos_ratio = {pos_ratio}; neg_to_pos = {neg_to_pos}")
+
+    model.neg_to_pos = neg_to_pos
+    model.use_pos_weight = use_pos_weight
+    model.tokenizer = tokenizer
+    logger.info(f">>> model.neg_to_pos = {neg_to_pos}; model.use_pos_weight = {use_pos_weight}")
+
+    if freeze:
+        # firstly, freeze all params
+        for param in model.parameters():
+            param.requires_grad = False
+        # unfreeze the last layer
+        if model_class == "bert":
+            for param in model.bert.encoder.layer[-1].parameters():
+                param.requires_grad = True
+        elif model_class == "gpt":
+            for param in model.transformer.h[-1].parameters():
+                param.requires_grad = True
+        elif model_class == "t5" or model_class == "flan_t5":
+            for param in model.decoder.block[-1].parameters():
+                param.requires_grad = True
+        elif model_class == "llama":
+            for param in model.base_model.layers[-1].parameters():
+                param.requires_grad = True
+        else:
+            pass
+        # unfreeze the classifier
+        if hasattr(model, "classifier"):
+            model.classifier.weight.requires_grad = True
+        for name, param in model.named_parameters():
+            if param.requires_grad:
+                logger.info(f"param.requires_grad: {name}")
+    else:
+        for param in model.parameters():
+            param.requires_grad = True
+    logger.info(f">>> All parameters: {sum(p.numel() for p in model.parameters()) / int(1e6)} M")
+    logger.info(f">>> Trainable params: {sum(p.numel() for p in model.parameters() if p.requires_grad) / int(1e6)} M")
+
+    wandb_key = "YOUR_WANDB_KEY"  # TODO: https://wandb.ai/
+    wandb.login(key=wandb_key)
+
+    def compute_metrics_cls(eval_pred):
+        preds, labels = eval_pred.predictions, eval_pred.label_ids
+        if isinstance(preds, tuple):
+            preds = preds[0]
+        preds_nan_sum = np.isnan(preds).sum()
+        if preds_nan_sum > 0:
+            logger.info(f">>> preds_nan_sum = {preds_nan_sum}")
+        preds = np.argmax(preds, axis=1)  # axis=-1
+        metric = {
+            "accuracy": accuracy_score(labels, preds),
+            "f1": f1_score(labels, preds),
+        }
+        return metric
+
+    training_args = TrainingArguments(
+        output_dir="./output/",
+        evaluation_strategy="epoch",
+        save_strategy="epoch",
+        learning_rate=float(5e-5),
+        per_device_train_batch_size=bsz,
+        per_device_eval_batch_size=bsz,
+        num_train_epochs=epoch,
+        weight_decay=0.01,
+        load_best_model_at_end=True,
+        metric_for_best_model="f1",
+        fp16=fp16,
+        bf16=bf16,
+        # label_names=["label"],
+        # do_eval=True,
+    )
+    trainer = Trainer(
+        model=model,
+        args=training_args,
+        tokenizer=tokenizer,
+        train_dataset=dataset_train,
+        eval_dataset=dataset_val,
+        data_collator=None,
+        compute_metrics=compute_metrics_cls,
+    )
+
+    logger.info(f">>> Before training....")
+    model.eval()
+    eval_results = trainer.evaluate()
+    logger.info(f"[{ds_name} - {model_class}] eval_results (before): {eval_results}")
+    # logger.info(f">>> Perplexity: {math.exp(eval_results['eval_loss']):.2f}")
+    test_res = trainer.predict(dataset_test)
+    logger.info(f"[{ds_name} - {model_class}] test_results (before): {test_res.metrics}")
+
+    logger.info(f">>> Start training....")
+    model.train()
+    trainer.train()
+    logger.info(f">>> model.nan_batch_count: {model.nan_batch_count}")
+
+    logger.info(f">>> End training....")
+    model.eval()
+    eval_results = trainer.evaluate()
+    logger.info(f"[{ds_name} - {model_class}] eval_results (after): {eval_results}")
+    # logger.info(f">>> Perplexity: {math.exp(eval_results['eval_loss']):.2f}")
+    test_res = trainer.predict(dataset_test)
+    logger.info(f"[{ds_name} - {model_class}] test_results (after): {test_res.metrics}")
+
+    if save_ckpt:
+        hf_ckpt_dir = os.path.join("ckpt", f"finpt_{ds_name}_{model_name}")
+        os.makedirs(hf_ckpt_dir, exist_ok=True)
+        logger.info(f">>>> Saving model and tokenizer to: {hf_ckpt_dir}")
+        try:
+            trainer.save_model(hf_ckpt_dir)
+            tokenizer.save_pretrained(hf_ckpt_dir)
+        except Exception as e:
+            logger.info(f"Exception when saving ckpt:\n{e}")
+
+    del model
+    del trainer
+    gc.collect()
+    torch.cuda.empty_cache()
+
+    sys.exit(0)
