@@ -23,4 +23,5 @@ def set_seed(seed: int):
     torch.manual_seed(seed)
     torch.cuda.manual_seed(seed)
     torch.cuda.manual_seed_all(seed)
-    cudnn
+    cudnn.deterministic = True
+    cudnn.benchmark = True
