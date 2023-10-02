@@ -9,4 +9,6 @@
 
 ```text
 Financial risk prediction is essential in the finance sector.
-Machine
+Machine learning methods are in broad use for automated
+potential risk detection, reducing labor costs.
+The existing algorithms are somewhat outdated, especially taking into account the quick evolution of generative AI a
