@@ -21,4 +21,16 @@ quality datasets on financial risks such as default, fraud, and churn.
 In FinPT, we integrate the financial tabular data into the predefined instruction
 template, get natural-language customer profiles by prompting LLMs, and
 fine-tune large foundation models with the profile text to make predictions.
-Our experiment results using a
+Our experiment results using a series of representative baselines on FinBench demonstrate the effectiveness of the proposed FinPT.
+```
+
+
+## Environment
+
+```bash
+conda create -n finpt python=3.9
+conda activate finpt
+pip install -r requirements.txt
+```
+
+##
