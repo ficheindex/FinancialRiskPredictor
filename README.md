@@ -18,4 +18,7 @@ Addressing these issues, we propose FinPT and FinBench: the former is a
 novel method for financial risk prediction, conducting Profile Tuning
 on large pretrained foundation models, the latter offers
 quality datasets on financial risks such as default, fraud, and churn.
-In FinPT, we integrate the financial tabular data into the predefined ins
+In FinPT, we integrate the financial tabular data into the predefined instruction
+template, get natural-language customer profiles by prompting LLMs, and
+fine-tune large foundation models with the profile text to make predictions.
+Our experiment results using a
