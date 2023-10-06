@@ -47,4 +47,13 @@ dataset = load_dataset("ficheindex/FinBench", ds_name)
 
 ## Experiments
 
-The acquired instruction in Step 1 and the customer profiles generated in St
+The acquired instruction in Step 1 and the customer profiles generated in Step 2
+are given as `X_instruction_for_profile` and `X_profile` in FinBench.
+
+### Run Tree-based Baselines
+
+```bash
+SAVE_DIR="./log/baseline_tree/"
+mkdir -p "${SAVE_DIR}"
+
+DATASETS=("cd1" "cd2" "cd3" "ld1" "ld2" "cf1" "cc1" "cc2
