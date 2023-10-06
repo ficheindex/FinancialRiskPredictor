@@ -40,4 +40,11 @@ pip install -r requirements.txt
 ```python
 from datasets import load_dataset
 
-# ds_name_list = ["cd1", "cd2", "ld1", "ld2", "ld3", "cf1", "cf2", "cc1", "cc2
+# ds_name_list = ["cd1", "cd2", "ld1", "ld2", "ld3", "cf1", "cf2", "cc1", "cc2", "cc3"]
+ds_name = "cd1"  # change the dataset name here
+dataset = load_dataset("ficheindex/FinBench", ds_name)
+```
+
+## Experiments
+
+The acquired instruction in Step 1 and the customer profiles generated in St
