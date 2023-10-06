@@ -15,4 +15,7 @@ The existing algorithms are somewhat outdated, especially taking into account th
 large language models(LLMs), plus the lack of a unified and open-sourced
 financial benchmark has slowed down related research.
 Addressing these issues, we propose FinPT and FinBench: the former is a
-novel method for financial r
+novel method for financial risk prediction, conducting Profile Tuning
+on large pretrained foundation models, the latter offers
+quality datasets on financial risks such as default, fraud, and churn.
+In FinPT, we integrate the financial tabular data into the predefined ins
