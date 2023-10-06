@@ -11,4 +11,8 @@
 Financial risk prediction is essential in the finance sector.
 Machine learning methods are in broad use for automated
 potential risk detection, reducing labor costs.
-The existing algorithms are somewhat outdated, especially taking into account the quick evolution of generative AI a
+The existing algorithms are somewhat outdated, especially taking into account the quick evolution of generative AI and
+large language models(LLMs), plus the lack of a unified and open-sourced
+financial benchmark has slowed down related research.
+Addressing these issues, we propose FinPT and FinBench: the former is a
+novel method for financial r
