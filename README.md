@@ -33,4 +33,11 @@ conda activate finpt
 pip install -r requirements.txt
 ```
 
-##
+## Data
+
+- **FinBench** on Hugging Face Datasets: https://huggingface.co/datasets/ficheindex/FinBench
+
+```python
+from datasets import load_dataset
+
+# ds_name_list = ["cd1", "cd2", "ld1", "ld2", "ld3", "cf1", "cf2", "cc1", "cc2
