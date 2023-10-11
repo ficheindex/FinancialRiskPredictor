@@ -56,4 +56,10 @@ are given as `X_instruction_for_profile` and `X_profile` in FinBench.
 SAVE_DIR="./log/baseline_tree/"
 mkdir -p "${SAVE_DIR}"
 
-DATASETS=("cd1" "cd2" "cd3" "ld1" "ld2" "cf1" "cc1" "cc2
+DATASETS=("cd1" "cd2" "cd3" "ld1" "ld2" "cf1" "cc1" "cc2" "cc3")
+MODELS=("RandomForestClassifier" "XGBClassifier" "CatBoostClassifier" "LGBMClassifier")
+SEEDS=(0 1 42 1234)
+
+for dataset in "${DATASETS[@]}"; do
+  for model in "${MODELS[@]}"; do
+    
