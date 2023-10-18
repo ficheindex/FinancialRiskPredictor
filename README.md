@@ -67,4 +67,17 @@ for dataset in "${DATASETS[@]}"; do
 
 
 >>> run_step3_baseline_tree.py: dataset: ${dataset}; model: ${model} seed: ${seed}"
-      python run_step3_baseline_tree.py --ds_name "${dataset}" --model_name ${model} --seed ${cur_seed} -
+      python run_step3_baseline_tree.py --ds_name "${dataset}" --model_name ${model} --seed ${cur_seed} --grid_search \
+        > "${SAVE_DIR}/${dataset}-${model}-${seed}.log"
+    done
+  done
+done
+```
+
+### Run Neural Network Baselines
+
+```bash
+SAVE_DIR="./log/baseline_nn/"
+mkdir -p "${SAVE_DIR}"
+
+DATASETS=("cd1" "cd2" "cd3" "ld1" "
