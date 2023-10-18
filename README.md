@@ -62,4 +62,9 @@ SEEDS=(0 1 42 1234)
 
 for dataset in "${DATASETS[@]}"; do
   for model in "${MODELS[@]}"; do
-    
+    for seed in "${SEEDS[@]}"; do
+      echo -e "
+
+
+>>> run_step3_baseline_tree.py: dataset: ${dataset}; model: ${model} seed: ${seed}"
+      python run_step3_baseline_tree.py --ds_name "${dataset}" --model_name ${model} --seed ${cur_seed} -
