@@ -90,4 +90,6 @@ for dataset in "${DATASETS[@]}"; do
       echo -e "
 
 
->>> run_step3_baseline_
+>>> run_step3_baseline_nn.py: dataset: ${dataset}; model: ${model} seed: ${seed}"
+      python run_step3_baseline_nn.py --cuda "0" --ds_name "${dataset}" --model_name ${model} --seed ${cur_seed} \
+        > "${SAVE_DIR}/${datas
