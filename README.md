@@ -80,4 +80,14 @@ done
 SAVE_DIR="./log/baseline_nn/"
 mkdir -p "${SAVE_DIR}"
 
-DATASETS=("cd1" "cd2" "cd3" "ld1" "
+DATASETS=("cd1" "cd2" "cd3" "ld1" "ld2" "cf1" "cc1" "cc2" "cc3")
+MODELS=("DeepFM" "STG" "VIME" "TabNet")
+SEEDS=(0 1 42 1234)
+
+for dataset in "${DATASETS[@]}"; do
+  for model in "${MODELS[@]}"; do
+    for seed in "${SEEDS[@]}"; do
+      echo -e "
+
+
+>>> run_step3_baseline_
