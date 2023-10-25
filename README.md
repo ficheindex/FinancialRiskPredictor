@@ -92,4 +92,17 @@ for dataset in "${DATASETS[@]}"; do
 
 >>> run_step3_baseline_nn.py: dataset: ${dataset}; model: ${model} seed: ${seed}"
       python run_step3_baseline_nn.py --cuda "0" --ds_name "${dataset}" --model_name ${model} --seed ${cur_seed} \
-        > "${SAVE_DIR}/${datas
+        > "${SAVE_DIR}/${dataset}-${model}-${seed}.log"
+    done
+  done
+done
+```
+
+### Run FinPT
+
+```bash
+SAVE_DIR="./log/finpt/"
+mkdir -p "${SAVE_DIR}"
+
+DATASETS=("cd1" "cd2" "cd3" "ld1" "ld2" "cf1" "cc1" "cc2" "cc3")
+MODELS=("bert" "finbert" "gpt2" "t5-base" "f
