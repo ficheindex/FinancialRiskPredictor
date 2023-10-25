@@ -105,4 +105,11 @@ SAVE_DIR="./log/finpt/"
 mkdir -p "${SAVE_DIR}"
 
 DATASETS=("cd1" "cd2" "cd3" "ld1" "ld2" "cf1" "cc1" "cc2" "cc3")
-MODELS=("bert" "finbert" "gpt2" "t5-base" "f
+MODELS=("bert" "finbert" "gpt2" "t5-base" "flan-t5-base" "t5-xxl" "flan-t5-xxl" "llama-7b" "llama-13b")
+
+for dataset in "${DATASETS[@]}"; do
+  for model in "${MODELS[@]}"; do
+      echo -e "
+
+
+>>> run_step3_finpt.py: dataset: ${dataset}; model: ${model} see
