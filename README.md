@@ -131,4 +131,9 @@ Please refer to the [LICENSE](./LICENSE) file for more details.
 
 ```bibtex
 @article{yin2023finpt,
-  title   = {FinPT: Financial Risk Predictio
+  title   = {FinPT: Financial Risk Prediction with Profile Tuning on Pretrained Foundation Models},
+  author  = {Yin, Yuwei and Yang, Yazheng and Yang, Jian and Liu, Qi},
+  journal = {arXiv preprint arXiv:2308.00065},
+  year    = {2023},
+}
+```
