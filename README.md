@@ -112,4 +112,12 @@ for dataset in "${DATASETS[@]}"; do
       echo -e "
 
 
->>> run_step3_finpt.py: dataset: ${dataset}; model: ${model} see
+>>> run_step3_finpt.py: dataset: ${dataset}; model: ${model} seed: ${seed}"
+      python run_step3_finpt.py --cuda "0,1" --ds_name "${dataset}" --model_name ${model} --use_pos_weight \
+        > "${SAVE_DIR}/${dataset}-${model}-${seed}.log"
+  done
+done
+```
+
+
+## Lice
