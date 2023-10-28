@@ -120,4 +120,15 @@ done
 ```
 
 
-## Lice
+## License
+
+Please refer to the [LICENSE](./LICENSE) file for more details.
+
+
+## Citation
+
+* arXiv: https://arxiv.org/abs/2308.00065
+
+```bibtex
+@article{yin2023finpt,
+  title   = {FinPT: Financial Risk Predictio
